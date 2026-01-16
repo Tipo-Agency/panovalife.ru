@@ -18,9 +18,9 @@ const TeamPage: React.FC = () => {
   ];
 
   return (
-    <div className="bg-[#F2F5F6] min-h-screen pt-32">
+    <div className="bg-[#F2F5F6] min-h-screen">
       {/* Hero Section */}
-      <section className="py-24 md:py-32 px-6 md:px-12 bg-[#1A262A] text-white -mt-32 mb-20">
+      <section className="py-24 md:py-32 px-6 md:px-12 bg-[#1A262A] text-white pt-32">
         <div className="max-w-[1440px] mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
             <h1 className="font-syne text-5xl md:text-8xl font-bold uppercase leading-[0.9]">
@@ -33,8 +33,8 @@ const TeamPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Trainers Grid */}
-      <section className="py-12 px-6 md:px-12 mb-20">
+      {/* Trainers Grid - overlapping with hero */}
+      <section className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-t-[40px] md:rounded-t-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-20">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {trainers.map((trainer, i) => (

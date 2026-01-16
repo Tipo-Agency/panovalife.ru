@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SCHEDULE } from '../constants';
 
 const SchedulePage: React.FC = () => {
+  const [selectedWeek, setSelectedWeek] = useState(0);
+  const [selectedDay, setSelectedDay] = useState(0);
+
   useEffect(() => {
     document.body.setAttribute('data-theme', 'light');
     return () => {
@@ -11,10 +14,21 @@ const SchedulePage: React.FC = () => {
 
   const days = ['ПОНЕДЕЛЬНИК', 'ВТОРНИК', 'СРЕДА', 'ЧЕТВЕРГ', 'ПЯТНИЦА', 'СУББОТА', 'ВОСКРЕСЕНЬЕ'];
   
+  // Get current week number
+  const getCurrentWeekNumber = () => {
+    const today = new Date();
+    const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
+    const pastDaysOfYear = (today.getTime() - firstDayOfYear.getTime()) / 86400000;
+    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+  };
+
+  const currentWeek = getCurrentWeekNumber();
+  const weekOptions = Array.from({ length: 4 }, (_, i) => currentWeek + i);
+  
   return (
-    <div className="bg-[#F2F5F6] min-h-screen pt-32">
+    <div className="bg-[#F2F5F6] min-h-screen">
       {/* Hero Section */}
-      <section className="py-24 md:py-32 px-6 md:px-12 bg-[#1A262A] text-white -mt-32 mb-20">
+      <section className="py-24 md:py-32 px-6 md:px-12 bg-[#1A262A] text-white pt-32">
         <div className="max-w-[1440px] mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
             <h1 className="font-syne text-5xl md:text-8xl font-bold uppercase leading-[0.9]">
@@ -27,18 +41,39 @@ const SchedulePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Schedule Table */}
-      <section className="py-12 px-6 md:px-12 mb-20">
+      {/* Schedule Table - overlapping with hero */}
+      <section className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-t-[40px] md:rounded-t-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-20">
         <div className="max-w-[1440px] mx-auto">
+          {/* Week Selector */}
+          <div className="mb-8">
+            <div className="flex flex-wrap gap-3 mb-6">
+              <span className="text-sm font-bold uppercase tracking-widest text-[#1A262A]/60 self-center">Неделя:</span>
+              {weekOptions.map((weekNum, i) => (
+                <button
+                  key={i}
+                  onClick={() => setSelectedWeek(i)}
+                  className={`px-6 py-2 rounded-full font-bold uppercase tracking-widest text-xs transition-all ${
+                    selectedWeek === i 
+                      ? 'bg-[#1A262A] text-white' 
+                      : 'bg-[#F2F5F6] text-[#1A262A] hover:bg-[#D4F058]'
+                  }`}
+                >
+                  {i === 0 ? 'Текущая' : `${weekNum}`}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Filter Days */}
           <div className="flex flex-wrap gap-4 mb-12">
             {days.map((day, i) => (
               <button
                 key={i}
+                onClick={() => setSelectedDay(i)}
                 className={`px-6 py-3 rounded-full font-bold uppercase tracking-widest text-xs transition-all ${
-                  i === 0 
+                  selectedDay === i 
                     ? 'bg-[#1A262A] text-white' 
-                    : 'bg-white text-[#1A262A] hover:bg-[#D4F058]'
+                    : 'bg-white text-[#1A262A] hover:bg-[#D4F058] border border-[#1A262A]/10'
                 }`}
               >
                 {day}

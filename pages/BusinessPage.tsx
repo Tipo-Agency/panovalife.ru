@@ -16,9 +16,9 @@ const BusinessPage: React.FC = () => {
   ];
 
   return (
-    <div className="bg-[#F2F5F6] min-h-screen pt-32">
+    <div className="bg-[#F2F5F6] min-h-screen">
       {/* Hero Section */}
-      <section className="py-24 md:py-32 px-6 md:px-12 bg-[#1A262A] text-white -mt-32 mb-20">
+      <section className="py-24 md:py-32 px-6 md:px-12 bg-[#1A262A] text-white pt-32">
         <div className="max-w-[1440px] mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
             <h1 className="font-syne text-5xl md:text-8xl font-bold uppercase leading-[0.9]">
@@ -31,8 +31,8 @@ const BusinessPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Benefits Grid */}
-      <section className="py-12 px-6 md:px-12 mb-20">
+      {/* Benefits Grid - overlapping with hero */}
+      <section className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-t-[40px] md:rounded-t-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-20">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {benefits.map((benefit, i) => (
@@ -97,18 +97,20 @@ const BusinessPage: React.FC = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { icon: '📊', title: 'Гибкая система оплаты', desc: 'Выберите удобный формат: разовые платежи или подписка' },
-              { icon: '👥', title: 'Персональный менеджер', desc: 'Дедиicated менеджер для решения всех вопросов' },
-              { icon: '📈', title: 'Аналитика посещений', desc: 'Отчеты об использовании абонементов сотрудниками' },
-              { icon: '🎯', title: 'Индивидуальные программы', desc: 'Разработка программ под задачи вашей компании' },
-              { icon: '💼', title: 'Корпоративные мероприятия', desc: 'Организация тимбилдингов и спортивных событий' },
-              { icon: '🏆', title: 'Привилегии для сотрудников', desc: 'Специальные цены на дополнительные услуги' }
+              { title: 'Гибкая система оплаты', desc: 'Выберите удобный формат: разовые платежи или подписка' },
+              { title: 'Персональный менеджер', desc: 'Дедиicated менеджер для решения всех вопросов' },
+              { title: 'Аналитика посещений', desc: 'Отчеты об использовании абонементов сотрудниками' },
+              { title: 'Индивидуальные программы', desc: 'Разработка программ под задачи вашей компании' },
+              { title: 'Корпоративные мероприятия', desc: 'Организация тимбилдингов и спортивных событий' },
+              { title: 'Привилегии для сотрудников', desc: 'Специальные цены на дополнительные услуги' }
             ].map((feature, i) => (
               <div 
                 key={i} 
-                className="bg-white rounded-[32px] p-8 hover:bg-[#D4F058] transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl"
+                className="bg-white rounded-[32px] p-8 hover:bg-[#D4F058] transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl group"
               >
-                <div className="text-5xl mb-4">{feature.icon}</div>
+                <div className="text-4xl font-syne font-bold text-[#1A262A]/20 group-hover:text-[#1A262A]/40 mb-4">
+                  {String(i + 1).padStart(2, '0')}
+                </div>
                 <h3 className="font-syne text-xl md:text-2xl font-bold uppercase text-[#1A262A] mb-3">
                   {feature.title}
                 </h3>

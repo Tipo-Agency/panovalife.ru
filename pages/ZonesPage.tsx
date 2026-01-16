@@ -11,6 +11,7 @@ const ZonesPage: React.FC = () => {
   const floors = [
     {
       floor: '1 ЭТАЖ',
+      image: '/Panova-9.jpg',
       zones: [
         { title: 'ДЕТСКИЙ КЛУБ', desc: 'Специально оборудованная зона для детей с безопасным инвентарем и профессиональными инструкторами' },
         { title: 'ЙОГА', desc: 'Просторный зал для йоги и медитации с натуральным освещением и специальным покрытием' },
@@ -19,6 +20,7 @@ const ZonesPage: React.FC = () => {
     },
     {
       floor: '2 ЭТАЖ',
+      image: '/Panova-3.jpg',
       zones: [
         { title: 'АКВА ЗОНА', desc: 'Зона водных процедур с комфортной температурой и расслабляющей атмосферой' },
         { title: 'БАССЕЙН', desc: 'Бассейн 24 метра с озонированной водой. Пять дорожек для комфортного плавания' },
@@ -29,6 +31,7 @@ const ZonesPage: React.FC = () => {
     },
     {
       floor: '3 ЭТАЖ',
+      image: '/Panova-2.jpg',
       zones: [
         { title: 'КАРДИОЗОНА', desc: 'Профессиональные кардиотренажеры: беговые дорожки, эллипсы, велотренажеры и гребные тренажеры' },
         { title: 'ГРУППОВЫЕ ПРОГРАММЫ', desc: 'Современные залы для групповых занятий: HIIT, функциональный тренинг, танцы' }
@@ -36,12 +39,14 @@ const ZonesPage: React.FC = () => {
     },
     {
       floor: '4 ЭТАЖ',
+      image: '/Panova-2.jpg',
       zones: [
         { title: 'ТРЕНАЖЕРНЫЙ ЗАЛ', desc: '700м² лучшего "железа" от Technogym. Профессиональное оборудование для достижения профессиональных целей' }
       ]
     },
     {
       floor: '5 ЭТАЖ',
+      image: '/1637467043_03.jpg',
       zones: [
         { title: 'ЗАЛЫ ГРУППОВЫХ ПРОГРАММ', desc: 'Специализированные залы для различных групповых направлений' },
         { title: 'ЙОГА', desc: 'Дополнительный зал для йоги и пилатеса с видом на город' },
@@ -65,9 +70,9 @@ const ZonesPage: React.FC = () => {
   ];
 
   return (
-    <div className="bg-[#F2F5F6] min-h-screen pt-32">
+    <div className="bg-[#F2F5F6] min-h-screen">
       {/* Hero Section */}
-      <section className="py-24 md:py-32 px-6 md:px-12 bg-[#1A262A] text-white -mt-32 mb-20">
+      <section className="py-24 md:py-32 px-6 md:px-12 bg-[#1A262A] text-white pt-32">
         <div className="max-w-[1440px] mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
             <h1 className="font-syne text-5xl md:text-8xl font-bold uppercase leading-[0.9]">
@@ -80,15 +85,25 @@ const ZonesPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Floors */}
-      <section className="py-12 px-6 md:px-12 mb-20">
+      {/* Floors - overlapping with hero */}
+      <section className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-t-[40px] md:rounded-t-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-20">
         <div className="max-w-[1440px] mx-auto">
           <div className="space-y-12">
             {floors.map((floor, floorIndex) => (
-              <div key={floorIndex} className="bg-white rounded-[40px] md:rounded-[60px] p-8 md:p-16 shadow-xl">
-                <h2 className="font-syne text-3xl md:text-5xl font-bold uppercase text-[#1A262A] mb-8 pb-6 border-b border-[#1A262A]/10">
-                  {floor.floor}
-                </h2>
+              <div key={floorIndex} className="bg-white rounded-[40px] md:rounded-[60px] overflow-hidden shadow-xl">
+                {/* Floor Image */}
+                <div className="relative h-[300px] md:h-[400px] overflow-hidden">
+                  <img 
+                    src={floor.image} 
+                    alt={floor.floor}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                  <h2 className="absolute bottom-8 left-8 md:left-16 font-syne text-3xl md:text-5xl font-bold uppercase text-white">
+                    {floor.floor}
+                  </h2>
+                </div>
+                <div className="p-8 md:p-16">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {floor.zones.map((zone, zoneIndex) => (
                     <div 
@@ -113,6 +128,7 @@ const ZonesPage: React.FC = () => {
                       </p>
                     </div>
                   ))}
+                </div>
                 </div>
               </div>
             ))}

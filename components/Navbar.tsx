@@ -45,28 +45,30 @@ const Navbar: React.FC = () => {
     { id: 'business', label: 'Бизнесу', route: 'business' }
   ];
 
-  // Dark theme for light pages
-  const useDarkTheme = isLightTheme || scrolled;
+  // Dark theme for light pages - on light pages always use dark theme
+  const useDarkTheme = isLightTheme;
   const textColorClass = useDarkTheme ? 'text-[#1A262A]' : 'text-white';
   const navBgClass = useDarkTheme ? 'bg-white/95 backdrop-blur-md border-[#1A262A]/10 shadow-sm' : 'bg-[#2F4249]/40 border-white/5';
   const navTextClass = useDarkTheme ? 'text-[#1A262A]/70 hover:text-[#1A262A]' : 'text-white/80 hover:text-[#1A262A]';
+  // Logo should be white everywhere (on light theme pages it's over dark hero, on main page it's over dark background)
+  const logoFilterClass = 'brightness-0 invert';
 
   return (
     <>
       {/* --- NAVBAR CONTAINER --- */}
-      <div className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${useDarkTheme ? 'py-4 border-b border-[#1A262A]/10' : 'py-6'}`}>
+      <div className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${useDarkTheme ? 'py-4' : 'py-6'}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
             
-            {/* Logo - disappears on scroll */}
-            <a href="#" className={`flex items-center gap-4 relative z-50 transition-opacity duration-300 hover:opacity-80 ${scrolled ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+            {/* Logo - disappears on scroll (only on main page, not on light theme pages) */}
+            <a href="#" className={`flex items-center gap-4 relative z-50 transition-opacity duration-300 hover:opacity-80 ${!isLightTheme && scrolled ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
                <img 
                   src={Logo} 
                   alt="PANOVA LIFE" 
-                  className={`h-8 md:h-12 w-auto ${useDarkTheme ? 'brightness-0' : 'brightness-0 invert'}`}
+                  className={`h-8 md:h-12 w-auto ${logoFilterClass}`}
                />
             </a>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation - include phone button inside */}
             <nav className={`hidden md:flex items-center gap-1 backdrop-blur-xl border rounded-full p-1.5 transition-all duration-300 ${navBgClass}`}>
                 {menuItems.map((item) => (
                    <a 
@@ -94,25 +96,17 @@ const Navbar: React.FC = () => {
                      {item.label}
                    </a>
                 ))}
+                {/* Phone Button - styled like menu items */}
+                <a 
+                  href="tel:+74212903062"
+                  className={`px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest transition-all duration-300 hover:bg-[#D4F058] ${navTextClass}`}
+                >
+                  Звонок
+                </a>
             </nav>
 
             {/* Right Actions & Burger Toggle */}
             <div className="flex items-center gap-4 md:gap-6 relative z-50">
-               {/* Phone Number with Button - number disappears on scroll */}
-               <div className="hidden md:flex items-center gap-3">
-                  <a 
-                    href="tel:+74212903062" 
-                    className={`text-xs font-bold uppercase tracking-widest transition-all duration-300 hover:text-[#D4F058] ${textColorClass} ${scrolled ? 'opacity-0 max-w-0 overflow-hidden pointer-events-none' : 'opacity-100 max-w-full'}`}
-                  >
-                    +7 (4212) 90-30-62
-                  </a>
-                  <a 
-                    href="tel:+74212903062"
-                    className={`px-4 py-2 rounded-full font-bold uppercase tracking-widest text-xs transition-all duration-300 bg-[#D4F058] text-[#1A262A] hover:bg-white whitespace-nowrap ${scrolled ? 'opacity-100 max-w-full' : 'opacity-0 max-w-0 overflow-hidden pointer-events-none'}`}
-                  >
-                    Звонок
-                  </a>
-               </div>
                
                {/* Burger Button */}
                <button 

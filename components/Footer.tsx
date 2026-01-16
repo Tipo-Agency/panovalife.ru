@@ -34,21 +34,41 @@ const Footer: React.FC = () => {
         </div>
       </div>
       
-      <div className="mt-12 pt-8 border-t border-[#1A262A]/10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
-        <span className="text-xs text-[#1A262A] font-medium uppercase">DESIGNED BY</span>
-        <a 
-          href="https://tipa.uz" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="inline-block hover:opacity-80 transition-opacity"
-        >
-          <img 
-            src={TipaLogo} 
-            alt="Tipa.uz" 
-            className="h-8 md:h-10 w-auto"
-          />
-        </a>
-      </div>
+          <div className="mt-12 pt-8 border-t border-[#1A262A]/10">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+              {/* Left side - Legal info */}
+              <div className="text-xs text-[#1A262A]/60 leading-relaxed space-y-1">
+                <div className="font-bold text-[#1A262A]">ИП Донских С.Г.</div>
+                <div>680030 г. Хабаровск, ул. Ленина 45-25</div>
+                <div>ИНН 272104237135</div>
+                <div>КПП 272101001</div>
+                <div>ОГРНИП 304272103400040</div>
+                <div className="mt-4">
+                  <div>ФИЛИАЛ "ХАБАРОВСКИЙ" АО "АЛЬФА-БАНК"</div>
+                  <div>Р/счет: 40802810920000003733</div>
+                  <div>К/счет: 30101810800000000770</div>
+                  <div>БИК: 040813770</div>
+                </div>
+              </div>
+              
+              {/* Right side - Designed by */}
+              <div className="flex flex-col md:flex-row items-center justify-end gap-3 md:gap-4 ml-auto">
+                <span className="text-xs text-[#1A262A] font-medium uppercase">DESIGNED BY</span>
+                <a
+                  href="https://tipa.uz"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block hover:opacity-80 transition-opacity"
+                >
+                  <img
+                    src={TipaLogo}
+                    alt="Tipa.uz"
+                    className="h-6 md:h-7 w-auto"
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
     </footer>
   );
 };
