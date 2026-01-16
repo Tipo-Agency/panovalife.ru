@@ -3,10 +3,11 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
 import ContactForm from './components/ContactForm';
-import { SERVICES, SCHEDULE, PROMOS } from './constants';
+import { SCHEDULE, PROMOS } from './constants';
 import OfferPage from './pages/OfferPage';
 import RulesPage from './pages/RulesPage';
 import PrivacyPage from './pages/PrivacyPage';
+import ZonesPage from './pages/ZonesPage';
 import SchedulePage from './pages/SchedulePage';
 import TeamPage from './pages/TeamPage';
 import BusinessPage from './pages/BusinessPage';
@@ -14,6 +15,15 @@ import BusinessPage from './pages/BusinessPage';
 const App: React.FC = () => {
   const [currentRoute, setCurrentRoute] = useState<string>('');
   const [isFormOpen, setIsFormOpen] = useState(false);
+
+  // Listen for custom event to open form from ZonesPage
+  useEffect(() => {
+    const handleOpenForm = () => {
+      setIsFormOpen(true);
+    };
+    window.addEventListener('openContactForm', handleOpenForm);
+    return () => window.removeEventListener('openContactForm', handleOpenForm);
+  }, []);
 
   useEffect(() => {
     // Get route from hash
@@ -73,6 +83,17 @@ const App: React.FC = () => {
     );
   }
 
+  if (currentRoute === 'zones') {
+    return (
+      <div className="bg-[#F2F5F6] min-h-screen selection:bg-[#D4F058] selection:text-[#1A262A] overflow-x-hidden">
+        <Navbar />
+        <ZonesPage />
+        <Footer />
+        <ContactForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
+      </div>
+    );
+  }
+
   if (currentRoute === 'schedule') {
     return (
       <div className="bg-[#F2F5F6] min-h-screen selection:bg-[#D4F058] selection:text-[#1A262A] overflow-x-hidden">
@@ -116,53 +137,10 @@ const App: React.FC = () => {
         {/* Wrapper for Hero overlap transition to prevent white corners */}
         <div className="bg-[#1A262A]">
             <Hero onOpenForm={() => setIsFormOpen(true)} />
-            
-            {/* SECTION: SPACES (Light) */}
-            <section id="zones" className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-t-[40px] md:rounded-t-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30">
-              <div className="max-w-[1440px] mx-auto">
-                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 border-b border-[#1A262A]/10 pb-8 gap-6">
-                    <h2 className="font-syne text-5xl md:text-8xl font-bold uppercase text-[#1A262A] leading-[0.9] break-words">
-                      ТЕРРИТОРИЯ <br/> <span className="text-[#1A262A]/20">СИЛЫ</span>
-                    </h2>
-                    <span className="text-[#1A262A] text-xs md:text-sm tracking-widest uppercase font-bold whitespace-nowrap bg-[#D4F058] px-3 py-1 rounded-full">
-                      5000 КВАДРАТНЫХ МЕТРОВ
-                    </span>
-                 </div>
-
-                 <div className="space-y-6">
-                   {SERVICES.map((s, i) => (
-                      <div key={s.id} className="group relative bg-[#F2F5F6] rounded-[32px] overflow-hidden hover:bg-[#D4F058] transition-colors duration-500 cursor-pointer shadow-sm hover:shadow-xl">
-                         <div className="flex flex-col md:flex-row h-auto min-h-[300px]">
-                            {/* Image Side */}
-                            <div className="w-full md:w-1/3 h-[250px] md:h-auto relative overflow-hidden">
-                               <img 
-                                  src={s.image} 
-                                  alt={s.title}
-                                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 filter grayscale group-hover:grayscale-0" 
-                               />
-                            </div>
-                            
-                            {/* Content Side */}
-                            <div className="w-full md:w-2/3 p-8 md:p-12 flex flex-col justify-between text-[#1A262A]">
-                               <div className="flex justify-between items-start mb-6 md:mb-0">
-                                  <span className="text-xs font-bold uppercase tracking-widest opacity-40 group-hover:opacity-60">0{i+1}</span>
-                                  <div className="w-12 h-12 rounded-full border border-[#1A262A]/20 flex items-center justify-center group-hover:bg-[#1A262A] group-hover:text-[#D4F058] group-hover:border-[#1A262A] transition-all shrink-0 ml-4">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                                  </div>
-                               </div>
-                               
-                               <div>
-                                  <h3 className="font-syne text-3xl md:text-5xl font-bold uppercase mb-4 leading-none">{s.title}</h3>
-                                  <p className="opacity-60 text-base md:text-lg max-w-xl leading-relaxed">{s.desc}</p>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                   ))}
-                 </div>
-              </div>
-            </section>
         </div>
+        
+        {/* Main sections start here */}
+        <div className="bg-white rounded-t-[40px] md:rounded-t-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 relative">
 
         {/* SECTION: CARDS (Light) */}
         <section id="flow" className="py-24 md:py-32 px-6 md:px-12 bg-[#F2F5F6]">
@@ -228,6 +206,8 @@ const App: React.FC = () => {
                 </div>
              </div>
         </section>
+
+        </div>
 
         {/* SECTION: JOIN (Light Form) */}
         <section id="join" className="py-24 px-6 md:px-12 flex items-center justify-center bg-white rounded-[40px] md:rounded-[60px] mx-2 md:mx-4 mb-4">

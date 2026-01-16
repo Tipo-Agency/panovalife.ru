@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
   }, [isMenuOpen]);
 
   const menuItems = [
-    { id: 'zones', label: 'Пространства', route: '' },
+    { id: 'zones', label: 'Пространства', route: 'zones' },
     { id: 'schedule', label: 'Расписание', route: 'schedule' },
     { id: 'team', label: 'Команда', route: 'team' },
     { id: 'business', label: 'Бизнесу', route: 'business' }

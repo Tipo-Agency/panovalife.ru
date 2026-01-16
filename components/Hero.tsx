@@ -7,21 +7,6 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = ({ onOpenForm }) => {
   return (
     <section id="main" className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#1A262A]">
-      
-      {/* Fullscreen Video Background */}
-      <div className="absolute inset-0 z-0">
-         <div className="absolute inset-0 bg-gradient-to-r from-[#1A262A]/90 via-[#1A262A]/40 to-[#1A262A]/20 z-10"></div>
-         <div className="absolute inset-0 bg-gradient-to-t from-[#1A262A] via-transparent to-[#1A262A]/60 z-10"></div>
-         <video 
-            autoPlay 
-            muted 
-            loop 
-            playsInline 
-            className="w-full h-full object-cover opacity-80"
-         >
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-man-working-out-with-battle-ropes-at-the-gym-22876-large.mp4" type="video/mp4" />
-         </video>
-      </div>
 
       {/* Main Content Container */}
       <div className="relative z-20 w-full max-w-[1600px] px-6 md:px-12 flex flex-row justify-between items-center h-full pt-20">
@@ -57,22 +42,6 @@ const Hero: React.FC<HeroProps> = ({ onOpenForm }) => {
                >
                   Смотреть видео тура
                </a>
-            </div>
-
-            {/* Stats */}
-            <div className="mt-16 pt-8 flex flex-wrap gap-12 md:gap-24 w-full md:w-auto">
-                <div>
-                   <span className="block text-3xl font-syne font-bold text-white">24<span className="text-[#D4F058] text-lg">/7</span></span>
-                   <span className="text-[10px] text-white/40 uppercase tracking-widest">Режим работы</span>
-                </div>
-                <div>
-                   <span className="block text-3xl font-syne font-bold text-white">50<span className="text-[#D4F058] text-lg">+</span></span>
-                   <span className="text-[10px] text-white/40 uppercase tracking-widest">Тренеров</span>
-                </div>
-                <div>
-                   <span className="block text-3xl font-syne font-bold text-white">SPA</span>
-                   <span className="text-[10px] text-white/40 uppercase tracking-widest">Комплекс</span>
-                </div>
             </div>
          </div>
 
