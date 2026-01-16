@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
         Panovalife Premium Fitness
       </div>
       <h1 className="font-syne font-bold text-[12vw] leading-none text-[#1A262A]/5 select-none pointer-events-none">
-        PANOVA
+        PANOVALIFE
       </h1>
       <div className="mt-8 space-y-6">
         {/* Контакты */}
@@ -35,16 +35,23 @@ const Footer: React.FC = () => {
       </div>
       
           <div className="mt-12 pt-8 border-t border-[#1A262A]/10">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-              {/* Left side - Legal info */}
-              <div className="text-xs text-[#1A262A]/60 leading-relaxed space-y-1">
-                <div className="font-bold text-[#1A262A]">ИП Донских С.Г.</div>
-                <div>680030 г. Хабаровск, ул. Ленина 45-25</div>
-                <div>ИНН 272104237135</div>
-                <div>КПП 272101001</div>
-                <div>ОГРНИП 304272103400040</div>
-                <div className="mt-4">
-                  <div>ФИЛИАЛ "ХАБАРОВСКИЙ" АО "АЛЬФА-БАНК"</div>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-8">
+              {/* Left side - Legal info in columns */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 w-full md:flex-1">
+                {/* Column 1 */}
+                <div className="text-xs text-[#1A262A]/60 leading-relaxed space-y-1">
+                  <div className="font-bold text-[#1A262A]">ИП Донских С.Г.</div>
+                  <div>680030 г. Хабаровск, ул. Ленина 45-25</div>
+                  <div>ИНН 272104237135</div>
+                </div>
+                {/* Column 2 */}
+                <div className="text-xs text-[#1A262A]/60 leading-relaxed space-y-1">
+                  <div>КПП 272101001</div>
+                  <div>ОГРНИП 304272103400040</div>
+                  <div className="mt-4">ФИЛИАЛ "ХАБАРОВСКИЙ" АО "АЛЬФА-БАНК"</div>
+                </div>
+                {/* Column 3 */}
+                <div className="text-xs text-[#1A262A]/60 leading-relaxed space-y-1">
                   <div>Р/счет: 40802810920000003733</div>
                   <div>К/счет: 30101810800000000770</div>
                   <div>БИК: 040813770</div>
@@ -52,7 +59,7 @@ const Footer: React.FC = () => {
               </div>
               
               {/* Right side - Designed by */}
-              <div className="flex flex-col md:flex-row items-center justify-end gap-3 md:gap-4 ml-auto">
+              <div className="flex flex-col md:flex-row items-center justify-center md:justify-end gap-3 md:gap-4 md:ml-8 shrink-0 mt-4 md:mt-0">
                 <span className="text-xs text-[#1A262A] font-medium uppercase">DESIGNED BY</span>
                 <a
                   href="https://tipa.uz"

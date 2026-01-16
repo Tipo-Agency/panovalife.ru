@@ -70,7 +70,7 @@ const ZonesPage: React.FC = () => {
   ];
 
   return (
-    <div className="bg-[#F2F5F6] min-h-screen">
+    <div className="bg-[#1A262A] min-h-screen">
       {/* Hero Section */}
       <section className="py-24 md:py-32 px-6 md:px-12 bg-[#1A262A] text-white pt-32">
         <div className="max-w-[1440px] mx-auto">
@@ -86,11 +86,11 @@ const ZonesPage: React.FC = () => {
       </section>
 
       {/* Floors - overlapping with hero */}
-      <section className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-t-[40px] md:rounded-t-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-20">
+      <section className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-[40px] md:rounded-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-20">
         <div className="max-w-[1440px] mx-auto">
           <div className="space-y-12">
             {floors.map((floor, floorIndex) => (
-              <div key={floorIndex} className="bg-white rounded-[40px] md:rounded-[60px] overflow-hidden shadow-xl">
+              <div key={floorIndex} data-floor={floorIndex + 1} className="bg-white rounded-[40px] md:rounded-[60px] overflow-hidden shadow-xl">
                 {/* Floor Image */}
                 <div className="relative h-[300px] md:h-[400px] overflow-hidden">
                   <img 
@@ -199,16 +199,12 @@ const ZonesPage: React.FC = () => {
                 <button 
                   className={`mt-10 w-full py-5 rounded-full font-bold uppercase tracking-widest text-xs transition-all ${
                     i === 1 
-                      ? 'bg-[#1A262A] text-white hover:bg-white hover:text-[#1A262A]' 
+                      ? 'bg-[#1A262A] text-white hover:bg-[#D4F058] hover:text-[#1A262A]' 
                       : 'bg-[#1A262A] text-white hover:bg-[#D4F058] hover:text-[#1A262A]'
                   }`}
                   onClick={() => {
-                    window.location.hash = '';
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    setTimeout(() => {
-                      const event = new CustomEvent('openContactForm');
-                      window.dispatchEvent(event);
-                    }, 500);
+                    const event = new CustomEvent('openContactForm');
+                    window.dispatchEvent(event);
                   }}
                 >
                   Оформить карту

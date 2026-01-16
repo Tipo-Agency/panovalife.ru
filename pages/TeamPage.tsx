@@ -18,7 +18,7 @@ const TeamPage: React.FC = () => {
   ];
 
   return (
-    <div className="bg-[#F2F5F6] min-h-screen">
+    <div className="bg-[#1A262A] min-h-screen">
       {/* Hero Section */}
       <section className="py-24 md:py-32 px-6 md:px-12 bg-[#1A262A] text-white pt-32">
         <div className="max-w-[1440px] mx-auto">
@@ -34,7 +34,7 @@ const TeamPage: React.FC = () => {
       </section>
 
       {/* Trainers Grid - overlapping with hero */}
-      <section className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-t-[40px] md:rounded-t-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-20">
+      <section className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-[40px] md:rounded-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-20">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {trainers.map((trainer, i) => (
@@ -92,6 +92,35 @@ const TeamPage: React.FC = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 px-6 md:px-12 bg-[#1A262A] text-white rounded-[40px] md:rounded-[60px] mx-2 md:mx-4 mb-20">
+        <div className="max-w-[1440px] mx-auto text-center">
+          <h2 className="font-syne text-4xl md:text-7xl font-bold uppercase mb-8">
+            ГОТОВЫ <span className="text-[#D4F058]">НАЧАТЬ?</span>
+          </h2>
+          <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto mb-12">
+            Запишитесь на тест-драйв и познакомьтесь с нашей командой профессионалов
+          </p>
+          <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
+            <button
+              onClick={() => {
+                const event = new CustomEvent('openContactForm');
+                window.dispatchEvent(event);
+              }}
+              className="px-10 py-5 bg-[#D4F058] text-[#1A262A] font-bold uppercase tracking-widest text-sm rounded-full hover:bg-white transition-colors"
+            >
+              Записаться на тест-драйв
+            </button>
+            <a
+              href="tel:+74212903062"
+              className="px-10 py-5 border-2 border-white/20 text-white font-bold uppercase tracking-widest text-sm rounded-full hover:bg-white/10 transition-colors"
+            >
+              +7 (4212) 90-30-62
+            </a>
           </div>
         </div>
       </section>

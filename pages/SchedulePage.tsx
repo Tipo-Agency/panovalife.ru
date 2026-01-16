@@ -25,8 +25,32 @@ const SchedulePage: React.FC = () => {
   const currentWeek = getCurrentWeekNumber();
   const weekOptions = Array.from({ length: 4 }, (_, i) => currentWeek + i);
   
+  // Get dates for week navigation
+  const getWeekDates = (weekOffset: number) => {
+    const today = new Date();
+    const currentDay = today.getDay();
+    const monday = new Date(today);
+    monday.setDate(today.getDate() - currentDay + 1 + (weekOffset * 7));
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    return { monday, sunday };
+  };
+
+  const currentWeekDates = getWeekDates(selectedWeek);
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
+  };
+
+  const handleWeekChange = (direction: 'prev' | 'next') => {
+    if (direction === 'prev' && selectedWeek > 0) {
+      setSelectedWeek(selectedWeek - 1);
+    } else if (direction === 'next' && selectedWeek < 3) {
+      setSelectedWeek(selectedWeek + 1);
+    }
+  };
+  
   return (
-    <div className="bg-[#F2F5F6] min-h-screen">
+    <div className="bg-[#1A262A] min-h-screen">
       {/* Hero Section */}
       <section className="py-24 md:py-32 px-6 md:px-12 bg-[#1A262A] text-white pt-32">
         <div className="max-w-[1440px] mx-auto">
@@ -42,25 +66,40 @@ const SchedulePage: React.FC = () => {
       </section>
 
       {/* Schedule Table - overlapping with hero */}
-      <section className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-t-[40px] md:rounded-t-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-20">
+      <section className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-[40px] md:rounded-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-20">
         <div className="max-w-[1440px] mx-auto">
-          {/* Week Selector */}
+          {/* Week Selector with arrows */}
           <div className="mb-8">
-            <div className="flex flex-wrap gap-3 mb-6">
-              <span className="text-sm font-bold uppercase tracking-widest text-[#1A262A]/60 self-center">Неделя:</span>
-              {weekOptions.map((weekNum, i) => (
-                <button
-                  key={i}
-                  onClick={() => setSelectedWeek(i)}
-                  className={`px-6 py-2 rounded-full font-bold uppercase tracking-widest text-xs transition-all ${
-                    selectedWeek === i 
-                      ? 'bg-[#1A262A] text-white' 
-                      : 'bg-[#F2F5F6] text-[#1A262A] hover:bg-[#D4F058]'
-                  }`}
-                >
-                  {i === 0 ? 'Текущая' : `${weekNum}`}
-                </button>
-              ))}
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <button
+                onClick={() => handleWeekChange('prev')}
+                disabled={selectedWeek === 0}
+                className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all ${
+                  selectedWeek === 0
+                    ? 'border-[#1A262A]/20 text-[#1A262A]/20 cursor-not-allowed'
+                    : 'border-[#1A262A] text-[#1A262A] hover:bg-[#D4F058] hover:border-[#D4F058]'
+                }`}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+              <div className="px-6 py-3 bg-[#1A262A] text-white rounded-full font-bold text-sm">
+                {selectedWeek === 0 ? 'Текущая неделя' : `${formatDate(currentWeekDates.monday)} - ${formatDate(currentWeekDates.sunday)}`}
+              </div>
+              <button
+                onClick={() => handleWeekChange('next')}
+                disabled={selectedWeek === 3}
+                className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all ${
+                  selectedWeek === 3
+                    ? 'border-[#1A262A]/20 text-[#1A262A]/20 cursor-not-allowed'
+                    : 'border-[#1A262A] text-[#1A262A] hover:bg-[#D4F058] hover:border-[#D4F058]'
+                }`}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
             </div>
           </div>
 
@@ -110,7 +149,7 @@ const SchedulePage: React.FC = () => {
                     }`}>
                       {item.spots}
                     </span>
-                    <button className="px-6 py-2 bg-[#1A262A] text-white rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#D4F058] hover:text-[#1A262A] transition-colors opacity-0 group-hover:opacity-100">
+                    <button className="px-6 py-2 bg-[#1A262A] text-white rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-[#1A262A] transition-colors opacity-0 group-hover:opacity-100">
                       Записаться
                     </button>
                   </div>
@@ -147,6 +186,35 @@ const SchedulePage: React.FC = () => {
                 <h3 className="font-bold text-lg uppercase">{category}</h3>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 px-6 md:px-12 bg-[#1A262A] text-white rounded-[40px] md:rounded-[60px] mx-2 md:mx-4 mb-20">
+        <div className="max-w-[1440px] mx-auto text-center">
+          <h2 className="font-syne text-4xl md:text-7xl font-bold uppercase mb-8">
+            НАЧНИТЕ <span className="text-[#D4F058]">СЕГОДНЯ</span>
+          </h2>
+          <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto mb-12">
+            Запишитесь на занятие или получите бесплатную консультацию
+          </p>
+          <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
+            <button
+              onClick={() => {
+                const event = new CustomEvent('openContactForm');
+                window.dispatchEvent(event);
+              }}
+              className="px-10 py-5 bg-[#D4F058] text-[#1A262A] font-bold uppercase tracking-widest text-sm rounded-full hover:bg-white transition-colors"
+            >
+              Записаться на занятие
+            </button>
+            <a
+              href="tel:+74212903062"
+              className="px-10 py-5 border-2 border-white/20 text-white font-bold uppercase tracking-widest text-sm rounded-full hover:bg-white/10 transition-colors"
+            >
+              +7 (4212) 90-30-62
+            </a>
           </div>
         </div>
       </section>

@@ -139,7 +139,7 @@ const App: React.FC = () => {
             <Hero onOpenForm={() => setIsFormOpen(true)} />
             
             {/* SECTION: SPACES (Light) */}
-            <section id="zones" className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-t-[40px] md:rounded-t-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30">
+            <section id="zones" className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-[40px] md:rounded-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30">
               <div className="max-w-[1440px] mx-auto">
                  <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 border-b border-[#1A262A]/10 pb-8 gap-6">
                     <h2 className="font-syne text-5xl md:text-8xl font-bold uppercase text-[#1A262A] leading-[0.9] break-words">
@@ -152,7 +152,20 @@ const App: React.FC = () => {
 
                  <div className="space-y-6">
                    {SERVICES.map((s, i) => (
-                      <div key={s.id} className="group relative bg-[#F2F5F6] rounded-[32px] overflow-hidden hover:bg-[#D4F058] transition-colors duration-500 cursor-pointer shadow-sm hover:shadow-xl">
+                      <div 
+                        key={s.id} 
+                        className="group relative bg-[#F2F5F6] rounded-[32px] overflow-hidden hover:bg-[#D4F058] transition-colors duration-500 cursor-pointer shadow-sm hover:shadow-xl"
+                        onClick={() => {
+                          window.location.hash = 'zones';
+                          setTimeout(() => {
+                            const floorIndex = s.floorIndex !== undefined ? s.floorIndex + 1 : (i === 0 ? 2 : i === 1 ? 4 : 1);
+                            const element = document.querySelector(`[data-floor="${floorIndex}"]`);
+                            if (element) {
+                              element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                          }, 500);
+                        }}
+                      >
                          <div className="flex flex-col md:flex-row h-auto min-h-[300px]">
                             {/* Image Side */}
                             <div className="w-full md:w-1/3 h-[250px] md:h-auto relative overflow-hidden">
