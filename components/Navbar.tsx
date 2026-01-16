@@ -55,6 +55,20 @@ const Navbar: React.FC = () => {
                    <a 
                      key={item.id}
                      href={`#${item.id}`}
+                     onClick={(e) => {
+                       if (item.id === 'main') {
+                         e.preventDefault();
+                         window.location.hash = '';
+                         window.scrollTo({ top: 0, behavior: 'smooth' });
+                       } else {
+                         const target = document.querySelector(`#${item.id}`);
+                         if (target) {
+                           e.preventDefault();
+                           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                           window.scrollTo({ top: 0, behavior: 'smooth' });
+                         }
+                       }
+                     }}
                      className={`px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest transition-all duration-300 hover:bg-[#D4F058] ${navTextClass}`}
                    >
                      {item.label}
@@ -94,7 +108,23 @@ const Navbar: React.FC = () => {
                   <a 
                     key={item.id}
                     href={`#${item.id}`}
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={(e) => {
+                      setIsMenuOpen(false);
+                      if (item.id === 'main') {
+                        e.preventDefault();
+                        window.location.hash = '';
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      } else {
+                        const target = document.querySelector(`#${item.id}`);
+                        if (target) {
+                          e.preventDefault();
+                          setTimeout(() => {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }, 300);
+                        }
+                      }
+                    }}
                     className="font-syne text-5xl font-bold uppercase text-[#1A262A] hover:text-[#D4F058] transition-colors"
                     style={{ transitionDelay: `${i * 100}ms` }}
                   >

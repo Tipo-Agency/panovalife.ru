@@ -35,7 +35,7 @@ const Footer: React.FC = () => {
       </div>
       
       <div className="mt-12 pt-8 border-t border-[#1A262A]/10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
-        <span className="text-xs text-[#1A262A]/40 font-medium">Дизайн бай</span>
+        <span className="text-xs text-[#1A262A] font-medium uppercase">DESIGNED BY</span>
         <a 
           href="https://tipa.uz" 
           target="_blank" 

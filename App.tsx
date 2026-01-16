@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
+import ContactForm from './components/ContactForm';
 import { SERVICES, SCHEDULE, PROMOS } from './constants';
 import OfferPage from './pages/OfferPage';
 import RulesPage from './pages/RulesPage';
@@ -9,20 +10,30 @@ import PrivacyPage from './pages/PrivacyPage';
 
 const App: React.FC = () => {
   const [currentRoute, setCurrentRoute] = useState<string>('');
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   useEffect(() => {
     // Get route from hash
     const hash = window.location.hash.slice(1);
     setCurrentRoute(hash);
 
+    // Scroll to top on initial load if hash route
+    if (hash) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     // Listen for hash changes
     const handleHashChange = () => {
       const newHash = window.location.hash.slice(1);
       setCurrentRoute(newHash);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
   }, []);
 
   // Render document pages based on route
@@ -32,6 +43,7 @@ const App: React.FC = () => {
         <Navbar />
         <OfferPage />
         <Footer />
+        <ContactForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
       </div>
     );
   }
@@ -42,6 +54,7 @@ const App: React.FC = () => {
         <Navbar />
         <RulesPage />
         <Footer />
+        <ContactForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
       </div>
     );
   }
@@ -52,6 +65,7 @@ const App: React.FC = () => {
         <Navbar />
         <PrivacyPage />
         <Footer />
+        <ContactForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
       </div>
     );
   }
@@ -59,12 +73,13 @@ const App: React.FC = () => {
   return (
     <div className="bg-[#F2F5F6] min-h-screen selection:bg-[#D4F058] selection:text-[#1A262A] overflow-x-hidden">
       <Navbar />
+      <ContactForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
       
       <main className="relative z-10">
         
         {/* Wrapper for Hero overlap transition to prevent white corners */}
         <div className="bg-[#1A262A]">
-            <Hero />
+            <Hero onOpenForm={() => setIsFormOpen(true)} />
             
             {/* SECTION: SPACES (Light) */}
             <section id="zones" className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-t-[40px] md:rounded-t-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30">
@@ -132,7 +147,10 @@ const App: React.FC = () => {
                                 <p className="opacity-60 text-base md:text-lg max-w-sm">{p.desc}</p>
                             </div>
                             
-                            <button className={`mt-10 w-full py-5 rounded-full font-bold uppercase tracking-widest text-xs transition-all ${i === 1 ? 'bg-[#1A262A] text-white hover:bg-white hover:text-[#1A262A]' : 'bg-[#1A262A] text-white hover:bg-[#D4F058] hover:text-[#1A262A]'}`}>
+                            <button 
+                              onClick={() => setIsFormOpen(true)}
+                              className={`mt-10 w-full py-5 rounded-full font-bold uppercase tracking-widest text-xs transition-all ${i === 1 ? 'bg-[#1A262A] text-white hover:bg-white hover:text-[#1A262A]' : 'bg-[#1A262A] text-white hover:bg-[#D4F058] hover:text-[#1A262A]'}`}
+                            >
                                 Оформить карту
                             </button>
                         </div>
@@ -183,17 +201,12 @@ const App: React.FC = () => {
                     НАЧНИ СВОЙ <br/> ПУТЬ
                  </h2>
                  
-                 <form className="space-y-4">
-                     <div className="relative">
-                        <input type="text" placeholder="ИМЯ" className="w-full bg-[#F2F5F6] border border-[#1A262A]/5 rounded-full py-5 px-8 text-base md:text-xl text-[#1A262A] font-bold uppercase placeholder:text-[#1A262A]/20 focus:outline-none focus:border-[#D4F058] focus:bg-white transition-all text-center" />
-                     </div>
-                     <div className="relative">
-                        <input type="tel" placeholder="ТЕЛЕФОН" className="w-full bg-[#F2F5F6] border border-[#1A262A]/5 rounded-full py-5 px-8 text-base md:text-xl text-[#1A262A] font-bold uppercase placeholder:text-[#1A262A]/20 focus:outline-none focus:border-[#D4F058] focus:bg-white transition-all text-center" />
-                     </div>
-                     <button className="w-full py-6 bg-[#1A262A] text-white rounded-full font-bold uppercase tracking-widest text-xs md:text-sm hover:bg-[#D4F058] hover:text-[#1A262A] transition-colors shadow-lg mt-8">
-                        Записаться на экскурсию
-                     </button>
-                 </form>
+                 <button 
+                   onClick={() => setIsFormOpen(true)}
+                   className="w-full py-6 bg-[#1A262A] text-white rounded-full font-bold uppercase tracking-widest text-xs md:text-sm hover:bg-[#D4F058] hover:text-[#1A262A] transition-colors shadow-lg"
+                 >
+                    Записаться на экскурсию
+                 </button>
              </div>
         </section>
 

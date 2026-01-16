@@ -1,4 +1,5 @@
 import React from 'react';
+import DocumentHero from '../components/DocumentHero';
 import RulesHeader from '../components/documents/RulesHeader';
 import RulesGeneralP1 from '../components/documents/RulesGeneralP1';
 import RulesGeneralP2 from '../components/documents/RulesGeneralP2';
@@ -35,9 +36,11 @@ import RulesGuest from '../components/documents/RulesGuest';
 
 const RulesPage: React.FC = () => {
   return (
-    <div className="bg-[#F2F5F6] min-h-screen py-24 md:py-32 px-6 md:px-12">
-      <div className="max-w-5xl mx-auto bg-white rounded-[40px] md:rounded-[60px] p-8 md:p-16 shadow-xl">
-        <RulesHeader />
+    <div className="bg-[#F2F5F6] min-h-screen">
+      <DocumentHero title="Правила посещения" />
+      <div className="py-24 md:py-32 px-6 md:px-12">
+        <div className="max-w-5xl mx-auto bg-white rounded-[40px] md:rounded-[60px] p-8 md:p-16 shadow-xl -mt-20 md:-mt-32 relative z-10">
+          <RulesHeader />
         <RulesGeneralP1 />
         <RulesGeneralP2 />
         <RulesGeneralP3 />
@@ -70,6 +73,7 @@ const RulesPage: React.FC = () => {
         <RulesPool />
         <RulesPoolClasses />
         <RulesGuest />
+        </div>
       </div>
     </div>
   );
