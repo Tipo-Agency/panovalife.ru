@@ -9,12 +9,12 @@ const TeamPage: React.FC = () => {
   }, []);
 
   const trainers = [
-    { name: 'АННА ИВАНОВА', role: 'ЙОГА И ПИЛАТЕС', experience: '12 лет', image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=800' },
-    { name: 'ДМИТРИЙ СИДОРОВ', role: 'БОКС / PRO', experience: '15 лет', image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=800' },
-    { name: 'МАРИЯ ПЕТРОВА', role: 'ПИЛАТЕС', experience: '10 лет', image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=800' },
-    { name: 'ЕЛЕНА СМИРНОВА', role: 'HIIT / ФУНКЦИОНАЛ', experience: '8 лет', image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800' },
-    { name: 'СЕРГЕЙ КОЗЛОВ', role: 'СИЛОВОЙ ТРЕНИНГ', experience: '20 лет', image: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&q=80&w=800' },
-    { name: 'ОЛЬГА НОВИКОВА', role: 'АКВААЭРОБИКА', experience: '7 лет', image: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&q=80&w=800' }
+    { name: 'АННА ИВАНОВА', role: 'ЙОГА И ПИЛАТЕС', experience: '12 лет', image: '/1637467036_01.jpg' },
+    { name: 'ДМИТРИЙ СИДОРОВ', role: 'БОКС / PRO', experience: '15 лет', image: '/Panova-9.jpg' },
+    { name: 'МАРИЯ ПЕТРОВА', role: 'ПИЛАТЕС', experience: '10 лет', image: '/1637467043_03.jpg' },
+    { name: 'ЕЛЕНА СМИРНОВА', role: 'HIIT / ФУНКЦИОНАЛ', experience: '8 лет', image: '/orig.jpeg' },
+    { name: 'СЕРГЕЙ КОЗЛОВ', role: 'СИЛОВОЙ ТРЕНИНГ', experience: '20 лет', image: '/Panova-2.jpg' },
+    { name: 'ОЛЬГА НОВИКОВА', role: 'АКВААЭРОБИКА', experience: '7 лет', image: '/Panova-3.jpg' }
   ];
 
   return (

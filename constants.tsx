@@ -23,19 +23,19 @@ export const SERVICES = [
     id: 'pool',
     title: 'АКВА-ЗОНА',
     desc: 'Бассейн 24 метра с озонированной водой. Пять дорожек для тех, кто не привык останавливаться перед препятствиями.',
-    image: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=1200'
+    image: '/Panova-3.jpg'
   },
   {
     id: 'gym',
     title: 'СИЛОВОЙ ЗАЛ',
     desc: '700м² лучшего "железа" от Technogym. Профессиональное оборудование для достижения профессиональных целей.',
-    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=1200'
+    image: '/Panova-2.jpg'
   },
   {
     id: 'groups',
     title: 'ГРУППОВЫЕ',
     desc: 'Более 50 программ: от взрывных HIIT до глубокого релакса в зоне йоги и пилатеса.',
-    image: 'https://images.unsplash.com/photo-1518611012118-29a8d63a860a?auto=format&fit=crop&q=80&w=1200'
+    image: '/Panova-9.jpg'
   }
 ];
 
