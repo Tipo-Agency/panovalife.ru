@@ -39,13 +39,10 @@ const Navbar: React.FC = () => {
   }, [isMenuOpen]);
 
   const menuItems = [
-    { id: 'services', label: 'Услуги', route: 'services' },
+    { id: 'zones', label: 'Пространства', route: '' },
     { id: 'schedule', label: 'Расписание', route: 'schedule' },
     { id: 'team', label: 'Команда', route: 'team' },
-    { id: 'corporate', label: 'Корпоративным', route: 'corporate' },
-    { id: 'zones', label: 'Пространства', route: '' },
-    { id: 'flow', label: 'Клубные карты', route: '' },
-    { id: 'join', label: 'Контакты', route: '' }
+    { id: 'business', label: 'Бизнесу', route: 'business' }
   ];
 
   // Dark theme for light pages

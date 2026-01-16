@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const CorporatePage: React.FC = () => {
+const BusinessPage: React.FC = () => {
   useEffect(() => {
     document.body.setAttribute('data-theme', 'light');
     return () => {
@@ -22,7 +22,7 @@ const CorporatePage: React.FC = () => {
         <div className="max-w-[1440px] mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
             <h1 className="font-syne text-5xl md:text-8xl font-bold uppercase leading-[0.9]">
-              КОРПОРАТИВНЫМ <br/> <span className="text-[#D4F058]">КЛИЕНТАМ</span>
+              БИЗНЕСУ <br/> <span className="text-[#D4F058]">КЛИЕНТАМ</span>
             </h1>
             <p className="max-w-md text-white/60 font-medium text-base md:text-lg">
               Инвестируйте в здоровье своей команды. Специальные условия для компаний и корпоративные программы.
@@ -124,4 +124,4 @@ const CorporatePage: React.FC = () => {
   );
 };
 
-export default CorporatePage;
+export default BusinessPage;

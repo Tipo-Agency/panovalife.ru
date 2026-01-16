@@ -7,10 +7,9 @@ import { SERVICES, SCHEDULE, PROMOS } from './constants';
 import OfferPage from './pages/OfferPage';
 import RulesPage from './pages/RulesPage';
 import PrivacyPage from './pages/PrivacyPage';
-import ServicesPage from './pages/ServicesPage';
 import SchedulePage from './pages/SchedulePage';
 import TeamPage from './pages/TeamPage';
-import CorporatePage from './pages/CorporatePage';
+import BusinessPage from './pages/BusinessPage';
 
 const App: React.FC = () => {
   const [currentRoute, setCurrentRoute] = useState<string>('');
@@ -74,17 +73,6 @@ const App: React.FC = () => {
     );
   }
 
-  if (currentRoute === 'services') {
-    return (
-      <div className="bg-[#F2F5F6] min-h-screen selection:bg-[#D4F058] selection:text-[#1A262A] overflow-x-hidden">
-        <Navbar />
-        <ServicesPage />
-        <Footer />
-        <ContactForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
-      </div>
-    );
-  }
-
   if (currentRoute === 'schedule') {
     return (
       <div className="bg-[#F2F5F6] min-h-screen selection:bg-[#D4F058] selection:text-[#1A262A] overflow-x-hidden">
@@ -107,11 +95,11 @@ const App: React.FC = () => {
     );
   }
 
-  if (currentRoute === 'corporate') {
+  if (currentRoute === 'business') {
     return (
       <div className="bg-[#F2F5F6] min-h-screen selection:bg-[#D4F058] selection:text-[#1A262A] overflow-x-hidden">
         <Navbar />
-        <CorporatePage />
+        <BusinessPage />
         <Footer />
         <ContactForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
       </div>
