@@ -45,32 +45,29 @@ const Hero: React.FC<HeroProps> = ({ onOpenForm }) => {
             </div>
          </div>
 
-         {/* Right Side - Image with Geometric Elements */}
+         {/* Right Side - Image with Geometric Elements and Shadows */}
          <div className="hidden md:flex w-1/2 h-full items-center justify-end pr-12 lg:pr-24 relative">
             <div className="relative w-full max-w-xl h-[90vh] max-h-[800px] flex items-center justify-center">
                
-               {/* Geometric Background Shapes */}
-               <div className="absolute inset-0 pointer-events-none">
-                  {/* Large glowing circles */}
-                  <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#D4F058]/10 rounded-full blur-3xl animate-pulse"></div>
-                  <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-[#D4F058]/5 rounded-full blur-3xl"></div>
-                  
-                  {/* Triangles */}
-                  <div className="absolute top-1/3 right-1/3 w-0 h-0 border-l-[150px] border-l-transparent border-r-[150px] border-r-transparent border-b-[200px] border-b-[#D4F058]/5 rotate-45 blur-2xl opacity-50"></div>
-                  <div className="absolute bottom-1/3 left-1/3 w-0 h-0 border-l-[100px] border-l-transparent border-r-[100px] border-r-transparent border-t-[150px] border-t-[#D4F058]/5 -rotate-45 blur-2xl opacity-50"></div>
-                  
-                  {/* Geometric rectangles */}
-                  <div className="absolute top-1/4 right-1/3 w-32 h-32 border-4 border-[#D4F058]/30 rotate-45 rounded-lg opacity-60"></div>
-                  <div className="absolute bottom-1/4 left-1/3 w-24 h-24 border-3 border-[#D4F058]/20 rotate-12 rounded-lg opacity-40"></div>
-                  
-                  {/* Circles */}
-                  <div className="absolute top-1/2 left-1/4 w-40 h-40 border-2 border-[#D4F058]/20 rounded-full"></div>
-                  <div className="absolute bottom-1/3 right-1/4 w-32 h-32 border-2 border-[#D4F058]/15 rounded-full"></div>
-                  
-                  {/* Grid lines */}
-                  <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-[#D4F058]/10 to-transparent"></div>
-                  <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#D4F058]/10 to-transparent"></div>
-               </div>
+               {/* Geometric Background Shapes - Circles */}
+               <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#D4F058]/10 rounded-full blur-3xl animate-pulse"></div>
+               <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-[#D4F058]/5 rounded-full blur-3xl"></div>
+               
+               {/* Geometric Background Shapes - Triangles */}
+               <div className="absolute top-1/3 right-1/3 w-0 h-0 border-l-[150px] border-l-transparent border-r-[150px] border-r-transparent border-b-[200px] border-b-[#D4F058]/5 rotate-45 blur-2xl opacity-50"></div>
+               <div className="absolute bottom-1/3 left-1/3 w-0 h-0 border-l-[100px] border-l-transparent border-r-[100px] border-r-transparent border-t-[150px] border-t-[#D4F058]/5 -rotate-45 blur-2xl opacity-50"></div>
+               
+               {/* Geometric Background Shapes - Rectangles */}
+               <div className="absolute top-1/4 right-1/3 w-32 h-32 border-4 border-[#D4F058]/30 rotate-45 rounded-lg opacity-60"></div>
+               <div className="absolute bottom-1/4 left-1/3 w-24 h-24 border-3 border-[#D4F058]/20 rotate-12 rounded-lg opacity-40"></div>
+               
+               {/* Geometric Background Shapes - Circles */}
+               <div className="absolute top-1/2 left-1/4 w-40 h-40 border-2 border-[#D4F058]/20 rounded-full"></div>
+               <div className="absolute bottom-1/3 right-1/4 w-32 h-32 border-2 border-[#D4F058]/15 rounded-full"></div>
+               
+               {/* Grid lines */}
+               <div className="absolute top-0 right-0 w-px h-full bg-gradient-to-b from-transparent via-[#D4F058]/10 to-transparent"></div>
+               <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#D4F058]/10 to-transparent"></div>
 
                {/* Image Container with Glow and Shadow */}
                <div className="relative z-10 w-full h-full flex items-center justify-center">
