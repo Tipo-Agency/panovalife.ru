@@ -139,8 +139,8 @@ const App: React.FC = () => {
             <Hero onOpenForm={() => setIsFormOpen(true)} />
             
             {/* SECTION: SPACES (Light) - with gradient background */}
-            <section id="zones" className="py-24 md:py-32 px-6 md:px-12 relative rounded-[40px] md:rounded-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30" style={{ background: 'linear-gradient(to bottom, #1A262A 0%, #1A262A 50%, #F2F5F6 50%, #F2F5F6 100%)' }}>
-              <div className="relative bg-white rounded-[40px] md:rounded-[60px] p-8 md:p-16">
+            <section id="zones" className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-[40px] md:rounded-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30" style={{ background: 'linear-gradient(to bottom, #1A262A 0%, #1A262A 50%, #F2F5F6 50%, #F2F5F6 100%)' }}>
+              <div className="relative bg-white rounded-[40px] md:rounded-[60px]">
               <div className="max-w-[1440px] mx-auto">
                  <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 border-b border-[#1A262A]/10 pb-8 gap-6">
                     <h2 className="font-syne text-5xl md:text-8xl font-bold uppercase text-[#1A262A] leading-[0.9] break-words">
