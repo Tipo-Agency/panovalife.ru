@@ -18,7 +18,7 @@ const TeamPage: React.FC = () => {
   ];
 
   return (
-    <div className="bg-[#1A262A] min-h-screen">
+    <div className="bg-[#F2F5F6] min-h-screen">
       {/* Hero Section */}
       <section className="py-24 md:py-32 px-6 md:px-12 bg-[#1A262A] text-white pt-32">
         <div className="max-w-[1440px] mx-auto">
@@ -33,8 +33,9 @@ const TeamPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Trainers Grid - overlapping with hero */}
-      <section className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-[40px] md:rounded-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-20">
+      {/* Trainers Grid - overlapping with hero with gradient background */}
+      <section className="py-24 md:py-32 px-6 md:px-12 relative rounded-[40px] md:rounded-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-20" style={{ background: 'linear-gradient(to bottom, #1A262A 0%, #1A262A 50%, #F2F5F6 50%, #F2F5F6 100%)' }}>
+        <div className="relative bg-white rounded-[40px] md:rounded-[60px] p-8 md:p-16">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {trainers.map((trainer, i) => (
@@ -70,6 +71,7 @@ const TeamPage: React.FC = () => {
               </div>
             ))}
           </div>
+        </div>
         </div>
       </section>
 

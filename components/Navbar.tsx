@@ -58,10 +58,10 @@ const Navbar: React.FC = () => {
     { id: 'business', label: 'Бизнесу', route: 'business' }
   ];
 
-  // Dark theme for light pages - on light pages always use dark theme
-  // But on document pages (offer, rules, privacy) logo should be black
-  const useDarkTheme = isLightTheme;
+  // Dark theme only for document pages (offer, rules, privacy)
+  // On main page and content pages (zones, schedule, team, business) use light theme (transparent)
   const isDocumentPage = currentRoute === 'offer' || currentRoute === 'rules' || currentRoute === 'privacy';
+  const useDarkTheme = isDocumentPage; // Only document pages use dark theme
   const textColorClass = useDarkTheme ? 'text-[#1A262A]' : 'text-white';
   const navBgClass = useDarkTheme ? 'bg-white/95 backdrop-blur-md border-[#1A262A]/10 shadow-sm' : 'bg-[#2F4249]/40 border-white/5';
   const navTextClass = useDarkTheme ? 'text-[#1A262A]/70 hover:text-[#1A262A]' : 'text-white/80 hover:text-[#1A262A]';
