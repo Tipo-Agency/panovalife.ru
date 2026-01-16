@@ -74,7 +74,7 @@ const Navbar: React.FC = () => {
                 {menuItems.map((item) => (
                    <a 
                      key={item.id}
-                     href={`#${item.id}`}
+                     href={item.route ? `#${item.route}` : `#${item.id}`}
                      onClick={(e) => {
                        if (item.route) {
                          e.preventDefault();
@@ -92,7 +92,6 @@ const Navbar: React.FC = () => {
                          }
                        }
                      }}
-                     href={item.route ? `#${item.route}` : `#${item.id}`}
                      className={`px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest transition-all duration-300 hover:bg-[#D4F058] ${navTextClass}`}
                    >
                      {item.label}
@@ -131,7 +130,7 @@ const Navbar: React.FC = () => {
               {menuItems.map((item, i) => (
                   <a 
                     key={item.id}
-                    href={`#${item.id}`}
+                    href={item.route ? `#${item.route}` : `#${item.id}`}
                     onClick={(e) => {
                       setIsMenuOpen(false);
                       if (item.route) {
@@ -152,7 +151,6 @@ const Navbar: React.FC = () => {
                         }
                       }
                     }}
-                    href={item.route ? `#${item.route}` : `#${item.id}`}
                     className="font-syne text-5xl font-bold uppercase text-[#1A262A] hover:text-[#D4F058] transition-colors"
                     style={{ transitionDelay: `${i * 100}ms` }}
                   >
