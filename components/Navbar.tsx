@@ -4,6 +4,21 @@ import Logo from '../assets/logo.svg';
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isLightTheme, setIsLightTheme] = useState(false);
+
+  // Check for light theme on light pages
+  useEffect(() => {
+    const checkTheme = () => {
+      const theme = document.body.getAttribute('data-theme');
+      setIsLightTheme(theme === 'light');
+    };
+    
+    checkTheme();
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+    
+    return () => observer.disconnect();
+  }, []);
 
   // Handle scroll effect for navbar background
   useEffect(() => {
@@ -24,20 +39,25 @@ const Navbar: React.FC = () => {
   }, [isMenuOpen]);
 
   const menuItems = [
-    { id: 'main', label: 'Главная' },
-    { id: 'zones', label: 'Пространства' },
-    { id: 'flow', label: 'Клубные карты' },
-    { id: 'join', label: 'Контакты' }
+    { id: 'services', label: 'Услуги', route: 'services' },
+    { id: 'schedule', label: 'Расписание', route: 'schedule' },
+    { id: 'team', label: 'Команда', route: 'team' },
+    { id: 'corporate', label: 'Корпоративным', route: 'corporate' },
+    { id: 'zones', label: 'Пространства', route: '' },
+    { id: 'flow', label: 'Клубные карты', route: '' },
+    { id: 'join', label: 'Контакты', route: '' }
   ];
 
-  const textColorClass = scrolled ? 'text-[#1A262A]' : 'text-white';
-  const navBgClass = scrolled ? 'bg-[#1A262A]/5 border-[#1A262A]/10' : 'bg-[#2F4249]/40 border-white/5';
-  const navTextClass = scrolled ? 'text-[#1A262A]/70 hover:text-[#1A262A]' : 'text-white/80 hover:text-[#1A262A]';
+  // Dark theme for light pages
+  const useDarkTheme = isLightTheme || scrolled;
+  const textColorClass = useDarkTheme ? 'text-[#1A262A]' : 'text-white';
+  const navBgClass = useDarkTheme ? 'bg-white/95 backdrop-blur-md border-[#1A262A]/10 shadow-sm' : 'bg-[#2F4249]/40 border-white/5';
+  const navTextClass = useDarkTheme ? 'text-[#1A262A]/70 hover:text-[#1A262A]' : 'text-white/80 hover:text-[#1A262A]';
 
   return (
     <>
       {/* --- NAVBAR CONTAINER --- */}
-      <div className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'py-4 bg-white/90 backdrop-blur-md border-b border-[#1A262A]/5 shadow-sm' : 'py-6 bg-transparent'}`}>
+      <div className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${useDarkTheme ? 'py-4 border-b border-[#1A262A]/10' : 'py-6'}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
             
             {/* Logo */}
@@ -45,7 +65,7 @@ const Navbar: React.FC = () => {
                <img 
                   src={Logo} 
                   alt="PANOVA LIFE" 
-                  className={`h-8 md:h-12 w-auto ${scrolled ? 'brightness-0' : 'brightness-0 invert'}`}
+                  className={`h-8 md:h-12 w-auto ${useDarkTheme ? 'brightness-0' : 'brightness-0 invert'}`}
                />
             </a>
 
@@ -56,7 +76,10 @@ const Navbar: React.FC = () => {
                      key={item.id}
                      href={`#${item.id}`}
                      onClick={(e) => {
-                       if (item.id === 'main') {
+                       if (item.route) {
+                         e.preventDefault();
+                         window.location.hash = item.route;
+                       } else if (item.id === 'main') {
                          e.preventDefault();
                          window.location.hash = '';
                          window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -69,6 +92,7 @@ const Navbar: React.FC = () => {
                          }
                        }
                      }}
+                     href={item.route ? `#${item.route}` : `#${item.id}`}
                      className={`px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest transition-all duration-300 hover:bg-[#D4F058] ${navTextClass}`}
                    >
                      {item.label}
@@ -85,7 +109,7 @@ const Navbar: React.FC = () => {
                {/* Burger Button */}
                <button 
                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                 className={`md:hidden w-12 h-12 rounded-full border flex items-center justify-center transition-colors hover:bg-[#D4F058] hover:text-[#1A262A] ${scrolled ? 'bg-[#F2F5F6] border-[#1A262A]/10 text-[#1A262A]' : 'bg-[#2F4249] border-white/10 text-white'}`}
+                 className={`md:hidden w-12 h-12 rounded-full border flex items-center justify-center transition-colors hover:bg-[#D4F058] hover:text-[#1A262A] ${useDarkTheme ? 'bg-[#F2F5F6] border-[#1A262A]/10 text-[#1A262A]' : 'bg-[#2F4249] border-white/10 text-white'}`}
                >
                   {isMenuOpen ? (
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -110,7 +134,10 @@ const Navbar: React.FC = () => {
                     href={`#${item.id}`}
                     onClick={(e) => {
                       setIsMenuOpen(false);
-                      if (item.id === 'main') {
+                      if (item.route) {
+                        e.preventDefault();
+                        window.location.hash = item.route;
+                      } else if (item.id === 'main') {
                         e.preventDefault();
                         window.location.hash = '';
                         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -125,6 +152,7 @@ const Navbar: React.FC = () => {
                         }
                       }
                     }}
+                    href={item.route ? `#${item.route}` : `#${item.id}`}
                     className="font-syne text-5xl font-bold uppercase text-[#1A262A] hover:text-[#D4F058] transition-colors"
                     style={{ transitionDelay: `${i * 100}ms` }}
                   >

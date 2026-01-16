@@ -56,24 +56,42 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
         ct_cid: ctCid
       };
 
-      const response = await fetch('https://cloud.1c.fitness/api/hs/lead/Webhook/474c4e2b-9fcd-49a6-aabd-b3e1fc946070', {
+      console.log('Sending payload:', payload);
+
+      // Use proxy endpoint to avoid CORS issues
+      // If PHP proxy exists, use it; otherwise try direct request
+      const useProxy = true; // Set to false to use direct request
+      const apiUrl = useProxy 
+        ? '/api/submit-lead.php' 
+        : 'https://cloud.1c.fitness/api/hs/lead/Webhook/474c4e2b-9fcd-49a6-aabd-b3e1fc946070';
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
 
-      if (response.ok) {
+      console.log('Response status:', response.status);
+      
+      const responseText = await response.text();
+      console.log('Response text:', responseText);
+
+      if (response.ok || response.status === 200 || response.status === 201 || response.status === 204) {
         alert('Спасибо! Ваша заявка отправлена.');
         setFormData({ name: '', phone: '', email: '' });
         onClose();
       } else {
-        throw new Error('Ошибка отправки');
+        const errorText = responseText || `HTTP ${response.status}`;
+        console.error('Server error:', errorText);
+        throw new Error(`Ошибка сервера: ${errorText}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error submitting form:', error);
-      alert('Произошла ошибка. Попробуйте еще раз или позвоните нам.');
+      const errorMessage = error?.message || 'Неизвестная ошибка';
+      alert(`Произошла ошибка: ${errorMessage}. Попробуйте еще раз или позвоните нам по телефону +7 (4212) 90-30-62.`);
     } finally {
       setIsSubmitting(false);
     }
