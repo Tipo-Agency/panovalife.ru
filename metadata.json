@@ -1,0 +1,7 @@
+{
+  "name": "Panovalife Редизайн 2026",
+  "description": "Премиальный фитнес-клуб бизнес-класса в Хабаровске. Бассейн 24м, SPA и тренажерный зал 700м2.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
