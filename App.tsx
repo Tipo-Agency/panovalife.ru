@@ -135,7 +135,7 @@ const App: React.FC = () => {
       <main className="relative z-10">
         
         {/* Wrapper for Hero overlap transition to prevent white corners */}
-        <div className="bg-[#1A262A]">
+        <div className="bg-[#1A262A]" style={{ background: 'linear-gradient(to bottom, #1A262A 0%, #1A262A 50%, #F2F5F6 50%, #F2F5F6 100%)' }}>
             <Hero onOpenForm={() => setIsFormOpen(true)} />
             
             {/* SECTION: SPACES (Light) */}

@@ -19,6 +19,8 @@ const TeamPage: React.FC = () => {
 
   return (
     <div className="bg-[#F2F5F6] min-h-screen">
+      {/* Wrapper for Hero overlap transition */}
+      <div className="bg-[#1A262A]" style={{ background: 'linear-gradient(to bottom, #1A262A 0%, #1A262A 50%, #F2F5F6 50%, #F2F5F6 100%)' }}>
       {/* Hero Section */}
       <section className="py-24 md:py-32 px-6 md:px-12 bg-[#1A262A] text-white pt-32">
         <div className="max-w-[1440px] mx-auto">
@@ -72,6 +74,7 @@ const TeamPage: React.FC = () => {
           </div>
         </div>
       </section>
+      </div>
 
       {/* Stats Section */}
       <section className="py-24 px-6 md:px-12 bg-white rounded-[40px] md:rounded-[60px] mx-2 md:mx-4 mb-20">
