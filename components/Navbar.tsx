@@ -74,8 +74,8 @@ const Navbar: React.FC = () => {
       <div className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${useDarkTheme ? 'py-4' : 'py-6'}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
             
-            {/* Logo - disappears on scroll (only on main page, both mobile and desktop) */}
-            <a href="#" className={`flex items-center gap-4 relative z-50 transition-opacity duration-300 hover:opacity-80 ${!isLightTheme && scrolled ? 'opacity-0 pointer-events-none w-0 overflow-hidden' : 'opacity-100'}`}>
+            {/* Logo - disappears on scroll */}
+            <a href="#" className={`flex items-center gap-4 relative z-50 transition-all duration-500 hover:opacity-80 ${scrolled ? 'opacity-0 pointer-events-none w-0 overflow-hidden scale-95' : 'opacity-100 scale-100'}`}>
                <img 
                   src={Logo} 
                   alt="PANOVA LIFE" 
