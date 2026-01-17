@@ -85,9 +85,8 @@ const ZonesPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Floors - overlapping with hero with gradient background */}
-      <section className="py-24 md:py-32 px-6 md:px-12 relative rounded-[40px] md:rounded-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-20" style={{ background: 'linear-gradient(to bottom, #1A262A 0%, #1A262A 50%, #F2F5F6 50%, #F2F5F6 100%)' }}>
-        <div className="relative bg-white rounded-[40px] md:rounded-[60px]">
+      {/* Floors - overlapping with hero */}
+      <section className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-[40px] md:rounded-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-20">
         <div className="max-w-[1440px] mx-auto">
           <div className="space-y-12">
             {floors.map((floor, floorIndex) => (
@@ -134,7 +133,6 @@ const ZonesPage: React.FC = () => {
               </div>
             ))}
           </div>
-        </div>
         </div>
       </section>
 
