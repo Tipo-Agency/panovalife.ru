@@ -41,7 +41,7 @@ const ZonesPage: React.FC = () => {
       floor: '4 ЭТАЖ',
       image: '/Panova-2.jpg',
       zones: [
-        { title: 'ТРЕНАЖЕРНЫЙ ЗАЛ', desc: '700м² лучшего "железа" от Technogym. Профессиональное оборудование для достижения профессиональных целей' }
+        { title: 'ТРЕНАЖЕРНЫЙ ЗАЛ', desc: '700м² лучшего "железа" от Life Fitness и Hammer. Профессиональное оборудование для достижения профессиональных целей' }
       ]
     },
     {
@@ -64,9 +64,9 @@ const ZonesPage: React.FC = () => {
   ];
 
   const cards = [
-    { title: 'СТАНДАРТ', desc: 'Базовый доступ ко всем зонам клуба и групповым программам' },
-    { title: 'ПРЕМИУМ', desc: 'Расширенный доступ с дополнительными услугами и приоритетной записью' },
-    { title: 'VIP', desc: 'Максимальный уровень с персональным менеджером и эксклюзивными услугами' }
+    { title: 'СТАНДАРТ', desc: 'Базовый доступ ко всем зонам клуба и групповым программам. Идеальный выбор для регулярных тренировок.' },
+    { title: 'БИЗНЕС', desc: 'Расширенный доступ с дополнительными услугами и приоритетной записью на занятия. Для активных членов клуба.' },
+    { title: 'VIP', desc: 'Максимальный уровень с персональным менеджером и эксклюзивными услугами. Премиальный опыт в каждом посещении.' }
   ];
 
   return (
@@ -137,6 +137,27 @@ const ZonesPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Yoga School Section */}
+      <section className="py-24 px-6 md:px-12 bg-white rounded-[40px] md:rounded-[60px] mx-2 md:mx-4 mb-20 shadow-xl">
+        <div className="max-w-[1440px] mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-12">
+            <div className="flex-1">
+              <h2 className="font-syne text-4xl md:text-7xl font-bold uppercase mb-6 leading-[0.9] text-[#1A262A]">
+                ЛУЧШАЯ <br/> <span className="text-[#D4F058]">ШКОЛА ЙОГИ</span> <br/> В РЕГИОНЕ
+              </h2>
+              <p className="text-[#1A262A]/70 text-lg md:text-xl max-w-2xl leading-relaxed">
+                Профессиональные инструкторы с многолетним опытом. Традиционные и современные направления йоги. Просторные залы с естественным освещением и специальным покрытием. Групповые и индивидуальные занятия для всех уровней подготовки.
+              </p>
+            </div>
+            <div className="flex-1 flex justify-center md:justify-end">
+              <div className="w-full max-w-md h-[300px] md:h-[400px] bg-[#D4F058]/10 rounded-[40px] flex items-center justify-center border border-[#D4F058]/20">
+                <span className="text-6xl md:text-8xl font-syne font-bold text-[#D4F058]/30">☯</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       </div>
 
       {/* Services Section */}
@@ -185,9 +206,9 @@ const ZonesPage: React.FC = () => {
                 <div>
                   <div className="flex justify-between items-start mb-8">
                     <span className={`px-4 py-2 rounded-full text-[10px] uppercase font-bold tracking-widest ${
-                      i === 1 ? 'bg-[#1A262A]/10' : 'bg-[#F2F5F6]'
+                      i === 1 ? 'bg-[#1A262A]/10' : i === 2 ? 'bg-[#1A262A] text-white' : 'bg-[#F2F5F6]'
                     }`}>
-                      {i === 0 ? 'БАЗОВЫЙ' : i === 1 ? 'РЕКОМЕНДУЕМ' : 'ПРЕМИУМ'}
+                      {card.title}
                     </span>
                     {i === 1 && <span className="text-xl">★</span>}
                   </div>

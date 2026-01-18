@@ -3,7 +3,6 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
 import ContactForm from './components/ContactForm';
-import YandexMetrika from './components/YandexMetrika';
 import SEOHead from './components/SEOHead';
 import { SERVICES, SCHEDULE, PROMOS } from './constants';
 import OfferPage from './pages/OfferPage';
@@ -13,6 +12,7 @@ import ZonesPage from './pages/ZonesPage';
 import SchedulePage from './pages/SchedulePage';
 import TeamPage from './pages/TeamPage';
 import BusinessPage from './pages/BusinessPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 const App: React.FC = () => {
   const [currentRoute, setCurrentRoute] = useState<string>('');
@@ -30,7 +30,14 @@ const App: React.FC = () => {
   useEffect(() => {
     // Get route from hash
     const hash = window.location.hash.slice(1);
-    setCurrentRoute(hash);
+    const validRoutes = ['offer', 'rules', 'privacy', 'zones', 'schedule', 'team', 'business', ''];
+    
+    // If hash is not empty and not a valid route, show 404
+    if (hash && !validRoutes.includes(hash)) {
+      setCurrentRoute('404');
+    } else {
+      setCurrentRoute(hash);
+    }
 
     // Scroll to top on initial load if hash route
     if (hash) {
@@ -40,7 +47,11 @@ const App: React.FC = () => {
     // Listen for hash changes
     const handleHashChange = () => {
       const newHash = window.location.hash.slice(1);
-      setCurrentRoute(newHash);
+      if (newHash && !validRoutes.includes(newHash)) {
+        setCurrentRoute('404');
+      } else {
+        setCurrentRoute(newHash);
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -60,7 +71,6 @@ const App: React.FC = () => {
           description="Публичная оферта фитнес-клуба PANOVALIFE. Договор оказания услуг."
           canonical="https://panovalife.ru/#offer"
         />
-        <YandexMetrika />
         <Navbar />
         <OfferPage />
         <Footer />
@@ -77,7 +87,6 @@ const App: React.FC = () => {
           description="Правила посещения фитнес-клуба PANOVALIFE. Регламент пользования услугами клуба."
           canonical="https://panovalife.ru/#rules"
         />
-        <YandexMetrika />
         <Navbar />
         <RulesPage />
         <Footer />
@@ -94,7 +103,6 @@ const App: React.FC = () => {
           description="Политика конфиденциальности фитнес-клуба PANOVALIFE. Защита персональных данных."
           canonical="https://panovalife.ru/#privacy"
         />
-        <YandexMetrika />
         <Navbar />
         <PrivacyPage />
         <Footer />
@@ -111,7 +119,6 @@ const App: React.FC = () => {
           description="Пространства фитнес-клуба PANOVALIFE: бассейн 24м, тренажерный зал, групповые программы, йога, единоборства, детский клуб, SPA зона."
           canonical="https://panovalife.ru/#zones"
         />
-        <YandexMetrika />
         <Navbar />
         <ZonesPage />
         <Footer />
@@ -128,7 +135,6 @@ const App: React.FC = () => {
           description="Расписание групповых программ фитнес-клуба PANOVALIFE. Актуальное расписание занятий на неделю вперед."
           canonical="https://panovalife.ru/#schedule"
         />
-        <YandexMetrika />
         <Navbar />
         <SchedulePage />
         <Footer />
@@ -145,7 +151,6 @@ const App: React.FC = () => {
           description="Профессиональная команда тренеров фитнес-клуба PANOVALIFE. Опытные инструкторы и наставники."
           canonical="https://panovalife.ru/#team"
         />
-        <YandexMetrika />
         <Navbar />
         <TeamPage />
         <Footer />
@@ -162,9 +167,24 @@ const App: React.FC = () => {
           description="Корпоративные программы фитнес-клуба PANOVALIFE для бизнеса. Специальные условия для компаний."
           canonical="https://panovalife.ru/#business"
         />
-        <YandexMetrika />
         <Navbar />
         <BusinessPage />
+        <Footer />
+        <ContactForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
+      </div>
+    );
+  }
+
+  if (currentRoute === '404') {
+    return (
+      <div className="bg-[#F2F5F6] min-h-screen selection:bg-[#D4F058] selection:text-[#1A262A] overflow-x-hidden">
+        <SEOHead 
+          title="Страница не найдена - PANOVALIFE | 404"
+          description="Страница не найдена. Вернитесь на главную страницу фитнес-клуба PANOVALIFE."
+          canonical="https://panovalife.ru/#404"
+        />
+        <Navbar />
+        <NotFoundPage />
         <Footer />
         <ContactForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
       </div>
@@ -174,7 +194,6 @@ const App: React.FC = () => {
   return (
     <div className="bg-[#F2F5F6] min-h-screen selection:bg-[#D4F058] selection:text-[#1A262A] overflow-x-hidden">
       <SEOHead />
-      <YandexMetrika />
       <Navbar />
       <ContactForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
       
@@ -242,6 +261,27 @@ const App: React.FC = () => {
                  </div>
               </div>
             </section>
+
+            {/* SECTION: YOGA SCHOOL */}
+            <section className="py-24 md:py-32 px-6 md:px-12 bg-[#1A262A] text-white rounded-[40px] md:rounded-[60px] mx-2 md:mx-4 mb-20 shadow-2xl">
+              <div className="max-w-[1440px] mx-auto">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-12">
+                  <div className="flex-1">
+                    <h2 className="font-syne text-4xl md:text-7xl font-bold uppercase mb-6 leading-[0.9]">
+                      ЛУЧШАЯ <br/> <span className="text-[#D4F058]">ШКОЛА ЙОГИ</span> <br/> В РЕГИОНЕ
+                    </h2>
+                    <p className="text-white/70 text-lg md:text-xl max-w-2xl leading-relaxed">
+                      Профессиональные инструкторы с многолетним опытом. Традиционные и современные направления йоги. Просторные залы с естественным освещением и специальным покрытием. Групповые и индивидуальные занятия для всех уровней подготовки.
+                    </p>
+                  </div>
+                  <div className="flex-1 flex justify-center md:justify-end">
+                    <div className="w-full max-w-md h-[300px] md:h-[400px] bg-[#D4F058]/10 rounded-[40px] flex items-center justify-center border border-[#D4F058]/20">
+                      <span className="text-6xl md:text-8xl font-syne font-bold text-[#D4F058]/30">☯</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
         </div>
 
         {/* SECTION: CARDS (Light) */}
@@ -251,12 +291,12 @@ const App: React.FC = () => {
                    КЛУБНЫЕ <span className="text-[#2F4249]/30">КАРТЫ</span>
                 </h2>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                     {PROMOS.map((p, i) => (
                         <div key={i} className={`p-8 md:p-14 rounded-[40px] flex flex-col justify-between min-h-[350px] transition-transform duration-500 hover:scale-[0.99] shadow-lg ${i === 1 ? 'bg-[#D4F058] text-[#1A262A]' : 'bg-white text-[#1A262A]'}`}>
                             <div>
                                 <div className="flex justify-between items-start mb-8">
-                                   <span className={`px-4 py-2 rounded-full text-[10px] uppercase font-bold tracking-widest ${i === 1 ? 'bg-[#1A262A]/10' : 'bg-[#F2F5F6]'}`}>{p.badge}</span>
+                                   <span className={`px-4 py-2 rounded-full text-[10px] uppercase font-bold tracking-widest ${i === 1 ? 'bg-[#1A262A]/10' : i === 2 ? 'bg-[#1A262A] text-white' : 'bg-[#F2F5F6]'}`}>{p.badge}</span>
                                    {i === 1 && <span className="text-xl">★</span>}
                                 </div>
                                 <h3 className="font-syne text-3xl md:text-5xl font-bold uppercase leading-[0.9] mb-6 md:mb-8">{p.title}</h3>
@@ -265,7 +305,7 @@ const App: React.FC = () => {
                             
                             <button 
                               onClick={() => setIsFormOpen(true)}
-                              className={`mt-10 w-full py-5 rounded-full font-bold uppercase tracking-widest text-xs transition-all ${i === 1 ? 'bg-[#1A262A] text-white hover:bg-white hover:text-[#1A262A]' : 'bg-[#1A262A] text-white hover:bg-[#D4F058] hover:text-[#1A262A]'}`}
+                              className={`mt-10 w-full py-5 rounded-full font-bold uppercase tracking-widest text-xs transition-all ${i === 1 ? 'bg-[#1A262A] text-white hover:bg-white hover:text-[#1A262A]' : i === 2 ? 'bg-[#D4F058] text-[#1A262A] hover:bg-[#1A262A] hover:text-white' : 'bg-[#1A262A] text-white hover:bg-[#D4F058] hover:text-[#1A262A]'}`}
                             >
                                 Оформить карту
                             </button>

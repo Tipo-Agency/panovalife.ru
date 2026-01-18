@@ -10,7 +10,7 @@ interface SEOHeadProps {
 
 const SEOHead: React.FC<SEOHeadProps> = ({
   title = 'PANOVALIFE - Премиальный фитнес-клуб в Хабаровске | 5000 м² пространства',
-  description = 'PANOVALIFE - премиальный фитнес-клуб в Хабаровске. Бассейн 24м, Technogym, SPA зона, 50+ направлений тренировок. Запишитесь на тест-драйв прямо сейчас!',
+  description = 'PANOVALIFE - премиальный фитнес-клуб в Хабаровске. Бассейн 24м, Life Fitness и Hammer, SPA зона, 50+ направлений тренировок. Запишитесь на тест-драйв прямо сейчас!',
   keywords = 'фитнес клуб, тренажерный зал, бассейн, спортзал, Хабаровск, групповые программы, йога, пилатес, SPA, премиум фитнес',
   ogImage = 'https://panovalife.ru/logo.svg',
   canonical

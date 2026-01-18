@@ -12,6 +12,43 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
     email: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+
+  // Phone mask for +7 (Russia)
+  const formatPhone = (value: string) => {
+    // Remove all non-digits
+    let digits = value.replace(/\D/g, '');
+    
+    // If starts with 8, replace with 7
+    if (digits.startsWith('8')) {
+      digits = '7' + digits.slice(1);
+    }
+    
+    // If empty or starts with +7, handle appropriately
+    if (digits.length === 0) return '';
+    
+    // If doesn't start with 7, add 7
+    if (!digits.startsWith('7')) {
+      digits = '7' + digits;
+    }
+    
+    // Limit to 11 digits (7 + 10)
+    digits = digits.slice(0, 11);
+    
+    // Format: +7 (XXX) XXX-XX-XX
+    if (digits.length <= 1) return '+7';
+    if (digits.length <= 4) return `+7 (${digits.slice(1)}`;
+    if (digits.length <= 7) return `+7 (${digits.slice(1, 4)}) ${digits.slice(4)}`;
+    if (digits.length <= 9) return `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7)}`;
+    return `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7, 9)}-${digits.slice(9, 11)}`;
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    const formatted = formatPhone(inputValue);
+    setFormData({ ...formData, phone: formatted });
+    setMessage(null); // Clear message on input change
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,10 +75,16 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
       const firstName = nameParts[0] || '';
       const lastName = nameParts.slice(1).join(' ') || '';
 
+      // Validate phone (should be 11 digits for Russia)
+      const phoneDigits = formData.phone.replace(/\D/g, '');
+      if (phoneDigits.length !== 11 || !phoneDigits.startsWith('7')) {
+        throw new Error('Введите корректный номер телефона');
+      }
+
       const payload = {
         name: firstName,
         last_name: lastName,
-        phone: formData.phone.replace(/\D/g, ''),
+        phone: phoneDigits,
         email: formData.email || '',
         comment: 'Новая заявка с сайта',
         utm_source: utmSource,
@@ -58,7 +101,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
 
       console.log('Sending payload:', payload);
 
-      // Direct request to 1C API (now on main domain, CORS should work)
+      // Request to 1C API with no-cors (CORS not allowed by server)
       const response = await fetch('https://cloud.1c.fitness/api/hs/lead/Webhook/474c4e2b-9fcd-49a6-aabd-b3e1fc946070', {
         method: 'POST',
         headers: {
@@ -66,23 +109,28 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
           'Accept': 'application/json',
         },
         body: JSON.stringify(payload),
-        mode: 'cors'
+        mode: 'no-cors' // Use no-cors because server doesn't allow CORS
       });
 
-      if (!response.ok) {
-        throw new Error(`Ошибка сервера: ${response.status}`);
-      }
-
-      const result = await response.json();
-      console.log('Response:', result);
+      // With no-cors, we can't read response, but request is sent
+      console.log('Request sent (no-cors mode)');
       
-      alert('Спасибо! Ваша заявка отправлена.');
+      // Show success message
+      setMessage({ type: 'success', text: 'Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.' });
       setFormData({ name: '', phone: '', email: '' });
-      onClose();
+      
+      // Close form after 2 seconds
+      setTimeout(() => {
+        onClose();
+        setMessage(null);
+      }, 2000);
     } catch (error: any) {
       console.error('Error submitting form:', error);
       const errorMessage = error?.message || 'Неизвестная ошибка';
-      alert(`Произошла ошибка: ${errorMessage}. Попробуйте еще раз или позвоните нам по телефону +7 (4212) 90-30-62.`);
+      setMessage({ 
+        type: 'error', 
+        text: `Произошла ошибка: ${errorMessage}. Попробуйте еще раз или позвоните нам по телефону +7 (4212) 90-30-62.` 
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -121,13 +169,35 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
           <div>
             <input
               type="tel"
-              placeholder="Телефон"
+              placeholder="+7 (XXX) XXX-XX-XX"
               value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              onChange={handlePhoneChange}
+              onFocus={(e) => {
+                if (!formData.phone) {
+                  setFormData({ ...formData, phone: '+7' });
+                }
+              }}
+              onKeyDown={(e) => {
+                // Prevent deletion of +7
+                if (e.key === 'Backspace' && formData.phone === '+7') {
+                  e.preventDefault();
+                }
+              }}
               required
               className="w-full bg-[#F2F5F6] border border-[#1A262A]/5 rounded-full py-4 px-6 text-base text-[#1A262A] font-medium placeholder:text-[#1A262A]/40 focus:outline-none focus:border-[#D4F058] focus:bg-white transition-all"
             />
           </div>
+
+          {/* Message Display */}
+          {message && (
+            <div className={`p-4 rounded-[24px] text-sm font-medium transition-all ${
+              message.type === 'success' 
+                ? 'bg-[#D4F058] text-[#1A262A]' 
+                : 'bg-red-100 text-red-700 border border-red-300'
+            }`}>
+              {message.text}
+            </div>
+          )}
 
           <div>
             <input

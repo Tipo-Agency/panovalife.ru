@@ -20,7 +20,7 @@ const Hero: React.FC<HeroProps> = ({ onOpenForm }) => {
 
             <p className="mt-6 md:mt-8 text-base md:text-2xl text-white/80 font-light max-w-2xl leading-relaxed">
                5000 м² пространства для трансформации. <br className="hidden md:block"/>
-               Бассейн 24м, Technogym, SPA и закрытое комьюнити.
+               Бассейн 24м, Life Fitness и Hammer, SPA и закрытое комьюнити.
             </p>
 
             <div className="mt-10 md:mt-12 flex flex-col md:flex-row gap-4 md:gap-6 items-start w-full md:w-auto">
