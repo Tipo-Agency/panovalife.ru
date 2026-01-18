@@ -28,9 +28,39 @@ const Footer: React.FC = () => {
         
         {/* Документы */}
         <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-6 text-xs font-bold uppercase text-[#1A262A]/50 tracking-widest">
-          <a href="#offer" className="hover:text-[#1A262A] transition-colors">Оферта</a>
-          <a href="#rules" className="hover:text-[#1A262A] transition-colors">Правила посещения</a>
-          <a href="#privacy" className="hover:text-[#1A262A] transition-colors">Политика конфиденциальности</a>
+          <a 
+            href="/offer" 
+            onClick={(e) => {
+              e.preventDefault();
+              window.history.pushState({}, '', '/offer');
+              window.dispatchEvent(new PopStateEvent('popstate'));
+            }}
+            className="hover:text-[#1A262A] transition-colors"
+          >
+            Оферта
+          </a>
+          <a 
+            href="/rules" 
+            onClick={(e) => {
+              e.preventDefault();
+              window.history.pushState({}, '', '/rules');
+              window.dispatchEvent(new PopStateEvent('popstate'));
+            }}
+            className="hover:text-[#1A262A] transition-colors"
+          >
+            Правила посещения
+          </a>
+          <a 
+            href="/privacy" 
+            onClick={(e) => {
+              e.preventDefault();
+              window.history.pushState({}, '', '/privacy');
+              window.dispatchEvent(new PopStateEvent('popstate'));
+            }}
+            className="hover:text-[#1A262A] transition-colors"
+          >
+            Политика конфиденциальности
+          </a>
         </div>
       </div>
       

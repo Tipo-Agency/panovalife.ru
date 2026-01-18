@@ -211,7 +211,16 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
 
           <p className="text-xs text-[#1A262A]/60 leading-relaxed">
             При отправке формы вы соглашаетесь с{' '}
-            <a href="#privacy" className="text-[#1A262A] underline hover:text-[#D4F058] transition-colors">
+            <a 
+              href="/privacy" 
+              onClick={(e) => {
+                e.preventDefault();
+                onClose();
+                window.history.pushState({}, '', '/privacy');
+                window.dispatchEvent(new PopStateEvent('popstate'));
+              }}
+              className="text-[#1A262A] underline hover:text-[#D4F058] transition-colors"
+            >
               политикой конфиденциальности
             </a>
           </p>

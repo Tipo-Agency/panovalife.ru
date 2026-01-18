@@ -96,7 +96,16 @@ const Navbar: React.FC = () => {
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
             
             {/* Logo - disappears on scroll */}
-            <a href="#" className={`flex items-center gap-4 relative z-50 transition-all duration-500 hover:opacity-80 ${scrolled ? 'opacity-0 pointer-events-none w-0 overflow-hidden scale-95' : 'opacity-100 scale-100'}`}>
+            <a 
+              href="/" 
+              onClick={(e) => {
+                e.preventDefault();
+                window.history.pushState({}, '', '/');
+                window.dispatchEvent(new PopStateEvent('popstate'));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className={`flex items-center gap-4 relative z-50 transition-all duration-500 hover:opacity-80 ${scrolled ? 'opacity-0 pointer-events-none w-0 overflow-hidden scale-95' : 'opacity-100 scale-100'}`}
+            >
                <img 
                   src={Logo} 
                   alt="PANOVA LIFE" 
