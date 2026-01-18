@@ -3,6 +3,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
 import ContactForm from './components/ContactForm';
+import YandexMetrika from './components/YandexMetrika';
+import SEOHead from './components/SEOHead';
 import { SERVICES, SCHEDULE, PROMOS } from './constants';
 import OfferPage from './pages/OfferPage';
 import RulesPage from './pages/RulesPage';
@@ -53,6 +55,12 @@ const App: React.FC = () => {
   if (currentRoute === 'offer') {
     return (
       <div className="bg-[#F2F5F6] min-h-screen selection:bg-[#D4F058] selection:text-[#1A262A] overflow-x-hidden">
+        <SEOHead 
+          title="Публичная оферта - PANOVALIFE"
+          description="Публичная оферта фитнес-клуба PANOVALIFE. Договор оказания услуг."
+          canonical="https://panovalife.ru/#offer"
+        />
+        <YandexMetrika />
         <Navbar />
         <OfferPage />
         <Footer />
@@ -64,6 +72,12 @@ const App: React.FC = () => {
   if (currentRoute === 'rules') {
     return (
       <div className="bg-[#F2F5F6] min-h-screen selection:bg-[#D4F058] selection:text-[#1A262A] overflow-x-hidden">
+        <SEOHead 
+          title="Правила посещения - PANOVALIFE"
+          description="Правила посещения фитнес-клуба PANOVALIFE. Регламент пользования услугами клуба."
+          canonical="https://panovalife.ru/#rules"
+        />
+        <YandexMetrika />
         <Navbar />
         <RulesPage />
         <Footer />
@@ -75,6 +89,12 @@ const App: React.FC = () => {
   if (currentRoute === 'privacy') {
     return (
       <div className="bg-[#F2F5F6] min-h-screen selection:bg-[#D4F058] selection:text-[#1A262A] overflow-x-hidden">
+        <SEOHead 
+          title="Политика конфиденциальности - PANOVALIFE"
+          description="Политика конфиденциальности фитнес-клуба PANOVALIFE. Защита персональных данных."
+          canonical="https://panovalife.ru/#privacy"
+        />
+        <YandexMetrika />
         <Navbar />
         <PrivacyPage />
         <Footer />
@@ -86,6 +106,12 @@ const App: React.FC = () => {
   if (currentRoute === 'zones') {
     return (
       <div className="bg-[#F2F5F6] min-h-screen selection:bg-[#D4F058] selection:text-[#1A262A] overflow-x-hidden">
+        <SEOHead 
+          title="Пространства клуба - PANOVALIFE | 5 этажей, 5000 м²"
+          description="Пространства фитнес-клуба PANOVALIFE: бассейн 24м, тренажерный зал, групповые программы, йога, единоборства, детский клуб, SPA зона."
+          canonical="https://panovalife.ru/#zones"
+        />
+        <YandexMetrika />
         <Navbar />
         <ZonesPage />
         <Footer />
@@ -97,6 +123,12 @@ const App: React.FC = () => {
   if (currentRoute === 'schedule') {
     return (
       <div className="bg-[#F2F5F6] min-h-screen selection:bg-[#D4F058] selection:text-[#1A262A] overflow-x-hidden">
+        <SEOHead 
+          title="Расписание занятий - PANOVALIFE | 50+ направлений"
+          description="Расписание групповых программ фитнес-клуба PANOVALIFE. Актуальное расписание занятий на неделю вперед."
+          canonical="https://panovalife.ru/#schedule"
+        />
+        <YandexMetrika />
         <Navbar />
         <SchedulePage />
         <Footer />
@@ -108,6 +140,12 @@ const App: React.FC = () => {
   if (currentRoute === 'team') {
     return (
       <div className="bg-[#F2F5F6] min-h-screen selection:bg-[#D4F058] selection:text-[#1A262A] overflow-x-hidden">
+        <SEOHead 
+          title="Команда тренеров - PANOVALIFE"
+          description="Профессиональная команда тренеров фитнес-клуба PANOVALIFE. Опытные инструкторы и наставники."
+          canonical="https://panovalife.ru/#team"
+        />
+        <YandexMetrika />
         <Navbar />
         <TeamPage />
         <Footer />
@@ -119,6 +157,12 @@ const App: React.FC = () => {
   if (currentRoute === 'business') {
     return (
       <div className="bg-[#F2F5F6] min-h-screen selection:bg-[#D4F058] selection:text-[#1A262A] overflow-x-hidden">
+        <SEOHead 
+          title="Корпоративные программы - PANOVALIFE | Бизнесу"
+          description="Корпоративные программы фитнес-клуба PANOVALIFE для бизнеса. Специальные условия для компаний."
+          canonical="https://panovalife.ru/#business"
+        />
+        <YandexMetrika />
         <Navbar />
         <BusinessPage />
         <Footer />
@@ -129,6 +173,8 @@ const App: React.FC = () => {
   
   return (
     <div className="bg-[#F2F5F6] min-h-screen selection:bg-[#D4F058] selection:text-[#1A262A] overflow-x-hidden">
+      <SEOHead />
+      <YandexMetrika />
       <Navbar />
       <ContactForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
       

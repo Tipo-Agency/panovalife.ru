@@ -58,7 +58,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
 
       console.log('Sending payload:', payload);
 
-      // Try direct request to 1C API (might fail due to CORS, but some servers allow it)
+      // Direct request to 1C API (now on main domain, CORS should work)
       const response = await fetch('https://cloud.1c.fitness/api/hs/lead/Webhook/474c4e2b-9fcd-49a6-aabd-b3e1fc946070', {
         method: 'POST',
         headers: {
@@ -66,14 +66,16 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
           'Accept': 'application/json',
         },
         body: JSON.stringify(payload),
-        mode: 'no-cors' // Use no-cors mode to bypass CORS, response will be opaque but request will be sent
+        mode: 'cors'
       });
 
-      // With no-cors mode, we can't read response, but request is sent
-      // Assume success after a short delay
-      console.log('Request sent (no-cors mode)');
+      if (!response.ok) {
+        throw new Error(`Ошибка сервера: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('Response:', result);
       
-      // Show success message - we can't verify response in no-cors mode
       alert('Спасибо! Ваша заявка отправлена.');
       setFormData({ name: '', phone: '', email: '' });
       onClose();
