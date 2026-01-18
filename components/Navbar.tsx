@@ -7,16 +7,19 @@ const Navbar: React.FC = () => {
   const [isLightTheme, setIsLightTheme] = useState(false);
   const [currentRoute, setCurrentRoute] = useState('');
 
-  // Get current route from hash
+  // Get current route from pathname
   useEffect(() => {
-    const hash = window.location.hash.slice(1);
-    setCurrentRoute(hash);
-    const handleHashChange = () => {
-      const newHash = window.location.hash.slice(1);
-      setCurrentRoute(newHash);
+    const getRoute = () => {
+      const path = window.location.pathname.replace(/^\//, '');
+      return path || '';
     };
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    setCurrentRoute(getRoute());
+    
+    const handlePopState = () => {
+      setCurrentRoute(getRoute());
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   // Check for light theme on light pages
@@ -88,14 +91,16 @@ const Navbar: React.FC = () => {
                 {menuItems.map((item) => (
                    <a 
                      key={item.id}
-                     href={item.route ? `#${item.route}` : `#${item.id}`}
+                     href={item.route ? `/${item.route}` : `#${item.id}`}
                      onClick={(e) => {
                        if (item.route) {
                          e.preventDefault();
-                         window.location.hash = item.route;
+                         window.history.pushState({}, '', `/${item.route}`);
+                         window.dispatchEvent(new PopStateEvent('popstate'));
                        } else if (item.id === 'main') {
                          e.preventDefault();
-                         window.location.hash = '';
+                         window.history.pushState({}, '', '/');
+                         window.dispatchEvent(new PopStateEvent('popstate'));
                          window.scrollTo({ top: 0, behavior: 'smooth' });
                        } else {
                          const target = document.querySelector(`#${item.id}`);
@@ -159,15 +164,17 @@ const Navbar: React.FC = () => {
               {menuItems.map((item, i) => (
                   <a 
                     key={item.id}
-                    href={item.route ? `#${item.route}` : `#${item.id}`}
+                    href={item.route ? `/${item.route}` : `#${item.id}`}
                     onClick={(e) => {
                       setIsMenuOpen(false);
                       if (item.route) {
                         e.preventDefault();
-                        window.location.hash = item.route;
+                        window.history.pushState({}, '', `/${item.route}`);
+                        window.dispatchEvent(new PopStateEvent('popstate'));
                       } else if (item.id === 'main') {
                         e.preventDefault();
-                        window.location.hash = '';
+                        window.history.pushState({}, '', '/');
+                        window.dispatchEvent(new PopStateEvent('popstate'));
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       } else {
                         const target = document.querySelector(`#${item.id}`);

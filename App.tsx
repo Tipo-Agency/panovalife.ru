@@ -28,39 +28,55 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Get route from hash
-    const hash = window.location.hash.slice(1);
+    // Get route from pathname (without hash)
+    const getRouteFromPath = () => {
+      const path = window.location.pathname.replace(/^\//, ''); // Remove leading slash
+      return path || '';
+    };
+
+    const route = getRouteFromPath();
     const validRoutes = ['offer', 'rules', 'privacy', 'zones', 'schedule', 'team', 'business', ''];
     
-    // If hash is not empty and not a valid route, show 404
-    if (hash && !validRoutes.includes(hash)) {
+    // If route is not empty and not valid, show 404
+    if (route && !validRoutes.includes(route)) {
       setCurrentRoute('404');
     } else {
-      setCurrentRoute(hash);
+      setCurrentRoute(route);
     }
 
-    // Scroll to top on initial load if hash route
-    if (hash) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    // Scroll to top on route change
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Listen for hash changes
-    const handleHashChange = () => {
-      const newHash = window.location.hash.slice(1);
-      if (newHash && !validRoutes.includes(newHash)) {
+    // Listen for popstate (back/forward buttons)
+    const handlePopState = () => {
+      const newRoute = getRouteFromPath();
+      if (newRoute && !validRoutes.includes(newRoute)) {
         setCurrentRoute('404');
       } else {
-        setCurrentRoute(newHash);
+        setCurrentRoute(newRoute);
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', handlePopState);
     
     return () => {
-      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('popstate', handlePopState);
     };
   }, []);
+
+  // Helper function to navigate without hash
+  const navigate = (route: string) => {
+    const path = route ? `/${route}` : '/';
+    window.history.pushState({}, '', path);
+    const validRoutes = ['offer', 'rules', 'privacy', 'zones', 'schedule', 'team', 'business', ''];
+    if (route && !validRoutes.includes(route)) {
+      setCurrentRoute('404');
+    } else {
+      setCurrentRoute(route);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Render document pages based on route
   if (currentRoute === 'offer') {
@@ -69,7 +85,7 @@ const App: React.FC = () => {
         <SEOHead 
           title="Публичная оферта - PANOVALIFE"
           description="Публичная оферта фитнес-клуба PANOVALIFE. Договор оказания услуг."
-          canonical="https://panovalife.ru/#offer"
+          canonical="https://panovalife.ru/offer"
         />
         <Navbar />
         <OfferPage />
@@ -85,7 +101,7 @@ const App: React.FC = () => {
         <SEOHead 
           title="Правила посещения - PANOVALIFE"
           description="Правила посещения фитнес-клуба PANOVALIFE. Регламент пользования услугами клуба."
-          canonical="https://panovalife.ru/#rules"
+          canonical="https://panovalife.ru/rules"
         />
         <Navbar />
         <RulesPage />
@@ -101,7 +117,7 @@ const App: React.FC = () => {
         <SEOHead 
           title="Политика конфиденциальности - PANOVALIFE"
           description="Политика конфиденциальности фитнес-клуба PANOVALIFE. Защита персональных данных."
-          canonical="https://panovalife.ru/#privacy"
+          canonical="https://panovalife.ru/privacy"
         />
         <Navbar />
         <PrivacyPage />
@@ -117,7 +133,7 @@ const App: React.FC = () => {
         <SEOHead 
           title="Пространства клуба - PANOVALIFE | 5 этажей, 5000 м²"
           description="Пространства фитнес-клуба PANOVALIFE: бассейн 24м, тренажерный зал, групповые программы, йога, единоборства, детский клуб, SPA зона."
-          canonical="https://panovalife.ru/#zones"
+          canonical="https://panovalife.ru/zones"
         />
         <Navbar />
         <ZonesPage />
@@ -133,7 +149,7 @@ const App: React.FC = () => {
         <SEOHead 
           title="Расписание занятий - PANOVALIFE | 50+ направлений"
           description="Расписание групповых программ фитнес-клуба PANOVALIFE. Актуальное расписание занятий на неделю вперед."
-          canonical="https://panovalife.ru/#schedule"
+          canonical="https://panovalife.ru/schedule"
         />
         <Navbar />
         <SchedulePage />
@@ -149,7 +165,7 @@ const App: React.FC = () => {
         <SEOHead 
           title="Команда тренеров - PANOVALIFE"
           description="Профессиональная команда тренеров фитнес-клуба PANOVALIFE. Опытные инструкторы и наставники."
-          canonical="https://panovalife.ru/#team"
+          canonical="https://panovalife.ru/team"
         />
         <Navbar />
         <TeamPage />
@@ -165,7 +181,7 @@ const App: React.FC = () => {
         <SEOHead 
           title="Корпоративные программы - PANOVALIFE | Бизнесу"
           description="Корпоративные программы фитнес-клуба PANOVALIFE для бизнеса. Специальные условия для компаний."
-          canonical="https://panovalife.ru/#business"
+          canonical="https://panovalife.ru/business"
         />
         <Navbar />
         <BusinessPage />
@@ -181,7 +197,7 @@ const App: React.FC = () => {
         <SEOHead 
           title="Страница не найдена - PANOVALIFE | 404"
           description="Страница не найдена. Вернитесь на главную страницу фитнес-клуба PANOVALIFE."
-          canonical="https://panovalife.ru/#404"
+          canonical="https://panovalife.ru/404"
         />
         <Navbar />
         <NotFoundPage />
@@ -221,7 +237,7 @@ const App: React.FC = () => {
                         key={s.id} 
                         className="group relative bg-[#F2F5F6] rounded-[32px] overflow-hidden hover:bg-[#D4F058] transition-colors duration-500 cursor-pointer shadow-sm hover:shadow-xl"
                         onClick={() => {
-                          window.location.hash = 'zones';
+                          navigate('zones');
                           setTimeout(() => {
                             const floorIndex = s.floorIndex !== undefined ? s.floorIndex + 1 : (i === 0 ? 2 : i === 1 ? 4 : 1);
                             const element = document.querySelector(`[data-floor="${floorIndex}"]`);
