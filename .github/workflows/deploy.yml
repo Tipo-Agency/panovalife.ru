@@ -41,17 +41,77 @@ jobs:
       - name: Deploy build files to server (full overwrite)
         run: |
           echo "🚀 Starting deployment..."
+          
+          # Validate secrets
+          if [ -z "${{ secrets.SERVER_USER }}" ] || [ -z "${{ secrets.SERVER_HOST }}" ] || [ -z "${{ secrets.SERVER_PATH }}" ] || [ -z "${{ secrets.SERVER_SSH_KEY }}" ]; then
+            echo "❌ Error: Missing required secrets"
+            echo "Required: SERVER_USER, SERVER_HOST, SERVER_PATH, SERVER_SSH_KEY"
+            exit 1
+          fi
+          
+          # Setup SSH
           mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          
+          # Save SSH key with proper formatting
           echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
           
+          # Verify SSH key format
+          if ! head -1 ~/.ssh/deploy_key | grep -q "BEGIN.*PRIVATE KEY"; then
+            echo "⚠️  Warning: SSH key might not be in correct format"
+            head -1 ~/.ssh/deploy_key
+          fi
+          
+          # Add server to known_hosts
+          echo "🔍 Adding server to known_hosts..."
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts 2>&1 || echo "⚠️  ssh-keyscan failed, continuing..."
+          chmod 644 ~/.ssh/known_hosts
+          
+          # Test SSH connection with retry
+          echo "🔌 Testing SSH connection..."
+          MAX_RETRIES=3
+          RETRY_DELAY=5
+          
+          for i in $(seq 1 $MAX_RETRIES); do
+            echo "Attempt $i of $MAX_RETRIES..."
+            if timeout 15 ssh -i ~/.ssh/deploy_key \
+              -o StrictHostKeyChecking=no \
+              -o UserKnownHostsFile=~/.ssh/known_hosts \
+              -o ConnectTimeout=10 \
+              -o BatchMode=yes \
+              ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
+              echo "SSH connection successful"; then
+              echo "✅ SSH connection established"
+              break
+            else
+              if [ $i -eq $MAX_RETRIES ]; then
+                echo "❌ SSH connection test failed after $MAX_RETRIES attempts"
+                exit 1
+              fi
+              echo "⚠️  Connection failed, retrying in $RETRY_DELAY seconds..."
+              sleep $RETRY_DELAY
+            fi
+          done
+          
+          # Deploy with rsync and retry
           echo "📦 Syncing files to server..."
-          rsync -azv --delete \
-            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts" \
-            dist/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:${{ secrets.SERVER_PATH }}/
-          
-          echo "✅ Deployment completed successfully!"
+          for i in $(seq 1 $MAX_RETRIES); do
+            echo "Deployment attempt $i of $MAX_RETRIES..."
+            if rsync -azv --delete --progress \
+              -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -o ConnectTimeout=10" \
+              dist/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:${{ secrets.SERVER_PATH }}/; then
+              echo "✅ Deployment completed successfully!"
+              exit 0
+            else
+              if [ $i -eq $MAX_RETRIES ]; then
+                echo "❌ Deployment failed after $MAX_RETRIES attempts"
+                exit 1
+              fi
+              echo "⚠️  Deployment failed, retrying in $RETRY_DELAY seconds..."
+              sleep $RETRY_DELAY
+            fi
+          done
       
       - name: Cleanup
         if: always()
