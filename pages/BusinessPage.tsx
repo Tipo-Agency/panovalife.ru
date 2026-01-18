@@ -20,13 +20,13 @@ const BusinessPage: React.FC = () => {
       {/* Wrapper for Hero overlap transition */}
       <div className="bg-[#1A262A]" style={{ background: 'linear-gradient(to bottom, #1A262A 0%, #1A262A 50%, #F2F5F6 50%, #F2F5F6 100%)' }}>
       {/* Hero Section */}
-      <section className="py-24 md:py-32 px-6 md:px-12 bg-[#1A262A] text-white pt-32">
+      <section className="py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 md:px-8 lg:px-12 bg-[#1A262A] text-white pt-24 sm:pt-28 md:pt-32">
         <div className="max-w-[1440px] mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
-            <h1 className="font-syne text-5xl md:text-8xl font-bold uppercase leading-[0.9]">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 sm:mb-14 md:mb-16 gap-6 md:gap-8">
+            <h1 className="font-syne text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold uppercase leading-[0.9]">
               БИЗНЕС <br/> <span className="text-[#D4F058]">КЛИЕНТАМ</span>
             </h1>
-            <p className="max-w-md text-white/60 font-medium text-base md:text-lg">
+            <p className="max-w-md text-white/60 font-medium text-sm sm:text-base md:text-lg">
               Инвестируйте в здоровье своей команды. Специальные условия для компаний и корпоративные программы.
             </p>
           </div>
@@ -34,28 +34,28 @@ const BusinessPage: React.FC = () => {
       </section>
 
       {/* Benefits Grid - overlapping with hero */}
-      <section className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-[40px] md:rounded-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-20">
+      <section className="py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 md:px-8 lg:px-12 relative bg-white rounded-[24px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[50px] xl:rounded-[60px] -mt-8 sm:-mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-12 md:mb-16 lg:mb-20">
         <div className="max-w-[1440px] mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
             {benefits.map((benefit, i) => (
               <div 
                 key={i} 
-                className="bg-white rounded-[40px] p-10 md:p-16 hover:bg-[#D4F058] transition-all duration-500 cursor-pointer shadow-lg hover:shadow-2xl group"
+                className="bg-white rounded-[24px] sm:rounded-[32px] md:rounded-[40px] p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 hover:bg-[#D4F058] transition-all duration-500 cursor-pointer shadow-lg hover:shadow-2xl group"
               >
-                <div className="flex items-start justify-between mb-6">
-                  <span className="text-5xl font-syne font-bold text-[#1A262A]/20 group-hover:text-[#1A262A]/40">
+                <div className="flex items-start justify-between mb-4 sm:mb-5 md:mb-6">
+                  <span className="text-3xl sm:text-4xl md:text-5xl font-syne font-bold text-[#1A262A]/20 group-hover:text-[#1A262A]/40">
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <div className="w-14 h-14 rounded-full border-2 border-[#1A262A]/20 flex items-center justify-center group-hover:bg-[#1A262A] group-hover:text-[#D4F058] group-hover:border-[#1A262A] transition-all">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-[#1A262A]/20 flex items-center justify-center group-hover:bg-[#1A262A] group-hover:text-[#D4F058] group-hover:border-[#1A262A] transition-all">
+                    <svg className="w-5 h-5 sm:w-6 sm:h-6 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
                   </div>
                 </div>
-                <h3 className="font-syne text-3xl md:text-4xl font-bold uppercase text-[#1A262A] mb-4">
+                <h3 className="font-syne text-2xl sm:text-3xl md:text-4xl font-bold uppercase text-[#1A262A] mb-3 sm:mb-4">
                   {benefit.title}
                 </h3>
-                <p className="text-[#1A262A]/70 text-lg leading-relaxed">
+                <p className="text-[#1A262A]/70 text-sm sm:text-base md:text-lg leading-relaxed">
                   {benefit.desc}
                 </p>
               </div>

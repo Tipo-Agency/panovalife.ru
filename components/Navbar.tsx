@@ -48,10 +48,28 @@ const Navbar: React.FC = () => {
   // Lock body scroll when menu is open
   useEffect(() => {
     if (isMenuOpen) {
+      const scrollY = window.scrollY;
       document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
     } else {
-      document.body.style.overflow = 'unset';
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
     }
+    
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+    };
   }, [isMenuOpen]);
 
   const menuItems = [
@@ -155,12 +173,12 @@ const Navbar: React.FC = () => {
       </div>
 
       {/* --- MOBILE FULLSCREEN MENU --- */}
-      <div className={`fixed inset-0 bg-white z-40 flex flex-col items-center justify-center transition-all duration-500 ${isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+      <div className={`fixed inset-0 bg-white z-[9999] flex flex-col items-center justify-center transition-all duration-500 ${isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
              <div className="absolute top-[-20%] right-[-20%] w-[80vw] h-[80vw] bg-[#D4F058] rounded-full blur-[120px] opacity-10"></div>
           </div>
           
-          <nav className="flex flex-col items-center gap-8 relative z-10">
+          <nav className="flex flex-col items-center gap-8 relative z-10" style={{ zIndex: 10000 }}>
               {menuItems.map((item, i) => (
                   <a 
                     key={item.id}
@@ -188,15 +206,22 @@ const Navbar: React.FC = () => {
                       }
                     }}
                     className="font-syne text-5xl font-bold uppercase text-[#1A262A] hover:text-[#D4F058] transition-colors"
-                    style={{ transitionDelay: `${i * 100}ms` }}
+                    style={{ transitionDelay: `${i * 100}ms`, pointerEvents: 'auto', cursor: 'pointer' }}
                   >
                     {item.label}
                   </a>
               ))}
           </nav>
 
-          <div className="mt-16 flex flex-col items-center gap-4 relative z-10">
-             <a href="tel:+74212903062" className="text-xl text-[#1A262A] font-bold tracking-widest hover:text-[#D4F058] transition-colors">+7 (4212) 90-30-62</a>
+          <div className="mt-16 flex flex-col items-center gap-4 relative z-10" style={{ zIndex: 10000 }}>
+             <a 
+               href="tel:+74212903062" 
+               className="text-xl text-[#1A262A] font-bold tracking-widest hover:text-[#D4F058] transition-colors"
+               style={{ pointerEvents: 'auto', cursor: 'pointer' }}
+               onClick={() => setIsMenuOpen(false)}
+             >
+               +7 (4212) 90-30-62
+             </a>
              <span className="text-[#1A262A]/40 text-xs uppercase tracking-[0.2em]">Хабаровск, Ким Ю Чена 7а</span>
           </div>
       </div>

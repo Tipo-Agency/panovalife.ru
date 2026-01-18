@@ -220,22 +220,22 @@ const App: React.FC = () => {
             <Hero onOpenForm={() => setIsFormOpen(true)} />
             
             {/* SECTION: SPACES (Light) */}
-            <section id="zones" className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-[40px] md:rounded-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30">
+            <section id="zones" className="py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 md:px-8 lg:px-12 relative bg-white rounded-[24px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[50px] xl:rounded-[60px] -mt-8 sm:-mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30">
               <div className="max-w-[1440px] mx-auto">
-                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 border-b border-[#1A262A]/10 pb-8 gap-6">
-                    <h2 className="font-syne text-5xl md:text-8xl font-bold uppercase text-[#1A262A] leading-[0.9] break-words">
+                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 sm:mb-12 md:mb-16 lg:mb-20 xl:mb-24 border-b border-[#1A262A]/10 pb-6 sm:pb-7 md:pb-8 gap-4 sm:gap-5 md:gap-6">
+                    <h2 className="font-syne text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold uppercase text-[#1A262A] leading-[0.9] break-words">
                       ТЕРРИТОРИЯ <br/> <span className="text-[#1A262A]/20">СИЛЫ</span>
                     </h2>
-                    <span className="text-[#1A262A] text-xs md:text-sm tracking-widest uppercase font-bold whitespace-nowrap bg-[#D4F058] px-3 py-1 rounded-full">
+                    <span className="text-[#1A262A] text-[10px] sm:text-xs md:text-sm tracking-widest uppercase font-bold whitespace-nowrap bg-[#D4F058] px-2 sm:px-3 py-1 rounded-full">
                       5000 КВАДРАТНЫХ МЕТРОВ
                     </span>
                  </div>
 
-                 <div className="space-y-6">
+                 <div className="space-y-4 sm:space-y-5 md:space-y-6">
                    {SERVICES.map((s, i) => (
                       <div 
                         key={s.id} 
-                        className="group relative bg-[#F2F5F6] rounded-[32px] overflow-hidden hover:bg-[#D4F058] transition-colors duration-500 cursor-pointer shadow-sm hover:shadow-xl"
+                        className="group relative bg-[#F2F5F6] rounded-[24px] sm:rounded-[28px] md:rounded-[32px] overflow-hidden hover:bg-[#D4F058] transition-colors duration-500 cursor-pointer shadow-sm hover:shadow-xl"
                         onClick={() => {
                           navigate('zones');
                           setTimeout(() => {
@@ -247,9 +247,9 @@ const App: React.FC = () => {
                           }, 500);
                         }}
                       >
-                         <div className="flex flex-col md:flex-row h-auto min-h-[300px]">
+                         <div className="flex flex-col md:flex-row h-auto min-h-[250px] sm:min-h-[280px] md:min-h-[300px]">
                             {/* Image Side */}
-                            <div className="w-full md:w-1/3 h-[250px] md:h-auto relative overflow-hidden">
+                            <div className="w-full md:w-1/3 h-[200px] sm:h-[220px] md:h-[250px] lg:h-auto relative overflow-hidden">
                                <img 
                                   src={s.image} 
                                   alt={s.title}
@@ -258,17 +258,17 @@ const App: React.FC = () => {
                             </div>
                             
                             {/* Content Side */}
-                            <div className="w-full md:w-2/3 p-8 md:p-12 flex flex-col justify-between text-[#1A262A]">
-                               <div className="flex justify-between items-start mb-6 md:mb-0">
-                                  <span className="text-xs font-bold uppercase tracking-widest opacity-40 group-hover:opacity-60">0{i+1}</span>
-                                  <div className="w-12 h-12 rounded-full border border-[#1A262A]/20 flex items-center justify-center group-hover:bg-[#1A262A] group-hover:text-[#D4F058] group-hover:border-[#1A262A] transition-all shrink-0 ml-4">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                            <div className="w-full md:w-2/3 p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 flex flex-col justify-between text-[#1A262A]">
+                               <div className="flex justify-between items-start mb-4 sm:mb-5 md:mb-6 lg:mb-0">
+                                  <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest opacity-40 group-hover:opacity-60">0{i+1}</span>
+                                  <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full border border-[#1A262A]/20 flex items-center justify-center group-hover:bg-[#1A262A] group-hover:text-[#D4F058] group-hover:border-[#1A262A] transition-all shrink-0 ml-3 sm:ml-4">
+                                    <svg className="w-4 h-4 sm:w-5 sm:h-5 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                                   </div>
                                </div>
                                
                                <div>
-                                  <h3 className="font-syne text-3xl md:text-5xl font-bold uppercase mb-4 leading-none">{s.title}</h3>
-                                  <p className="opacity-60 text-base md:text-lg max-w-xl leading-relaxed">{s.desc}</p>
+                                  <h3 className="font-syne text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase mb-3 sm:mb-4 leading-none">{s.title}</h3>
+                                  <p className="opacity-60 text-sm sm:text-base md:text-lg max-w-xl leading-relaxed">{s.desc}</p>
                                </div>
                             </div>
                          </div>
@@ -279,20 +279,26 @@ const App: React.FC = () => {
             </section>
 
             {/* SECTION: YOGA SCHOOL */}
-            <section className="py-24 md:py-32 px-6 md:px-12 bg-[#1A262A] text-white rounded-[40px] md:rounded-[60px] mx-2 md:mx-4 mb-20 shadow-2xl">
+            <section className="py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 md:px-8 lg:px-12 bg-[#1A262A] text-white rounded-[24px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[50px] xl:rounded-[60px] mx-2 sm:mx-3 md:mx-4 mt-12 sm:mt-16 md:mt-20 mb-12 sm:mb-16 md:mb-20 shadow-2xl">
               <div className="max-w-[1440px] mx-auto">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-12">
-                  <div className="flex-1">
-                    <h2 className="font-syne text-4xl md:text-7xl font-bold uppercase mb-6 leading-[0.9]">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 sm:gap-8 md:gap-10 lg:gap-12">
+                  <div className="flex-1 w-full">
+                    <h2 className="font-syne text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold uppercase mb-4 sm:mb-5 md:mb-6 leading-[0.9]">
                       ЛУЧШАЯ <br/> <span className="text-[#D4F058]">ШКОЛА ЙОГИ</span> <br/> В РЕГИОНЕ
                     </h2>
-                    <p className="text-white/70 text-lg md:text-xl max-w-2xl leading-relaxed">
+                    <p className="text-white/70 text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl leading-relaxed">
                       Профессиональные инструкторы с многолетним опытом. Традиционные и современные направления йоги. Просторные залы с естественным освещением и специальным покрытием. Групповые и индивидуальные занятия для всех уровней подготовки.
                     </p>
                   </div>
-                  <div className="flex-1 flex justify-center md:justify-end">
-                    <div className="w-full max-w-md h-[300px] md:h-[400px] bg-[#D4F058]/10 rounded-[40px] flex items-center justify-center border border-[#D4F058]/20">
-                      <span className="text-6xl md:text-8xl font-syne font-bold text-[#D4F058]/30">☯</span>
+                  <div className="flex-1 w-full md:w-auto flex justify-center md:justify-end mt-6 md:mt-0">
+                    <div className="w-full max-w-md h-[250px] sm:h-[300px] md:h-[350px] lg:h-[400px] bg-[#D4F058]/10 rounded-[24px] sm:rounded-[32px] md:rounded-[40px] flex items-center justify-center border border-[#D4F058]/20">
+                      <svg className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 text-[#D4F058]/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <path d="M12 3C10.34 3 9 4.34 9 6C9 7.66 10.34 9 12 9C13.66 9 15 7.66 15 6C15 4.34 13.66 3 12 3Z"/>
+                        <path d="M6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C7.66 15 9 13.66 9 12C9 10.34 7.66 9 6 9Z"/>
+                        <path d="M18 9C16.34 9 15 10.34 15 12C15 13.66 16.34 15 18 15C19.66 15 21 13.66 21 12C21 10.34 19.66 9 18 9Z"/>
+                        <path d="M12 15C10.34 15 9 16.34 9 18C9 19.66 10.34 21 12 21C13.66 21 15 19.66 15 18C15 16.34 13.66 15 12 15Z"/>
+                        <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                      </svg>
                     </div>
                   </div>
                 </div>
@@ -301,27 +307,27 @@ const App: React.FC = () => {
         </div>
 
         {/* SECTION: CARDS (Light) */}
-        <section id="flow" className="py-24 md:py-32 px-6 md:px-12 bg-[#F2F5F6]">
+        <section id="flow" className="py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 md:px-8 lg:px-12 bg-[#F2F5F6]">
             <div className="max-w-[1440px] mx-auto">
-                <h2 className="font-syne text-4xl md:text-7xl font-bold uppercase text-center mb-16 md:mb-20 text-[#1A262A]">
+                <h2 className="font-syne text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold uppercase text-center mb-10 sm:mb-12 md:mb-14 lg:mb-16 xl:mb-20 text-[#1A262A]">
                    КЛУБНЫЕ <span className="text-[#2F4249]/30">КАРТЫ</span>
                 </h2>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-8">
                     {PROMOS.map((p, i) => (
-                        <div key={i} className={`p-8 md:p-14 rounded-[40px] flex flex-col justify-between min-h-[350px] transition-transform duration-500 hover:scale-[0.99] shadow-lg ${i === 1 ? 'bg-[#D4F058] text-[#1A262A]' : 'bg-white text-[#1A262A]'}`}>
+                        <div key={i} className={`p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 rounded-[24px] sm:rounded-[32px] md:rounded-[40px] flex flex-col justify-between min-h-[320px] sm:min-h-[340px] md:min-h-[350px] transition-transform duration-500 hover:scale-[0.99] shadow-lg ${i === 1 ? 'bg-[#D4F058] text-[#1A262A]' : 'bg-white text-[#1A262A]'}`}>
                             <div>
-                                <div className="flex justify-between items-start mb-8">
-                                   <span className={`px-4 py-2 rounded-full text-[10px] uppercase font-bold tracking-widest ${i === 1 ? 'bg-[#1A262A]/10' : i === 2 ? 'bg-[#1A262A] text-white' : 'bg-[#F2F5F6]'}`}>{p.badge}</span>
-                                   {i === 1 && <span className="text-xl">★</span>}
+                                <div className="flex justify-between items-start mb-6 sm:mb-7 md:mb-8">
+                                   <span className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[9px] sm:text-[10px] uppercase font-bold tracking-widest ${i === 1 ? 'bg-[#1A262A]/10' : i === 2 ? 'bg-[#1A262A] text-white' : 'bg-[#F2F5F6]'}`}>{p.badge}</span>
+                                   {i === 1 && <span className="text-lg sm:text-xl">★</span>}
                                 </div>
-                                <h3 className="font-syne text-3xl md:text-5xl font-bold uppercase leading-[0.9] mb-6 md:mb-8">{p.title}</h3>
-                                <p className="opacity-60 text-base md:text-lg max-w-sm">{p.desc}</p>
+                                <h3 className="font-syne text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase leading-[0.9] mb-4 sm:mb-5 md:mb-6 lg:mb-8">{p.title}</h3>
+                                <p className="opacity-60 text-sm sm:text-base md:text-lg max-w-sm">{p.desc}</p>
                             </div>
                             
                             <button 
                               onClick={() => setIsFormOpen(true)}
-                              className={`mt-10 w-full py-5 rounded-full font-bold uppercase tracking-widest text-xs transition-all ${i === 1 ? 'bg-[#1A262A] text-white hover:bg-white hover:text-[#1A262A]' : i === 2 ? 'bg-[#D4F058] text-[#1A262A] hover:bg-[#1A262A] hover:text-white' : 'bg-[#1A262A] text-white hover:bg-[#D4F058] hover:text-[#1A262A]'}`}
+                              className={`mt-6 sm:mt-8 md:mt-10 w-full py-4 sm:py-5 rounded-full font-bold uppercase tracking-widest text-[10px] sm:text-xs transition-all ${i === 1 ? 'bg-[#1A262A] text-white hover:bg-white hover:text-[#1A262A]' : i === 2 ? 'bg-[#D4F058] text-[#1A262A] hover:bg-[#1A262A] hover:text-white' : 'bg-[#1A262A] text-white hover:bg-[#D4F058] hover:text-[#1A262A]'}`}
                             >
                                 Оформить карту
                             </button>
@@ -332,31 +338,31 @@ const App: React.FC = () => {
         </section>
 
         {/* SECTION: SCHEDULE (Contrast Dark Block) */}
-        <section className="py-24 bg-[#1A262A] text-white px-6 md:px-12 rounded-[40px] md:rounded-[60px] mx-2 md:mx-4 mb-20 shadow-2xl">
+        <section className="py-16 sm:py-20 md:py-24 lg:py-32 bg-[#1A262A] text-white px-4 sm:px-6 md:px-8 lg:px-12 rounded-[24px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[50px] xl:rounded-[60px] mx-2 sm:mx-3 md:mx-4 mb-12 sm:mb-16 md:mb-20 shadow-2xl">
              <div className="max-w-[1440px] mx-auto">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
-                    <h2 className="font-syne text-5xl md:text-8xl font-bold uppercase leading-none">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 sm:mb-12 md:mb-14 lg:mb-16 gap-6 md:gap-8">
+                    <h2 className="font-syne text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold uppercase leading-none">
                        РИТМ <br/> <span className="text-[#D4F058]">КЛУБА</span>
                     </h2>
-                    <p className="max-w-md text-white/60 font-medium text-sm md:text-base">
+                    <p className="max-w-md text-white/60 font-medium text-xs sm:text-sm md:text-base">
                        Актуальное расписание групповых программ. Более 50 направлений для твоего развития.
                     </p>
                 </div>
 
                 <div className="divide-y divide-white/10">
                    {SCHEDULE.map((item, i) => (
-                      <div key={i} className="py-8 md:py-10 flex flex-col md:flex-row md:items-center justify-between group hover:bg-[#D4F058] hover:text-[#1A262A] hover:px-8 transition-all duration-300 rounded-3xl -mx-4 md:-mx-8 px-4 cursor-pointer">
-                         <div className="flex items-start md:items-center gap-6 md:gap-12 mb-4 md:mb-0">
-                            <span className="font-syne text-3xl md:text-5xl font-bold text-white/20 group-hover:text-[#1A262A] transition-colors whitespace-nowrap">{item.time}</span>
+                      <div key={i} className="py-4 sm:py-6 md:py-8 lg:py-10 flex flex-col md:flex-row md:items-center justify-between group hover:bg-[#D4F058] hover:text-[#1A262A] hover:px-4 sm:hover:px-6 md:hover:px-8 transition-all duration-300 rounded-2xl sm:rounded-3xl -mx-2 sm:-mx-4 md:-mx-8 px-2 sm:px-4 cursor-pointer">
+                         <div className="flex items-start md:items-center gap-4 sm:gap-5 md:gap-6 lg:gap-12 mb-3 sm:mb-4 md:mb-0">
+                            <span className="font-syne text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white/20 group-hover:text-[#1A262A] transition-colors whitespace-nowrap">{item.time}</span>
                             <div>
-                               <h3 className="font-bold text-lg md:text-xl uppercase tracking-tight">{item.name}</h3>
-                               <p className="text-[10px] md:text-xs font-bold text-white/40 group-hover:text-[#1A262A]/60 uppercase tracking-widest mt-1">{item.coach}</p>
+                               <h3 className="font-bold text-base sm:text-lg md:text-xl uppercase tracking-tight">{item.name}</h3>
+                               <p className="text-[9px] sm:text-[10px] md:text-xs font-bold text-white/40 group-hover:text-[#1A262A]/60 uppercase tracking-widest mt-1">{item.coach}</p>
                             </div>
                          </div>
-                         <div className="flex items-center justify-between w-full md:w-auto md:justify-start gap-4">
-                            <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest opacity-40 bg-white/10 group-hover:bg-[#1A262A]/10 px-3 py-1 rounded-full">{item.spots}</span>
-                            <div className="w-8 h-8 rounded-full bg-white text-[#1A262A] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                         <div className="flex items-center justify-between w-full md:w-auto md:justify-start gap-3 sm:gap-4">
+                            <span className="text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-widest opacity-40 bg-white/10 group-hover:bg-[#1A262A]/10 px-2 sm:px-3 py-1 rounded-full">{item.spots}</span>
+                            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-[#1A262A] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                               <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-3.5 md:h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                             </div>
                          </div>
                       </div>
@@ -366,16 +372,16 @@ const App: React.FC = () => {
         </section>
 
         {/* SECTION: JOIN (Light Form) */}
-        <section id="join" className="py-24 px-6 md:px-12 flex items-center justify-center bg-white rounded-[40px] md:rounded-[60px] mx-2 md:mx-4 mb-4">
+        <section id="join" className="py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 md:px-8 lg:px-12 flex items-center justify-center bg-white rounded-[24px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[50px] xl:rounded-[60px] mx-2 sm:mx-3 md:mx-4 mb-4">
              <div className="w-full max-w-2xl text-center">
-                 <span className="text-[#1A262A]/40 font-bold tracking-[0.4em] uppercase text-xs mb-8 block">Стань частью комьюнити</span>
-                 <h2 className="font-syne text-4xl md:text-7xl font-bold uppercase text-[#1A262A] mb-12 md:mb-16 leading-tight">
+                 <span className="text-[#1A262A]/40 font-bold tracking-[0.3em] sm:tracking-[0.4em] uppercase text-[10px] sm:text-xs mb-6 sm:mb-8 block">Стань частью комьюнити</span>
+                 <h2 className="font-syne text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold uppercase text-[#1A262A] mb-8 sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16 leading-tight">
                     НАЧНИ СВОЙ <br/> ПУТЬ
                  </h2>
                  
                  <button 
                    onClick={() => setIsFormOpen(true)}
-                   className="w-full py-6 bg-[#1A262A] text-white rounded-full font-bold uppercase tracking-widest text-xs md:text-sm hover:bg-[#D4F058] hover:text-[#1A262A] transition-colors shadow-lg"
+                   className="w-full py-4 sm:py-5 md:py-6 bg-[#1A262A] text-white rounded-full font-bold uppercase tracking-widest text-[10px] sm:text-xs md:text-sm hover:bg-[#D4F058] hover:text-[#1A262A] transition-colors shadow-lg"
                  >
                     Записаться на экскурсию
                  </button>

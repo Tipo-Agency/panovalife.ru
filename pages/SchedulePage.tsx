@@ -54,13 +54,13 @@ const SchedulePage: React.FC = () => {
       {/* Wrapper for Hero overlap transition */}
       <div className="bg-[#1A262A]" style={{ background: 'linear-gradient(to bottom, #1A262A 0%, #1A262A 50%, #F2F5F6 50%, #F2F5F6 100%)' }}>
       {/* Hero Section */}
-      <section className="py-24 md:py-32 px-6 md:px-12 bg-[#1A262A] text-white pt-32">
+      <section className="py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 md:px-8 lg:px-12 bg-[#1A262A] text-white pt-24 sm:pt-28 md:pt-32">
         <div className="max-w-[1440px] mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
-            <h1 className="font-syne text-5xl md:text-8xl font-bold uppercase leading-[0.9]">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 sm:mb-14 md:mb-16 gap-6 md:gap-8">
+            <h1 className="font-syne text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold uppercase leading-[0.9]">
               РАСПИСАНИЕ <br/> <span className="text-[#D4F058]">ЗАНЯТИЙ</span>
             </h1>
-            <p className="max-w-md text-white/60 font-medium text-base md:text-lg">
+            <p className="max-w-md text-white/60 font-medium text-sm sm:text-base md:text-lg">
               Более 50 направлений для твоего развития. Актуальное расписание групповых программ.
             </p>
           </div>
@@ -68,7 +68,7 @@ const SchedulePage: React.FC = () => {
       </section>
 
       {/* Schedule Table - overlapping with hero */}
-      <section className="py-24 md:py-32 px-6 md:px-12 relative bg-white rounded-[40px] md:rounded-[60px] -mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-20">
+      <section className="py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 md:px-8 lg:px-12 relative bg-white rounded-[24px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[50px] xl:rounded-[60px] -mt-8 sm:-mt-10 shadow-[0_-20px_60px_rgba(0,0,0,0.1)] z-30 mb-12 md:mb-16 lg:mb-20">
         <div className="max-w-[1440px] mx-auto">
           {/* Week Selector with arrows */}
           <div className="mb-8">
@@ -106,12 +106,12 @@ const SchedulePage: React.FC = () => {
           </div>
 
           {/* Filter Days */}
-          <div className="flex flex-wrap gap-4 mb-12">
+          <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4 mb-8 sm:mb-10 md:mb-12">
             {days.map((day, i) => (
               <button
                 key={i}
                 onClick={() => setSelectedDay(i)}
-                className={`px-6 py-3 rounded-full font-bold uppercase tracking-widest text-xs transition-all ${
+                className={`px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-full font-bold uppercase tracking-widest text-[10px] sm:text-[11px] md:text-xs transition-all ${
                   selectedDay === i 
                     ? 'bg-[#1A262A] text-white' 
                     : 'bg-white text-[#1A262A] hover:bg-[#D4F058] border border-[#1A262A]/10'
@@ -123,35 +123,35 @@ const SchedulePage: React.FC = () => {
           </div>
 
           {/* Schedule List */}
-          <div className="bg-white rounded-[40px] md:rounded-[60px] p-8 md:p-12 shadow-xl">
+          <div className="bg-white rounded-[24px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[50px] xl:rounded-[60px] p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 shadow-xl">
             <div className="divide-y divide-[#1A262A]/10">
               {SCHEDULE.map((item, i) => (
                 <div 
                   key={i} 
-                  className="py-8 md:py-10 flex flex-col md:flex-row md:items-center justify-between group hover:bg-[#D4F058] hover:text-[#1A262A] hover:px-8 transition-all duration-300 rounded-3xl -mx-4 md:-mx-8 px-4 cursor-pointer"
+                  className="py-4 sm:py-6 md:py-8 lg:py-10 flex flex-col md:flex-row md:items-center justify-between group hover:bg-[#D4F058] hover:text-[#1A262A] hover:px-4 sm:hover:px-6 md:hover:px-8 transition-all duration-300 rounded-2xl sm:rounded-3xl -mx-2 sm:-mx-4 md:-mx-8 px-2 sm:px-4 cursor-pointer"
                 >
-                  <div className="flex items-start md:items-center gap-6 md:gap-12 mb-4 md:mb-0">
-                    <span className="font-syne text-3xl md:text-5xl font-bold text-[#1A262A]/20 group-hover:text-[#1A262A] transition-colors whitespace-nowrap">
+                  <div className="flex items-start md:items-center gap-4 sm:gap-5 md:gap-6 lg:gap-12 mb-3 sm:mb-4 md:mb-0">
+                    <span className="font-syne text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-[#1A262A]/20 group-hover:text-[#1A262A] transition-colors whitespace-nowrap">
                       {item.time}
                     </span>
                     <div>
-                      <h3 className="font-bold text-lg md:text-xl uppercase tracking-tight text-[#1A262A] mb-1">
+                      <h3 className="font-bold text-base sm:text-lg md:text-xl uppercase tracking-tight text-[#1A262A] mb-1">
                         {item.name}
                       </h3>
-                      <p className="text-[10px] md:text-xs font-bold text-[#1A262A]/40 group-hover:text-[#1A262A]/60 uppercase tracking-widest">
+                      <p className="text-[9px] sm:text-[10px] md:text-xs font-bold text-[#1A262A]/40 group-hover:text-[#1A262A]/60 uppercase tracking-widest">
                         {item.coach}
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between w-full md:w-auto md:justify-start gap-4">
-                    <span className={`text-[10px] md:text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full ${
+                  <div className="flex items-center justify-between w-full md:w-auto md:justify-start gap-3 sm:gap-4">
+                    <span className={`text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-widest px-2 sm:px-3 py-1 rounded-full ${
                       item.spots.includes('НЕТ') 
                         ? 'bg-red-100 text-red-600 group-hover:bg-red-200' 
                         : 'bg-[#F2F5F6] group-hover:bg-[#1A262A]/10'
                     }`}>
                       {item.spots}
                     </span>
-                    <button className="px-6 py-2 bg-[#1A262A] text-white rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-[#1A262A] transition-colors opacity-0 group-hover:opacity-100">
+                    <button className="px-4 sm:px-5 md:px-6 py-1.5 sm:py-2 bg-[#1A262A] text-white rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-[#1A262A] transition-colors opacity-0 group-hover:opacity-100">
                       Записаться
                     </button>
                   </div>
@@ -164,13 +164,13 @@ const SchedulePage: React.FC = () => {
       </div>
 
       {/* Schedule Categories */}
-      <section className="py-24 px-6 md:px-12 bg-[#1A262A] text-white rounded-[40px] md:rounded-[60px] mx-2 md:mx-4 mb-20">
+      <section className="py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 md:px-8 lg:px-12 bg-[#1A262A] text-white rounded-[24px] sm:rounded-[32px] md:rounded-[40px] lg:rounded-[50px] xl:rounded-[60px] mx-2 sm:mx-3 md:mx-4 mb-12 md:mb-16 lg:mb-20">
         <div className="max-w-[1440px] mx-auto">
-          <h2 className="font-syne text-4xl md:text-7xl font-bold uppercase mb-16 text-center">
+          <h2 className="font-syne text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold uppercase mb-10 sm:mb-12 md:mb-14 lg:mb-16 text-center">
             НАПРАВЛЕНИЯ <span className="text-[#D4F058]">ТРЕНИРОВОК</span>
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
             {[
               'Функциональный тренинг',
               'Йога и пилатес',
