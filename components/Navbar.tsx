@@ -145,7 +145,7 @@ const Navbar: React.FC = () => {
                 ))}
                 {/* Phone Button - styled like menu items */}
                 <a 
-                  href="tel:+74212903062"
+                  href="tel:+74212479079"
                   className={`px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest transition-all duration-300 hover:bg-[#D4F058] ${navTextClass}`}
                 >
                   Звонок
@@ -224,15 +224,27 @@ const Navbar: React.FC = () => {
 
           <div className="mt-16 flex flex-col items-center gap-4 relative z-10" style={{ zIndex: 10000 }}>
              <a 
-               href="tel:+74212903062" 
+               href="tel:+74212479079" 
                className="text-xl text-[#1A262A] font-bold tracking-widest hover:text-[#D4F058] transition-colors"
                style={{ pointerEvents: 'auto', cursor: 'pointer' }}
                onClick={() => setIsMenuOpen(false)}
              >
-               +7 (4212) 90-30-62
+               +7 (4212) 47-90-79
              </a>
              <span className="text-[#1A262A]/40 text-xs uppercase tracking-[0.2em]">Хабаровск, Ким Ю Чена 7а</span>
           </div>
+          
+          {/* Close button */}
+          <button
+            onClick={() => setIsMenuOpen(false)}
+            className="absolute top-8 right-6 w-12 h-12 rounded-full bg-[#F2F5F6] hover:bg-[#D4F058] flex items-center justify-center transition-colors z-[10001]"
+            aria-label="Закрыть меню"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
       </div>
     </>
   );

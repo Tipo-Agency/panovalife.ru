@@ -237,14 +237,34 @@ const App: React.FC = () => {
                         key={s.id} 
                         className="group relative bg-[#F2F5F6] rounded-[24px] sm:rounded-[28px] md:rounded-[32px] overflow-hidden hover:bg-[#D4F058] transition-colors duration-500 cursor-pointer shadow-sm hover:shadow-xl"
                         onClick={() => {
-                          navigate('zones');
-                          setTimeout(() => {
-                            const floorIndex = s.floorIndex !== undefined ? s.floorIndex + 1 : (i === 0 ? 2 : i === 1 ? 4 : 1);
-                            const element = document.querySelector(`[data-floor="${floorIndex}"]`);
-                            if (element) {
-                              element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            }
-                          }, 500);
+                          if (s.id === 'aqua') {
+                            // Аква зона → /zones (2 этаж)
+                            navigate('zones');
+                            setTimeout(() => {
+                              const element = document.querySelector('[data-floor="2"]');
+                              if (element) {
+                                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                              }
+                            }, 500);
+                          } else if (s.id === 'gym') {
+                            // Силовой зал → /zones (4 этаж)
+                            navigate('zones');
+                            setTimeout(() => {
+                              const element = document.querySelector('[data-floor="4"]');
+                              if (element) {
+                                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                              }
+                            }, 500);
+                          } else if (s.id === 'groups') {
+                            // Групповые программы → /zones (3 этаж)
+                            navigate('zones');
+                            setTimeout(() => {
+                              const element = document.querySelector('[data-floor="3"]');
+                              if (element) {
+                                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                              }
+                            }, 500);
+                          }
                         }}
                       >
                          <div className="flex flex-col md:flex-row h-auto min-h-[250px] sm:min-h-[280px] md:min-h-[300px]">
@@ -315,7 +335,16 @@ const App: React.FC = () => {
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-8">
                     {PROMOS.map((p, i) => (
-                        <div key={i} className={`p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 rounded-[24px] sm:rounded-[32px] md:rounded-[40px] flex flex-col justify-between min-h-[320px] sm:min-h-[340px] md:min-h-[350px] transition-transform duration-500 hover:scale-[0.99] shadow-lg ${i === 1 ? 'bg-[#D4F058] text-[#1A262A]' : 'bg-white text-[#1A262A]'}`}>
+                        <div 
+                          key={i} 
+                          className={`p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 rounded-[24px] sm:rounded-[32px] md:rounded-[40px] flex flex-col justify-between min-h-[320px] sm:min-h-[340px] md:min-h-[350px] transition-transform duration-500 hover:scale-[0.99] shadow-lg cursor-pointer ${i === 1 ? 'bg-[#D4F058] text-[#1A262A]' : 'bg-white text-[#1A262A]'}`}
+                          onClick={(e) => {
+                            // Если клик не на кнопке, открываем модалку
+                            if ((e.target as HTMLElement).closest('button') === null) {
+                              setIsFormOpen(true);
+                            }
+                          }}
+                        >
                             <div>
                                 <div className="flex justify-between items-start mb-6 sm:mb-7 md:mb-8">
                                    <span className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[9px] sm:text-[10px] uppercase font-bold tracking-widest ${i === 1 ? 'bg-[#1A262A]/10' : i === 2 ? 'bg-[#1A262A] text-white' : 'bg-[#F2F5F6]'}`}>{p.badge}</span>
@@ -326,7 +355,10 @@ const App: React.FC = () => {
                             </div>
                             
                             <button 
-                              onClick={() => setIsFormOpen(true)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setIsFormOpen(true);
+                              }}
                               className={`mt-6 sm:mt-8 md:mt-10 w-full py-4 sm:py-5 rounded-full font-bold uppercase tracking-widest text-[10px] sm:text-xs transition-all ${i === 1 ? 'bg-[#1A262A] text-white hover:bg-white hover:text-[#1A262A]' : i === 2 ? 'bg-[#D4F058] text-[#1A262A] hover:bg-[#1A262A] hover:text-white' : 'bg-[#1A262A] text-white hover:bg-[#D4F058] hover:text-[#1A262A]'}`}
                             >
                                 Оформить карту

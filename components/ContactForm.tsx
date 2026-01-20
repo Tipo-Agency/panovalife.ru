@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface ContactFormProps {
   isOpen: boolean;
@@ -13,6 +13,32 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+
+  // Block body scroll when form is open
+  useEffect(() => {
+    if (isOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+    }
+    return () => {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   // Phone mask for +7 (Russia)
   const formatPhone = (value: string) => {
@@ -129,7 +155,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
       const errorMessage = error?.message || 'Неизвестная ошибка';
       setMessage({ 
         type: 'error', 
-        text: `Произошла ошибка: ${errorMessage}. Попробуйте еще раз или позвоните нам по телефону +7 (4212) 90-30-62.` 
+        text: `Произошла ошибка: ${errorMessage}. Попробуйте еще раз или позвоните нам по телефону +7 (4212) 47-90-79.` 
       });
     } finally {
       setIsSubmitting(false);

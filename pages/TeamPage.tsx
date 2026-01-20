@@ -119,10 +119,10 @@ const TeamPage: React.FC = () => {
               Записаться на тест-драйв
             </button>
             <a
-              href="tel:+74212903062"
+              href="tel:+74212479079"
               className="px-10 py-5 border-2 border-white/20 text-white font-bold uppercase tracking-widest text-sm rounded-full hover:bg-white/10 transition-colors"
             >
-              +7 (4212) 90-30-62
+              +7 (4212) 47-90-79
             </a>
           </div>
         </div>

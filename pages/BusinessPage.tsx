@@ -76,10 +76,10 @@ const BusinessPage: React.FC = () => {
           </p>
           <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
             <a 
-              href="tel:+74212903062"
+              href="tel:+74212479079"
               className="px-10 py-5 bg-[#D4F058] text-[#1A262A] font-bold uppercase tracking-widest text-sm rounded-full hover:bg-white transition-colors"
             >
-              +7 (4212) 90-30-62
+              +7 (4212) 47-90-79
             </a>
             <button
               onClick={() => {

@@ -1,11 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface HeroProps {
   onOpenForm: () => void;
 }
 
 const Hero: React.FC<HeroProps> = ({ onOpenForm }) => {
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+  
   return (
+    <>
+      {/* Video Modal */}
+      {isVideoOpen && (
+        <div 
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+          onClick={() => setIsVideoOpen(false)}
+        >
+          <div className="relative w-full max-w-5xl aspect-video bg-black rounded-lg overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setIsVideoOpen(false)}
+              className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            <iframe
+              width="100%"
+              height="100%"
+              src="https://www.youtube.com/embed/xm-BYEFYK9o?autoplay=1"
+              title="Video tour"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
+            ></iframe>
+          </div>
+        </div>
+      )}
+
     <section id="main" className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#1A262A] py-20 md:py-0">
 
       {/* Main Content Container */}
@@ -34,18 +67,16 @@ const Hero: React.FC<HeroProps> = ({ onOpenForm }) => {
                   </span>
                </button>
                
-               <a 
-                 href="https://youtu.be/xm-BYEFYK9o"
-                 target="_blank"
-                 rel="noopener noreferrer"
+               <button
+                 onClick={() => setIsVideoOpen(true)}
                  className="w-full sm:w-auto px-6 sm:px-8 md:px-10 py-4 sm:py-5 border border-white/20 text-white font-bold uppercase tracking-widest text-[10px] sm:text-xs hover:bg-white/10 transition-all backdrop-blur-sm rounded-full text-center"
                >
                   Смотреть видео тура
-               </a>
+               </button>
             </div>
          </div>
 
-         {/* Right Side - Image */}
+         {/* Right Side - Image (Desktop) */}
          <div className="hidden lg:flex w-full lg:w-1/2 h-full items-center justify-end pr-8 xl:pr-12 2xl:pr-24 relative mt-8 lg:mt-0">
             <div className="relative w-full max-w-lg xl:max-w-xl h-[60vh] lg:h-[70vh] xl:h-[80vh] 2xl:h-[90vh] max-h-[600px] xl:max-h-[700px] 2xl:max-h-[800px] flex items-center justify-center">
                <img 
@@ -60,8 +91,19 @@ const Hero: React.FC<HeroProps> = ({ onOpenForm }) => {
             </div>
          </div>
 
+         {/* Mobile Background Image */}
+         <div className="lg:hidden absolute inset-0 z-0 overflow-hidden">
+            <img 
+               src="/hero-trainer.png" 
+               alt="Fitness Trainer"
+               className="w-full h-full object-cover opacity-30"
+            />
+            <div className="absolute inset-0 bg-[#1A262A]/60"></div>
+         </div>
+
       </div>
     </section>
+    </>
   );
 };
 

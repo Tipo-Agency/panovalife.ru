@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
       <div className="mt-8 space-y-6">
         {/* Контакты */}
         <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-6 text-xs font-bold uppercase text-[#1A262A]/50 tracking-widest">
-          <a href="tel:+74212903062" className="hover:text-[#1A262A] transition-colors">+7 (4212) 90-30-62</a>
+          <a href="tel:+74212479079" className="hover:text-[#1A262A] transition-colors">+7 (4212) 47-90-79</a>
           <a href="https://wa.me/79098047979" target="_blank" rel="noopener noreferrer" className="hover:text-[#1A262A] transition-colors">WhatsApp</a>
           <a href="mailto:sales@panova.ru" className="hover:text-[#1A262A] transition-colors">sales@panova.ru</a>
         </div>
