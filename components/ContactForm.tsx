@@ -167,7 +167,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div 
         className="bg-white rounded-[32px] p-8 md:p-12 max-w-md w-full shadow-2xl" 
         onClick={(e) => e.stopPropagation()}
