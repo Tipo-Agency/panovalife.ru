@@ -165,20 +165,18 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
 
     const preventNavigation = (e: Event) => {
       const target = e.target as HTMLElement;
-      // Only prevent navigation for links and buttons that might navigate
-      // Don't prevent default behavior for inputs
+      // Only prevent navigation for links that might navigate
+      // Don't prevent default behavior for inputs, buttons, or close button
       if (target.closest('.contact-form-modal-content')) {
         const isInput = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
-        const isButton = target.tagName === 'BUTTON' && (target as HTMLButtonElement).type !== 'submit';
+        const isButton = target.tagName === 'BUTTON';
+        const isCloseButton = target.closest('button[aria-label="Закрыть"]');
         const isLink = target.tagName === 'A';
         
-        // Only stop propagation for navigation-triggering elements, not inputs
-        if (!isInput) {
+        // Only block links that might navigate, not inputs or buttons
+        if (!isInput && !isButton && isLink && !target.closest('form')) {
           e.stopImmediatePropagation();
-          // Only prevent default for links that might navigate
-          if (isLink && !target.closest('form')) {
-            e.preventDefault();
-          }
+          e.preventDefault();
         }
       }
     };
@@ -206,7 +204,11 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
         <div className="flex justify-between items-start mb-8">
           <h2 className="font-syne text-3xl md:text-4xl font-bold uppercase text-[#1A262A]">Создайте личную фитнес-карту</h2>
           <button 
-            onClick={onClose}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClose();
+            }}
+            aria-label="Закрыть"
             className="w-10 h-10 rounded-full bg-[#F2F5F6] hover:bg-[#D4F058] flex items-center justify-center transition-colors"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
