@@ -44,8 +44,23 @@ const Hero: React.FC<HeroProps> = ({ onOpenForm }) => {
       {/* Main Content Container */}
       <div className="relative z-20 w-full max-w-[1600px] px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col lg:flex-row justify-between items-center gap-8 lg:gap-0">
          
+         {/* Mobile Image under header */}
+         <div className="lg:hidden w-full flex justify-center">
+           <div className="w-full max-w-sm sm:max-w-md md:max-w-lg">
+             <img 
+               src="/hero-trainer.png"
+               alt="Fitness Trainer"
+               className="w-full h-auto object-contain"
+               style={{ 
+                 filter: 'drop-shadow(0 0 60px rgba(212, 240, 88, 0.4)) drop-shadow(0 0 30px rgba(212, 240, 88, 0.25))',
+                 WebkitFilter: 'drop-shadow(0 0 60px rgba(212, 240, 88, 0.4)) drop-shadow(0 0 30px rgba(212, 240, 88, 0.25))'
+               }}
+             />
+           </div>
+         </div>
+
          {/* Left Side - Text Content */}
-         <div className="flex flex-col justify-center w-full lg:w-1/2 mb-4 sm:mb-6 lg:mb-0">
+         <div className="flex flex-col justify-center w-full lg:w-1/2 mb-2 sm:mb-4 lg:mb-0">
            <h1 className="font-syne font-extrabold text-[2.1rem] sm:text-[3.2rem] md:text-[4.2rem] lg:text-[5rem] xl:text-[6rem] leading-[0.9] text-white uppercase max-w-5xl drop-shadow-2xl break-words">
                Твоя форма <br/>
                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/50">Твои правила</span>
@@ -89,16 +104,6 @@ const Hero: React.FC<HeroProps> = ({ onOpenForm }) => {
                   }}
                />
             </div>
-         </div>
-
-         {/* Mobile Background Image */}
-         <div className="lg:hidden absolute inset-0 z-0 overflow-hidden">
-            <img 
-               src="/hero-trainer.png" 
-               alt="Fitness Trainer"
-               className="w-full h-full object-cover opacity-30"
-            />
-            <div className="absolute inset-0 bg-[#1A262A]/60"></div>
          </div>
 
       </div>
