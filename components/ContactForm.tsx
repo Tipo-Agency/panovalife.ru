@@ -142,17 +142,11 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
       // With no-cors, we can't read response, but request is sent
       console.log('Request sent (no-cors mode)');
       
-      // Show success message
-      setMessage({ type: 'success', text: 'Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.' });
+      // Immediately redirect to thank you page
       setFormData({ name: '', phone: '', email: '' });
-      
-      // Небольшая пауза для отображения сообщения, затем редирект на страницу "Спасибо"
-      setTimeout(() => {
-        onClose();
-        setMessage(null);
-        window.history.pushState({}, '', '/submitted');
-        window.dispatchEvent(new PopStateEvent('popstate'));
-      }, 1000);
+      onClose();
+      window.history.pushState({}, '', '/submitted');
+      window.dispatchEvent(new PopStateEvent('popstate'));
     } catch (error: any) {
       console.error('Error submitting form:', error);
       const errorMessage = error?.message || 'Неизвестная ошибка';
@@ -267,13 +261,9 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
             />
           </div>
 
-          {/* Message Display */}
-          {message && (
-            <div className={`p-4 rounded-[24px] text-sm font-medium transition-all ${
-              message.type === 'success' 
-                ? 'bg-[#D4F058] text-[#1A262A]' 
-                : 'bg-red-100 text-red-700 border border-red-300'
-            }`}>
+          {/* Error Message Display */}
+          {message && message.type === 'error' && (
+            <div className="p-4 rounded-[24px] text-sm font-medium transition-all bg-red-100 text-red-700 border border-red-300">
               {message.text}
             </div>
           )}
