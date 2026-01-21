@@ -165,30 +165,35 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  // Prevent any navigation when modal is open
+  // Prevent navigation when clicking inside modal, but allow input interactions
   useEffect(() => {
     if (!isOpen) return;
 
     const preventNavigation = (e: Event) => {
       const target = e.target as HTMLElement;
-      // If click is inside modal content, prevent all navigation
+      // Only prevent navigation for links and buttons that might navigate
+      // Don't prevent default behavior for inputs
       if (target.closest('.contact-form-modal-content')) {
-        e.stopImmediatePropagation();
-        e.preventDefault();
+        const isInput = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
+        const isButton = target.tagName === 'BUTTON' && (target as HTMLButtonElement).type !== 'submit';
+        const isLink = target.tagName === 'A';
+        
+        // Only stop propagation for navigation-triggering elements, not inputs
+        if (!isInput) {
+          e.stopImmediatePropagation();
+          // Only prevent default for links that might navigate
+          if (isLink && !target.closest('form')) {
+            e.preventDefault();
+          }
+        }
       }
     };
 
     // Use capture phase to catch events before they bubble
     document.addEventListener('click', preventNavigation, true);
-    document.addEventListener('touchstart', preventNavigation, true);
-    document.addEventListener('touchend', preventNavigation, true);
-    document.addEventListener('mousedown', preventNavigation, true);
 
     return () => {
       document.removeEventListener('click', preventNavigation, true);
-      document.removeEventListener('touchstart', preventNavigation, true);
-      document.removeEventListener('touchend', preventNavigation, true);
-      document.removeEventListener('mousedown', preventNavigation, true);
     };
   }, [isOpen]);
 
@@ -202,22 +207,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
       <div 
         className="contact-form-modal-content bg-white rounded-[32px] p-8 md:p-12 max-w-md w-full shadow-2xl"
         style={{ pointerEvents: 'auto' }}
-        onClick={(e) => {
-          e.stopPropagation();
-          e.stopImmediatePropagation();
-        }}
-        onMouseDown={(e) => {
-          e.stopPropagation();
-          e.stopImmediatePropagation();
-        }}
-        onTouchStart={(e) => {
-          e.stopPropagation();
-          e.stopImmediatePropagation();
-        }}
-        onTouchEnd={(e) => {
-          e.stopPropagation();
-          e.stopImmediatePropagation();
-        }}
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-start mb-8">
           <h2 className="font-syne text-3xl md:text-4xl font-bold uppercase text-[#1A262A]">Создайте личную фитнес-карту</h2>
@@ -240,25 +230,10 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
               value={formData.name}
               onChange={(e) => {
                 e.stopPropagation();
-                e.stopImmediatePropagation();
                 setFormData({ ...formData, name: e.target.value });
               }}
-              onClick={(e) => {
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-              }}
-              onFocus={(e) => {
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-              }}
-              onMouseDown={(e) => {
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-              }}
-              onTouchStart={(e) => {
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-              }}
+              onClick={(e) => e.stopPropagation()}
+              onFocus={(e) => e.stopPropagation()}
               required
               className="w-full bg-[#F2F5F6] border border-[#1A262A]/5 rounded-full py-4 px-6 text-base text-[#1A262A] font-medium placeholder:text-[#1A262A]/40 focus:outline-none focus:border-[#D4F058] focus:bg-white transition-all"
             />
@@ -271,35 +246,21 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
               value={formData.phone}
               onChange={(e) => {
                 e.stopPropagation();
-                e.stopImmediatePropagation();
                 handlePhoneChange(e);
               }}
-              onClick={(e) => {
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-              }}
+              onClick={(e) => e.stopPropagation()}
               onFocus={(e) => {
                 e.stopPropagation();
-                e.stopImmediatePropagation();
                 if (!formData.phone) {
                   setFormData({ ...formData, phone: '+7' });
                 }
               }}
               onKeyDown={(e) => {
                 e.stopPropagation();
-                e.stopImmediatePropagation();
                 // Prevent deletion of +7
                 if (e.key === 'Backspace' && formData.phone === '+7') {
                   e.preventDefault();
                 }
-              }}
-              onMouseDown={(e) => {
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-              }}
-              onTouchStart={(e) => {
-                e.stopPropagation();
-                e.stopImmediatePropagation();
               }}
               required
               className="w-full bg-[#F2F5F6] border border-[#1A262A]/5 rounded-full py-4 px-6 text-base text-[#1A262A] font-medium placeholder:text-[#1A262A]/40 focus:outline-none focus:border-[#D4F058] focus:bg-white transition-all"
@@ -324,25 +285,10 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
               value={formData.email}
               onChange={(e) => {
                 e.stopPropagation();
-                e.stopImmediatePropagation();
                 setFormData({ ...formData, email: e.target.value });
               }}
-              onClick={(e) => {
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-              }}
-              onFocus={(e) => {
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-              }}
-              onMouseDown={(e) => {
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-              }}
-              onTouchStart={(e) => {
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-              }}
+              onClick={(e) => e.stopPropagation()}
+              onFocus={(e) => e.stopPropagation()}
               className="w-full bg-[#F2F5F6] border border-[#1A262A]/5 rounded-full py-4 px-6 text-base text-[#1A262A] font-medium placeholder:text-[#1A262A]/40 focus:outline-none focus:border-[#D4F058] focus:bg-white transition-all"
             />
           </div>
