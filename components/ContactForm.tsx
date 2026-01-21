@@ -168,7 +168,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" onClick={onClose}>
-      <div className="bg-white rounded-[32px] p-8 md:p-12 max-w-md w-full shadow-2xl" onClick={(e) => e.stopPropagation()}>
+      <div 
+        className="bg-white rounded-[32px] p-8 md:p-12 max-w-md w-full shadow-2xl" 
+        onClick={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+      >
         <div className="flex justify-between items-start mb-8">
           <h2 className="font-syne text-3xl md:text-4xl font-bold uppercase text-[#1A262A]">Создайте личную фитнес-карту</h2>
           <button 
@@ -182,30 +187,35 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
+        <form onSubmit={handleSubmit} className="space-y-6" onClick={(e) => e.stopPropagation()}>
+          <div onClick={(e) => e.stopPropagation()}>
             <input
               type="text"
               placeholder="Имя и Фамилия"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onClick={(e) => e.stopPropagation()}
+              onFocus={(e) => e.stopPropagation()}
               required
               className="w-full bg-[#F2F5F6] border border-[#1A262A]/5 rounded-full py-4 px-6 text-base text-[#1A262A] font-medium placeholder:text-[#1A262A]/40 focus:outline-none focus:border-[#D4F058] focus:bg-white transition-all"
             />
           </div>
 
-          <div>
+          <div onClick={(e) => e.stopPropagation()}>
             <input
               type="tel"
               placeholder="+7 (XXX) XXX-XX-XX"
               value={formData.phone}
               onChange={handlePhoneChange}
+              onClick={(e) => e.stopPropagation()}
               onFocus={(e) => {
+                e.stopPropagation();
                 if (!formData.phone) {
                   setFormData({ ...formData, phone: '+7' });
                 }
               }}
               onKeyDown={(e) => {
+                e.stopPropagation();
                 // Prevent deletion of +7
                 if (e.key === 'Backspace' && formData.phone === '+7') {
                   e.preventDefault();
@@ -227,12 +237,14 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
             </div>
           )}
 
-          <div>
+          <div onClick={(e) => e.stopPropagation()}>
             <input
               type="email"
               placeholder="Email (необязательно)"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onClick={(e) => e.stopPropagation()}
+              onFocus={(e) => e.stopPropagation()}
               className="w-full bg-[#F2F5F6] border border-[#1A262A]/5 rounded-full py-4 px-6 text-base text-[#1A262A] font-medium placeholder:text-[#1A262A]/40 focus:outline-none focus:border-[#D4F058] focus:bg-white transition-all"
             />
           </div>
@@ -256,6 +268,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
           <button
             type="submit"
             disabled={isSubmitting}
+            onClick={(e) => e.stopPropagation()}
             className="w-full py-4 bg-[#1A262A] text-white rounded-full font-bold uppercase tracking-widest text-sm hover:bg-[#D4F058] hover:text-[#1A262A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? 'Отправка...' : 'Отправить заявку'}
