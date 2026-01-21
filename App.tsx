@@ -13,6 +13,7 @@ import SchedulePage from './pages/SchedulePage';
 import TeamPage from './pages/TeamPage';
 import BusinessPage from './pages/BusinessPage';
 import NotFoundPage from './pages/NotFoundPage';
+import SubmittedPage from './pages/SubmittedPage';
 
 const App: React.FC = () => {
   const [currentRoute, setCurrentRoute] = useState<string>('');
@@ -35,7 +36,7 @@ const App: React.FC = () => {
     };
 
     const route = getRouteFromPath();
-    const validRoutes = ['offer', 'rules', 'privacy', 'zones', 'schedule', 'team', 'business', ''];
+    const validRoutes = ['offer', 'rules', 'privacy', 'zones', 'schedule', 'team', 'business', 'submitted', ''];
     
     // If route is not empty and not valid, show 404
     if (route && !validRoutes.includes(route)) {
@@ -69,7 +70,7 @@ const App: React.FC = () => {
   const navigate = (route: string) => {
     const path = route ? `/${route}` : '/';
     window.history.pushState({}, '', path);
-    const validRoutes = ['offer', 'rules', 'privacy', 'zones', 'schedule', 'team', 'business', ''];
+    const validRoutes = ['offer', 'rules', 'privacy', 'zones', 'schedule', 'team', 'business', 'submitted', ''];
     if (route && !validRoutes.includes(route)) {
       setCurrentRoute('404');
     } else {
@@ -185,6 +186,22 @@ const App: React.FC = () => {
         />
         <Navbar />
         <BusinessPage />
+        <Footer />
+        <ContactForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
+      </div>
+    );
+  }
+
+  if (currentRoute === 'submitted') {
+    return (
+      <div className="bg-[#F2F5F6] min-h-screen selection:bg-[#D4F058] selection:text-[#1A262A] overflow-x-hidden">
+        <SEOHead 
+          title="Спасибо за заявку - PANOVALIFE"
+          description="Спасибо за заявку в фитнес-клуб PANOVALIFE. Наш менеджер свяжется с вами в ближайшее время."
+          canonical="https://panovalife.ru/submitted"
+        />
+        <Navbar />
+        <SubmittedPage />
         <Footer />
         <ContactForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
       </div>

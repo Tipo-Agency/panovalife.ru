@@ -145,11 +145,13 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
       setMessage({ type: 'success', text: 'Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.' });
       setFormData({ name: '', phone: '', email: '' });
       
-      // Close form after 2 seconds
+      // Небольшая пауза для отображения сообщения, затем редирект на страницу "Спасибо"
       setTimeout(() => {
         onClose();
         setMessage(null);
-      }, 2000);
+        window.history.pushState({}, '', '/submitted');
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      }, 1000);
     } catch (error: any) {
       console.error('Error submitting form:', error);
       const errorMessage = error?.message || 'Неизвестная ошибка';

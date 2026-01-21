@@ -39,19 +39,19 @@ const Hero: React.FC<HeroProps> = ({ onOpenForm }) => {
         </div>
       )}
 
-    <section id="main" className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#1A262A] py-20 md:py-0">
+    <section id="main" className="relative w-full flex flex-col items-center justify-center overflow-hidden bg-[#1A262A] pt-28 pb-16 sm:pt-32 sm:pb-20 md:pt-36 md:pb-24">
 
       {/* Main Content Container */}
-      <div className="relative z-20 w-full max-w-[1600px] px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col lg:flex-row justify-between items-center min-h-[calc(100vh-120px)] lg:h-screen pt-20 lg:pt-0">
+      <div className="relative z-20 w-full max-w-[1600px] px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col lg:flex-row justify-between items-center gap-8 lg:gap-0">
          
          {/* Left Side - Text Content */}
-         <div className="flex flex-col justify-center w-full lg:w-1/2 mb-8 lg:mb-0">
-            <h1 className="font-syne font-extrabold text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5rem] xl:text-[6rem] leading-[0.9] text-white uppercase max-w-5xl drop-shadow-2xl break-words">
+         <div className="flex flex-col justify-center w-full lg:w-1/2 mb-4 sm:mb-6 lg:mb-0">
+           <h1 className="font-syne font-extrabold text-[2.1rem] sm:text-[3.2rem] md:text-[4.2rem] lg:text-[5rem] xl:text-[6rem] leading-[0.9] text-white uppercase max-w-5xl drop-shadow-2xl break-words">
                Твоя форма <br/>
                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/50">Твои правила</span>
             </h1>
 
-            <p className="mt-4 sm:mt-6 md:mt-8 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/80 font-light max-w-2xl leading-relaxed">
+            <p className="mt-4 sm:mt-6 md:mt-8 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/80 font-light max-w-xl leading-relaxed">
                5000 м² пространства для трансформации. <br className="hidden md:block"/>
                Бассейн 24м, Life Fitness и Hammer, SPA и закрытое комьюнити.
             </p>
