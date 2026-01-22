@@ -26,8 +26,8 @@ export default defineConfig(({ mode }) => {
       define: {
         'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
         'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        // VITE_CALLTOUCH_API_TOKEN is automatically handled by Vite from .env file
-        // No need to define it here - Vite automatically exposes VITE_* variables
+        // Explicitly define VITE_CALLTOUCH_API_TOKEN for build
+        'import.meta.env.VITE_CALLTOUCH_API_TOKEN': JSON.stringify(env.VITE_CALLTOUCH_API_TOKEN || ''),
       },
       resolve: {
         alias: {

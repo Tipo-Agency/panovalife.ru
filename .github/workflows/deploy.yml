@@ -28,6 +28,7 @@ jobs:
         run: npm run build
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          VITE_CALLTOUCH_API_TOKEN: ${{ secrets.VITE_CALLTOUCH_API_TOKEN }}
       
       - name: Verify build output
         run: |
