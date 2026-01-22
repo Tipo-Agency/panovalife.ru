@@ -92,8 +92,8 @@ const Navbar: React.FC = () => {
   return (
     <>
       {/* --- NAVBAR CONTAINER --- */}
-      <div className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${useDarkTheme ? 'py-4' : 'py-6'}`}>
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
+      <div className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${useDarkTheme ? 'py-2 sm:py-3 md:py-4' : 'py-3 sm:py-4 md:py-6'}`}>
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12 flex items-center justify-between">
             
             {/* Logo - disappears on scroll */}
             <a 
@@ -104,17 +104,17 @@ const Navbar: React.FC = () => {
                 window.dispatchEvent(new PopStateEvent('popstate'));
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className={`flex items-center gap-4 relative z-50 transition-all duration-500 hover:opacity-80 ${scrolled ? 'opacity-0 pointer-events-none w-0 overflow-hidden scale-95' : 'opacity-100 scale-100'}`}
+              className={`flex items-center gap-2 sm:gap-3 md:gap-4 relative z-50 transition-all duration-500 hover:opacity-80 ${scrolled ? 'opacity-0 pointer-events-none w-0 overflow-hidden scale-95' : 'opacity-100 scale-100'}`}
             >
                <img 
                   src={Logo} 
                   alt="PANOVA LIFE" 
-                  className={`h-8 md:h-12 w-auto ${logoFilterClass}`}
+                  className={`h-6 sm:h-8 md:h-10 lg:h-12 w-auto ${logoFilterClass}`}
                />
             </a>
 
             {/* Desktop Navigation - hides on scroll, shows burger instead */}
-            <nav className={`hidden md:flex items-center gap-1 backdrop-blur-xl border rounded-full p-1.5 transition-all duration-500 ${navBgClass} ${scrolled ? 'opacity-0 pointer-events-none scale-95' : 'opacity-100 pointer-events-auto scale-100'}`}>
+            <nav className={`hidden md:flex items-center gap-1 backdrop-blur-xl border rounded-full p-1 sm:p-1.5 transition-all duration-500 ${navBgClass} ${scrolled ? 'opacity-0 pointer-events-none scale-95' : 'opacity-100 pointer-events-auto scale-100'}`}>
                 {menuItems.map((item) => (
                    <a 
                      key={item.id}
@@ -138,7 +138,7 @@ const Navbar: React.FC = () => {
                          }
                        }
                      }}
-                     className={`px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest transition-all duration-300 hover:bg-[#D4F058] ${navTextClass}`}
+                     className={`px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 rounded-full text-[9px] sm:text-[10px] md:text-[11px] font-bold uppercase tracking-widest transition-all duration-300 hover:bg-[#D4F058] ${navTextClass}`}
                    >
                      {item.label}
                    </a>
@@ -146,35 +146,35 @@ const Navbar: React.FC = () => {
                 {/* Phone Button - styled like menu items */}
                 <a 
                   href="tel:+74212479079"
-                  className={`px-8 py-3 rounded-full text-[11px] font-bold uppercase tracking-widest transition-all duration-300 hover:bg-[#D4F058] ${navTextClass}`}
+                  className={`px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 rounded-full text-[9px] sm:text-[10px] md:text-[11px] font-bold uppercase tracking-widest transition-all duration-300 hover:bg-[#D4F058] ${navTextClass}`}
                 >
                   Звонок
                 </a>
             </nav>
 
             {/* Right Actions & Burger Toggle */}
-            <div className="flex items-center gap-4 md:gap-6 relative z-50">
+            <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-6 relative z-50">
                {/* Desktop Burger Button - appears on scroll */}
                <button 
                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                 className={`hidden md:flex w-12 h-12 rounded-full border flex items-center justify-center transition-all duration-500 hover:bg-[#D4F058] hover:text-[#1A262A] ${useDarkTheme ? 'bg-white/95 backdrop-blur-md border-[#1A262A]/10 text-[#1A262A] shadow-sm' : 'bg-[#2F4249]/40 border-white/5 text-white'} ${scrolled ? 'opacity-100 pointer-events-auto scale-100' : 'opacity-0 pointer-events-none scale-95'}`}
+                 className={`hidden md:flex w-10 h-10 lg:w-12 lg:h-12 rounded-full border flex items-center justify-center transition-all duration-500 hover:bg-[#D4F058] hover:text-[#1A262A] ${useDarkTheme ? 'bg-white/95 backdrop-blur-md border-[#1A262A]/10 text-[#1A262A] shadow-sm' : 'bg-[#2F4249]/40 border-white/5 text-white'} ${scrolled ? 'opacity-100 pointer-events-auto scale-100' : 'opacity-0 pointer-events-none scale-95'}`}
                >
                   {isMenuOpen ? (
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                      <svg className="w-5 h-5 lg:w-6 lg:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                   ) : (
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+                      <svg className="w-5 h-5 lg:w-6 lg:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
                   )}
                </button>
                
                {/* Mobile Burger Button */}
                <button 
                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                 className={`md:hidden w-12 h-12 rounded-full border flex items-center justify-center transition-colors hover:bg-[#D4F058] hover:text-[#1A262A] ${useDarkTheme ? 'bg-[#F2F5F6] border-[#1A262A]/10 text-[#1A262A]' : 'bg-[#2F4249] border-white/10 text-white'}`}
+                 className={`md:hidden w-10 h-10 sm:w-12 sm:h-12 rounded-full border flex items-center justify-center transition-colors hover:bg-[#D4F058] hover:text-[#1A262A] ${useDarkTheme ? 'bg-[#F2F5F6] border-[#1A262A]/10 text-[#1A262A]' : 'bg-[#2F4249] border-white/10 text-white'}`}
                >
                   {isMenuOpen ? (
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                      <svg className="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                   ) : (
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+                      <svg className="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
                   )}
                </button>
             </div>

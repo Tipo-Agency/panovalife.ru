@@ -147,11 +147,13 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
       // API token should be set in environment variable VITE_CALLTOUCH_API_TOKEN
       // Get token from environment variable (set at build time)
       // Token must be set in .env file as VITE_CALLTOUCH_API_TOKEN
-      const calltouchApiToken = (typeof process !== 'undefined' && (process.env as any).CALLTOUCH_API_TOKEN) || '';
+      const calltouchApiToken = (import.meta.env?.VITE_CALLTOUCH_API_TOKEN as string) || (typeof process !== 'undefined' && (process.env as any).CALLTOUCH_API_TOKEN) || '';
       
       // site_id from Calltouch dashboard (ID личного кабинета)
       const calltouchSiteId = '52899'; // ID личного кабинета из настроек Calltouch
-      
+
+      console.log('Calltouch API token check:', calltouchApiToken ? 'Token found' : 'Token not found');
+
       if (calltouchApiToken) {
         try {
           // Prepare Calltouch API payload
