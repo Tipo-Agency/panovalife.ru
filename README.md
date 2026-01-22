@@ -12,9 +12,19 @@ View your app in AI Studio: https://ai.studio/apps/drive/1MJHrnB6WhqVmQbhrsW6-DK
 
 **Prerequisites:**  Node.js
 
-
 1. Install dependencies:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+
+2. Create `.env` file in the root directory with:
+   ```
+   VITE_CALLTOUCH_API_TOKEN=your_calltouch_api_token_here
+   GEMINI_API_KEY=your_gemini_api_key_here
+   ```
+   
+   **To get Calltouch API token:**
+   - Go to https://calltouch.ru → Интеграции → Передача данных через API
+   - Copy the "API токен (access_token)" value
+   - Paste it as `VITE_CALLTOUCH_API_TOKEN` in `.env`
+
 3. Run the app:
    `npm run dev`

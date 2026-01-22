@@ -141,6 +141,69 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
 
       // With no-cors, we can't read response, but request is sent
       console.log('Request sent (no-cors mode)');
+
+      // Send lead to Calltouch API
+      // According to: https://www.calltouch.ru/support/upravlenie-zayavkami-cherez-api/
+      // API token should be set in environment variable VITE_CALLTOUCH_API_TOKEN
+      // Get token from environment variable (set at build time)
+      // Token must be set in .env file as VITE_CALLTOUCH_API_TOKEN
+      const calltouchApiToken = (typeof process !== 'undefined' && (process.env as any).CALLTOUCH_API_TOKEN) || '';
+      
+      // site_id from Calltouch dashboard (ID личного кабинета)
+      const calltouchSiteId = '52899'; // ID личного кабинета из настроек Calltouch
+      
+      if (calltouchApiToken) {
+        try {
+          // Prepare Calltouch API payload
+          // Format according to: https://www.calltouch.ru/support/upravlenie-zayavkami-cherez-api/
+          const calltouchPayload = {
+            subjectId: calltouchSiteId, // site_id (ID личного кабинета)
+            subjectType: 'site', // Тип субъекта - всегда 'site' для сайтов
+            phone: phoneDigits, // Телефон в формате 7XXXXXXXXXX (11 цифр)
+            name: formData.name.trim(), // Имя клиента
+            email: formData.email || '', // Email (необязательно)
+            comment: 'Новая заявка с сайта panovalife.ru', // Комментарий к заявке
+            // UTM parameters (опционально)
+            ...(utmSource && { utm_source: utmSource }),
+            ...(utmMedium && { utm_medium: utmMedium }),
+            ...(utmCampaign && { utm_campaign: utmCampaign }),
+            ...(utmTerm && { utm_term: utmTerm }),
+            ...(utmContent && { utm_content: utmContent }),
+            // Analytics IDs (опционально)
+            ...(gaCid && { ga_cid: gaCid }),
+            ...(ymCid && { ym_cid: ymCid }),
+            ...(ctCid && { ct_cid: ctCid }),
+          };
+
+          // Send to Calltouch API
+          // Endpoint: https://api.calltouch.ru/calls-service/RestAPI/{access_token}/requests/register/
+          // Method: POST
+          // Headers: Content-Type: application/json
+          const calltouchResponse = await fetch(
+            `https://api.calltouch.ru/calls-service/RestAPI/${calltouchApiToken}/requests/register/`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(calltouchPayload),
+            }
+          );
+
+          if (calltouchResponse.ok) {
+            const responseData = await calltouchResponse.json();
+            console.log('Lead sent to Calltouch successfully:', responseData);
+          } else {
+            const errorText = await calltouchResponse.text();
+            console.warn('Failed to send lead to Calltouch:', calltouchResponse.status, errorText);
+          }
+        } catch (calltouchError) {
+          // Don't fail the form submission if Calltouch fails
+          console.warn('Error sending lead to Calltouch:', calltouchError);
+        }
+      } else {
+        console.log('Calltouch API token not configured, skipping Calltouch submission');
+      }
       
       // Immediately redirect to thank you page
       setFormData({ name: '', phone: '', email: '' });
