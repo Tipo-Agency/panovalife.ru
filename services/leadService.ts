@@ -54,27 +54,29 @@ export async function sendLead(data: LeadData): Promise<SendLeadResult> {
     // Генерируем уникальный ID заявки
     const requestNumber = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
-    // Формируем данные для Calltouch согласно документации
+    // Формируем данные для Calltouch - только обязательные поля
     const calltouchData: any = {
       subject: 'Форма заявки с сайта',
       requestNumber: requestNumber,
       fio: data.name.trim(),
       phoneNumber: phoneDigits,
       requestUrl: window.location.href,
-      ...(data.email && { email: data.email }),
-      ...(data.comment && { comment: data.comment }),
     };
 
-    // Добавляем UTM параметры, если есть
-    if (data.utm_source || data.utm_medium || data.utm_campaign || data.utm_term || data.utm_content) {
-      calltouchData.utm = {
-        ...(data.utm_source && { source: data.utm_source }),
-        ...(data.utm_medium && { medium: data.utm_medium }),
-        ...(data.utm_campaign && { campaign: data.utm_campaign }),
-        ...(data.utm_term && { term: data.utm_term }),
-        ...(data.utm_content && { content: data.utm_content }),
-      };
+    // Добавляем опциональные поля
+    if (data.email) {
+      calltouchData.email = data.email;
     }
+    if (data.comment) {
+      calltouchData.comment = data.comment;
+    }
+
+    // UTM параметры добавляем напрямую в объект (не вложенным объектом)
+    if (data.utm_source) calltouchData.utm_source = data.utm_source;
+    if (data.utm_medium) calltouchData.utm_medium = data.utm_medium;
+    if (data.utm_campaign) calltouchData.utm_campaign = data.utm_campaign;
+    if (data.utm_term) calltouchData.utm_term = data.utm_term;
+    if (data.utm_content) calltouchData.utm_content = data.utm_content;
 
     console.log('[LeadService] Отправка заявки в Calltouch:', {
       siteId: calltouchSiteId,
@@ -82,34 +84,18 @@ export async function sendLead(data: LeadData): Promise<SendLeadResult> {
       name: data.name.trim(),
       requestNumber: requestNumber,
     });
+    console.log('[LeadService] Данные для Calltouch:', calltouchData);
+    console.log('[LeadService] Calltouch объект:', {
+      ct: !!ct,
+      ctType: typeof ct,
+      hasCallbacks: !!(ct.callbacks),
+      callbacksType: Array.isArray(ct.callbacks) ? 'array' : typeof ct.callbacks,
+      hasPush: !!(ct.push),
+      pushType: typeof ct.push,
+    });
 
-    // Способ 1: через ct.push (правильный формат согласно документации Calltouch)
-    // Проверяем наличие push через разные способы
-    const ctPush = ct.push || (ct.callbacks && ct.callbacks.push);
-    
-    if (ctPush && typeof ctPush === 'function') {
-      try {
-        ctPush(['sendForm', calltouchData]);
-        console.log('[LeadService] Calltouch: заявка успешно отправлена через ct.push');
-        return { success: true };
-      } catch (pushError) {
-        console.warn('[LeadService] Calltouch ct.push error:', pushError);
-      }
-    }
-
-    // Способ 2: через ct как функцию (формат для старых версий Calltouch)
-    if (typeof ct === 'function') {
-      try {
-        // Используем формат: ct('sendForm', {...})
-        ct('sendForm', calltouchData);
-        console.log('[LeadService] Calltouch: заявка успешно отправлена через ct()');
-        return { success: true };
-      } catch (ctError) {
-        console.warn('[LeadService] Calltouch ct() error:', ctError);
-      }
-    }
-
-    // Способ 3: через callbacks (если доступны)
+    // Способ 1: через callbacks (правильный способ для Calltouch)
+    // Calltouch использует систему callbacks для отправки данных
     if (ct.callbacks && Array.isArray(ct.callbacks)) {
       try {
         ct.callbacks.push(['sendForm', calltouchData]);
@@ -117,6 +103,29 @@ export async function sendLead(data: LeadData): Promise<SendLeadResult> {
         return { success: true };
       } catch (callbackError) {
         console.warn('[LeadService] Calltouch callbacks error:', callbackError);
+      }
+    }
+
+    // Способ 2: через ct.push (если доступен)
+    if (ct.push && typeof ct.push === 'function') {
+      try {
+        ct.push(['sendForm', calltouchData]);
+        console.log('[LeadService] Calltouch: заявка успешно отправлена через ct.push');
+        return { success: true };
+      } catch (pushError) {
+        console.warn('[LeadService] Calltouch ct.push error:', pushError);
+      }
+    }
+
+    // Способ 3: через ct как функцию с правильным форматом
+    if (typeof ct === 'function') {
+      try {
+        // Правильный формат: передаем массив с методом и данными
+        ct(['sendForm', calltouchData]);
+        console.log('[LeadService] Calltouch: заявка успешно отправлена через ct([...])');
+        return { success: true };
+      } catch (ctError) {
+        console.warn('[LeadService] Calltouch ct([...]) error:', ctError);
       }
     }
 
