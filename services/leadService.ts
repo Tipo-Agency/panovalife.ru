@@ -1,11 +1,9 @@
 /**
- * Сервис для отправки заявок в Calltouch
- * 
- * Для других клубов нужно изменить только calltouchSiteId ниже.
- * Токен НЕ нужен для заявок - они отправляются через JS API автоматически.
+ * Сервис для отправки заявок в Calltouch API
+ * Calltouch автоматически отправляет заявки в 1C через настроенный вебхук
  */
 
-interface LeadData {
+export interface LeadData {
   name: string;
   phone: string;
   email?: string;
@@ -20,120 +18,117 @@ interface LeadData {
   ct_cid?: string;
 }
 
-interface SendLeadResult {
-  success: boolean;
-  error?: string;
-}
+/**
+ * Нормализует номер телефона (убирает все, кроме цифр)
+ */
+const normalizePhone = (phone: string): string => {
+  // Убираем все, кроме цифр
+  const digits = phone.replace(/\D/g, '');
+  
+  // Если начинается с 8, заменяем на 7
+  if (digits.startsWith('8') && digits.length === 11) {
+    return '7' + digits.slice(1);
+  }
+  
+  // Если начинается с +7 или 7, оставляем как есть
+  if (digits.startsWith('7')) {
+    return digits;
+  }
+  
+  // Если начинается с другого кода, добавляем 7
+  if (digits.length === 10) {
+    return '7' + digits;
+  }
+  
+  return digits;
+};
 
 /**
- * Отправка заявки в Calltouch через JavaScript API
- * 
- * Для других клубов: замените calltouchSiteId на новый site_id из личного кабинета Calltouch
- * Токен НЕ требуется - заявки отправляются автоматически через скрипт Calltouch
+ * Отправляет лид в Calltouch API
+ * Calltouch автоматически отправляет заявки в 1C через настроенный вебхук
  */
-export async function sendLead(data: LeadData): Promise<SendLeadResult> {
-  // ⚠️ ВАЖНО: Для каждого клуба нужно заменить этот ID!
-  // Site ID можно найти в личном кабинете Calltouch: Интеграции / Отправка данных во внешние системы / API / ID личного кабинета
-  const calltouchSiteId = '52899'; // ← ЗДЕСЬ ЗАМЕНИТЬ НА НОВЫЙ SITE_ID
-
-  // Валидация телефона
-  const phoneDigits = data.phone.replace(/\D/g, '');
-  if (phoneDigits.length !== 11 || !phoneDigits.startsWith('7')) {
-    return { success: false, error: 'Invalid phone number format' };
-  }
-
+export const sendLead = async (data: LeadData): Promise<{ success: boolean; error?: string }> => {
   try {
-    // Получаем Calltouch API
-    const ct = (window as any).ct;
+    // Нормализуем телефон
+    const normalizedPhone = normalizePhone(data.phone);
+    if (!normalizedPhone || normalizedPhone.length < 10) {
+      return { success: false, error: 'Пожалуйста, укажите корректный номер телефона' };
+    }
     
-    if (!ct) {
-      console.warn('[LeadService] Calltouch script not loaded');
-      return { success: false, error: 'Calltouch script not loaded' };
-    }
-
-    // Генерируем уникальный ID заявки
-    const requestNumber = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    // Настройки Calltouch
+    // ⚠️ ВАЖНО: Для каждого клуба нужно заменить calltouchSiteId!
+    const calltouchSiteId = '52899'; // ← ЗДЕСЬ ЗАМЕНИТЬ НА НОВЫЙ SITE_ID
+    const calltouchModId = '8qd6tqap'; // Mod ID счетчика из index.html
     
-    // Формируем данные для Calltouch - только обязательные поля
-    const calltouchData: any = {
-      subject: 'Форма заявки с сайта',
-      requestNumber: requestNumber,
-      fio: data.name.trim(),
-      phoneNumber: phoneDigits,
-      requestUrl: window.location.href,
-    };
-
-    // Добавляем опциональные поля
-    if (data.email) {
-      calltouchData.email = data.email;
-    }
-    if (data.comment) {
-      calltouchData.comment = data.comment;
-    }
-
-    // UTM параметры добавляем напрямую в объект (не вложенным объектом)
-    if (data.utm_source) calltouchData.utm_source = data.utm_source;
-    if (data.utm_medium) calltouchData.utm_medium = data.utm_medium;
-    if (data.utm_campaign) calltouchData.utm_campaign = data.utm_campaign;
-    if (data.utm_term) calltouchData.utm_term = data.utm_term;
-    if (data.utm_content) calltouchData.utm_content = data.utm_content;
-
-    console.log('[LeadService] Отправка заявки в Calltouch:', {
-      siteId: calltouchSiteId,
-      phone: phoneDigits,
-      name: data.name.trim(),
-      requestNumber: requestNumber,
-    });
-    console.log('[LeadService] Данные для Calltouch:', calltouchData);
-    console.log('[LeadService] Calltouch объект:', {
-      ct: !!ct,
-      ctType: typeof ct,
-      hasCallbacks: !!(ct.callbacks),
-      callbacksType: Array.isArray(ct.callbacks) ? 'array' : typeof ct.callbacks,
-      hasPush: !!(ct.push),
-      pushType: typeof ct.push,
-    });
-
-    // Способ 1: через callbacks (правильный способ для Calltouch)
-    // Calltouch использует систему callbacks для отправки данных
-    if (ct.callbacks && Array.isArray(ct.callbacks)) {
+    // Получаем sessionId из Calltouch скрипта
+    let calltouchSessionId = undefined;
+    if (typeof window !== 'undefined' && (window as any).ct) {
       try {
-        ct.callbacks.push(['sendForm', calltouchData]);
-        console.log('[LeadService] Calltouch: заявка успешно отправлена через callbacks');
-        return { success: true };
-      } catch (callbackError) {
-        console.warn('[LeadService] Calltouch callbacks error:', callbackError);
+        const ctParams = (window as any).ct('calltracking_params', calltouchModId);
+        calltouchSessionId = ctParams?.sessionId;
+      } catch (e) {
+        // Игнорируем ошибку, sessionId не обязателен
       }
     }
-
-    // Способ 2: через ct.push (если доступен)
-    if (ct.push && typeof ct.push === 'function') {
+    
+    // Формируем данные для Calltouch
+    const fio = data.name.trim() || 'Клиент';
+    const calltouchData = new URLSearchParams();
+    calltouchData.append('fio', fio);
+    calltouchData.append('phoneNumber', normalizedPhone);
+    calltouchData.append('email', data.email || '');
+    calltouchData.append('subject', 'Заявка с сайта panovalife.ru');
+    calltouchData.append('comment', data.comment || 'Новая заявка с сайта panovalife.ru');
+    calltouchData.append('targetRequest', 'true');
+    if (calltouchSessionId) {
+      calltouchData.append('sessionId', calltouchSessionId);
+    }
+    if (typeof window !== 'undefined') {
+      calltouchData.append('requestUrl', window.location.href);
+    }
+    
+    // Добавляем UTM параметры, если есть
+    if (data.utm_source) calltouchData.append('utm_source', data.utm_source);
+    if (data.utm_medium) calltouchData.append('utm_medium', data.utm_medium);
+    if (data.utm_campaign) calltouchData.append('utm_campaign', data.utm_campaign);
+    if (data.utm_term) calltouchData.append('utm_term', data.utm_term);
+    if (data.utm_content) calltouchData.append('utm_content', data.utm_content);
+    
+    // Отправляем в Calltouch
+    try {
+      const calltouchResponse = await fetch(`https://api.calltouch.ru/calls-service/RestAPI/requests/${calltouchSiteId}/register/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+        },
+        body: calltouchData.toString(),
+      });
+      
+      if (!calltouchResponse.ok) {
+        const errorText = await calltouchResponse.text().catch(() => '');
+        console.error('[LeadService] Calltouch error:', calltouchResponse.status, errorText);
+        return { success: false, error: 'Ошибка отправки заявки. Попробуйте позже.' };
+      }
+      
+      await calltouchResponse.json().catch(() => null);
+      console.log('[LeadService] Calltouch: заявка успешно отправлена');
+    } catch (error: any) {
+      console.error('[LeadService] Calltouch error:', error);
+      return { success: false, error: 'Ошибка отправки заявки. Попробуйте позже.' };
+    }
+    
+    // Отправляем событие в Calltouch (клиентское)
+    if (typeof window !== 'undefined' && (window as any).ct) {
       try {
-        ct.push(['sendForm', calltouchData]);
-        console.log('[LeadService] Calltouch: заявка успешно отправлена через ct.push');
-        return { success: true };
-      } catch (pushError) {
-        console.warn('[LeadService] Calltouch ct.push error:', pushError);
+        (window as any).ct('event', 'form_submit');
+      } catch (e) {
+        console.warn('Failed to send Calltouch event:', e);
       }
     }
-
-    // Способ 3: через ct как функцию с правильным форматом
-    if (typeof ct === 'function') {
-      try {
-        // Правильный формат: передаем массив с методом и данными
-        ct(['sendForm', calltouchData]);
-        console.log('[LeadService] Calltouch: заявка успешно отправлена через ct([...])');
-        return { success: true };
-      } catch (ctError) {
-        console.warn('[LeadService] Calltouch ct([...]) error:', ctError);
-      }
-    }
-
-    // Если ничего не сработало
-    console.error('[LeadService] Calltouch: не удалось отправить заявку - API недоступен');
-    return { success: false, error: 'Calltouch API not available' };
-  } catch (error: any) {
-    console.error('[LeadService] Calltouch error:', error);
-    return { success: false, error: error?.message || 'Unknown error' };
+    
+    return { success: true };
+  } catch (error) {
+    console.error('Error sending lead to Calltouch:', error);
+    return { success: false, error: 'Ошибка отправки заявки. Попробуйте позже.' };
   }
-}
+};
