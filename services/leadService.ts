@@ -2,6 +2,7 @@
  * Сервис для отправки заявок в Calltouch
  * 
  * Для других клубов нужно изменить только calltouchSiteId ниже.
+ * Токен НЕ нужен для заявок - они отправляются через JS API автоматически.
  */
 
 interface LeadData {
@@ -25,21 +26,15 @@ interface SendLeadResult {
 }
 
 /**
- * Отправка заявки в Calltouch API
+ * Отправка заявки в Calltouch через JavaScript API
  * 
  * Для других клубов: замените calltouchSiteId на новый site_id из личного кабинета Calltouch
+ * Токен НЕ требуется - заявки отправляются автоматически через скрипт Calltouch
  */
 export async function sendLead(data: LeadData): Promise<SendLeadResult> {
-  const calltouchApiToken = (import.meta.env?.VITE_CALLTOUCH_API_TOKEN as string) || '';
-  
   // ⚠️ ВАЖНО: Для каждого клуба нужно заменить этот ID!
   // Site ID можно найти в личном кабинете Calltouch: Интеграции / Отправка данных во внешние системы / API / ID личного кабинета
   const calltouchSiteId = '52899'; // ← ЗДЕСЬ ЗАМЕНИТЬ НА НОВЫЙ SITE_ID
-
-  if (!calltouchApiToken) {
-    console.warn('[LeadService] Calltouch API token not configured');
-    return { success: false, error: 'Calltouch API token not configured' };
-  }
 
   // Валидация телефона
   const phoneDigits = data.phone.replace(/\D/g, '');
@@ -48,112 +43,86 @@ export async function sendLead(data: LeadData): Promise<SendLeadResult> {
   }
 
   try {
-    // Подготовка данных для Calltouch API
-    const calltouchPayload: any = {
-      subjectId: calltouchSiteId,
-      subjectType: 'site',
-      phone: phoneDigits,
-      name: data.name.trim(),
+    // Получаем Calltouch API
+    const ct = (window as any).ct;
+    
+    if (!ct) {
+      console.warn('[LeadService] Calltouch script not loaded');
+      return { success: false, error: 'Calltouch script not loaded' };
+    }
+
+    // Генерируем уникальный ID заявки
+    const requestNumber = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    
+    // Формируем данные для Calltouch согласно документации
+    const calltouchData: any = {
+      subject: 'Форма заявки с сайта',
+      requestNumber: requestNumber,
+      fio: data.name.trim(),
+      phoneNumber: phoneDigits,
+      requestUrl: window.location.href,
       ...(data.email && { email: data.email }),
       ...(data.comment && { comment: data.comment }),
-      // UTM параметры
-      ...(data.utm_source && { utm_source: data.utm_source }),
-      ...(data.utm_medium && { utm_medium: data.utm_medium }),
-      ...(data.utm_campaign && { utm_campaign: data.utm_campaign }),
-      ...(data.utm_term && { utm_term: data.utm_term }),
-      ...(data.utm_content && { utm_content: data.utm_content }),
-      // Analytics IDs
-      ...(data.ga_cid && { ga_cid: data.ga_cid }),
-      ...(data.ym_cid && { ym_cid: data.ym_cid }),
-      ...(data.ct_cid && { ct_cid: data.ct_cid }),
     };
+
+    // Добавляем UTM параметры, если есть
+    if (data.utm_source || data.utm_medium || data.utm_campaign || data.utm_term || data.utm_content) {
+      calltouchData.utm = {
+        ...(data.utm_source && { source: data.utm_source }),
+        ...(data.utm_medium && { medium: data.utm_medium }),
+        ...(data.utm_campaign && { campaign: data.utm_campaign }),
+        ...(data.utm_term && { term: data.utm_term }),
+        ...(data.utm_content && { content: data.utm_content }),
+      };
+    }
 
     console.log('[LeadService] Отправка заявки в Calltouch:', {
       siteId: calltouchSiteId,
       phone: phoneDigits,
       name: data.name.trim(),
-      hasToken: !!calltouchApiToken,
+      requestNumber: requestNumber,
     });
 
-    // Попытка отправки через JavaScript API Calltouch (предпочтительный способ)
-    // Проверяем наличие Calltouch API разными способами
-    const ct = (window as any).ct;
-    const ctPush = (window as any).ct?.push;
-    const ctLoaded = (window as any).ct?.loaded;
+    // Способ 1: через ct.push (правильный формат согласно документации Calltouch)
+    // Проверяем наличие push через разные способы
+    const ctPush = ct.push || (ct.callbacks && ct.callbacks.push);
     
-    console.log('[LeadService] Calltouch API status:', {
-      ctExists: !!ct,
-      ctType: typeof ct,
-      ctPushExists: !!ctPush,
-      ctPushType: typeof ctPush,
-      ctLoaded: ctLoaded,
-    });
-    
-    // Способ 1: через ct.push (если доступен) - правильный формат для Calltouch
     if (ctPush && typeof ctPush === 'function') {
       try {
-        // Формат согласно документации Calltouch: ct.push(['sendForm', {...}])
-        ctPush(['sendForm', {
-          name: data.name.trim(),
-          phone: phoneDigits,
-          email: data.email || '',
-          comment: data.comment || 'Новая заявка с сайта panovalife.ru',
-          subjectId: calltouchSiteId,
-          subjectType: 'site',
-          ...(data.utm_source && { utm_source: data.utm_source }),
-          ...(data.utm_medium && { utm_medium: data.utm_medium }),
-          ...(data.utm_campaign && { utm_campaign: data.utm_campaign }),
-          ...(data.utm_term && { utm_term: data.utm_term }),
-          ...(data.utm_content && { utm_content: data.utm_content }),
-          ...(data.ga_cid && { ga_cid: data.ga_cid }),
-          ...(data.ym_cid && { ym_cid: data.ym_cid }),
-          ...(data.ct_cid && { ct_cid: data.ct_cid }),
-        }]);
+        ctPush(['sendForm', calltouchData]);
         console.log('[LeadService] Calltouch: заявка успешно отправлена через ct.push');
         return { success: true };
       } catch (pushError) {
-        console.warn('[LeadService] Calltouch ct.push error, trying other methods:', pushError);
+        console.warn('[LeadService] Calltouch ct.push error:', pushError);
       }
     }
 
-    // Способ 2: через ct как функцию (старый способ)
-    if (ct && typeof ct === 'function') {
+    // Способ 2: через ct как функцию (формат для старых версий Calltouch)
+    if (typeof ct === 'function') {
       try {
-        ct('send', 'request', {
-          subjectId: calltouchSiteId,
-          subjectType: 'site',
-          phone: phoneDigits,
-          name: data.name.trim(),
-          email: data.email || '',
-          comment: data.comment || 'Новая заявка с сайта panovalife.ru',
-        });
+        // Используем формат: ct('sendForm', {...})
+        ct('sendForm', calltouchData);
         console.log('[LeadService] Calltouch: заявка успешно отправлена через ct()');
         return { success: true };
       } catch (ctError) {
-        console.warn('[LeadService] Calltouch ct() error, trying fetch API:', ctError);
+        console.warn('[LeadService] Calltouch ct() error:', ctError);
       }
     }
 
-    // Способ 3: Fallback - отправка через Fetch API (no-cors mode для обхода CORS)
-    // Важно: используем правильный endpoint согласно документации Calltouch
-    try {
-      await fetch(
-        `https://api.calltouch.ru/calls-service/RestAPI/${calltouchApiToken}/requests/register/`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(calltouchPayload),
-          mode: 'no-cors', // Используем no-cors для обхода CORS политики
-        }
-      );
-      console.log('[LeadService] Calltouch: заявка успешно отправлена через Fetch API (no-cors)');
-      return { success: true };
-    } catch (fetchError) {
-      console.error('[LeadService] Calltouch Fetch API error:', fetchError);
-      return { success: false, error: 'Failed to send via all methods' };
+    // Способ 3: через callbacks (если доступны)
+    if (ct.callbacks && Array.isArray(ct.callbacks)) {
+      try {
+        ct.callbacks.push(['sendForm', calltouchData]);
+        console.log('[LeadService] Calltouch: заявка успешно отправлена через callbacks');
+        return { success: true };
+      } catch (callbackError) {
+        console.warn('[LeadService] Calltouch callbacks error:', callbackError);
+      }
     }
+
+    // Если ничего не сработало
+    console.error('[LeadService] Calltouch: не удалось отправить заявку - API недоступен');
+    return { success: false, error: 'Calltouch API not available' };
   } catch (error: any) {
     console.error('[LeadService] Calltouch error:', error);
     return { success: false, error: error?.message || 'Unknown error' };
