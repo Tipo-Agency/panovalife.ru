@@ -43,7 +43,8 @@ const NotFoundPage: React.FC = () => {
             <button
               onClick={() => {
                 window.history.pushState({}, '', '/');
-                window.location.reload();
+                window.dispatchEvent(new PopStateEvent('popstate'));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               className="px-10 py-5 bg-[#1A262A] text-white rounded-full font-bold uppercase tracking-widest text-sm hover:bg-[#D4F058] hover:text-[#1A262A] transition-colors"
             >

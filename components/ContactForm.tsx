@@ -149,16 +149,19 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
 
     const preventNavigation = (e: Event) => {
       const target = e.target as HTMLElement;
-      // Only prevent navigation for links that might navigate
+      // Only prevent navigation for links INSIDE the modal content
       // Don't prevent default behavior for inputs, buttons, or close button
-      if (target.closest('.contact-form-modal-content')) {
+      const modalContent = target.closest('.contact-form-modal-content');
+      if (modalContent) {
         const isInput = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
         const isButton = target.tagName === 'BUTTON';
         const isCloseButton = target.closest('button[aria-label="Закрыть"]');
         const isLink = target.tagName === 'A';
         
-        // Only block links that might navigate, not inputs or buttons
-        if (!isInput && !isButton && isLink && !target.closest('form')) {
+        // Only block links that might navigate INSIDE the modal, not inputs or buttons
+        // Allow links that have onClick handlers (they handle navigation themselves)
+        if (!isInput && !isButton && !isCloseButton && isLink && target.getAttribute('onClick') === null) {
+          // Only prevent if it's a link without onClick handler inside modal
           e.stopImmediatePropagation();
           e.preventDefault();
         }

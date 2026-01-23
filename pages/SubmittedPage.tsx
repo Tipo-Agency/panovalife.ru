@@ -16,8 +16,10 @@ const SubmittedPage: React.FC = () => {
         </p>
         <button
           onClick={() => {
-            // Navigate to home page - use direct location change for reliability
-            window.location.href = '/';
+            // Navigate to home page using SPA navigation
+            window.history.pushState({}, '', '/');
+            window.dispatchEvent(new PopStateEvent('popstate'));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
           className="w-full sm:w-auto inline-flex items-center justify-center px-8 sm:px-10 py-4 sm:py-5 bg-[#1A262A] text-white rounded-full font-bold uppercase tracking-widest text-[10px] sm:text-xs hover:bg-[#D4F058] hover:text-[#1A262A] transition-colors"
         >
