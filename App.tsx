@@ -356,6 +356,9 @@ const App: React.FC = () => {
                           key={i} 
                           className={`p-6 sm:p-8 md:p-10 lg:p-12 xl:p-14 rounded-[24px] sm:rounded-[32px] md:rounded-[40px] flex flex-col justify-between min-h-[320px] sm:min-h-[340px] md:min-h-[350px] transition-transform duration-500 hover:scale-[0.99] shadow-lg cursor-pointer ${i === 1 ? 'bg-[#D4F058] text-[#1A262A]' : 'bg-white text-[#1A262A]'}`}
                           onClick={(e) => {
+                            // Предотвращаем всплытие и дефолтное поведение
+                            e.preventDefault();
+                            e.stopPropagation();
                             // Если клик не на кнопке, открываем модалку
                             if ((e.target as HTMLElement).closest('button') === null) {
                               setIsFormOpen(true);

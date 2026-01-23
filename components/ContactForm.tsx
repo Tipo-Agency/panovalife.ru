@@ -181,11 +181,11 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
   const modalContent = (
     <div 
       className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
-      style={{ pointerEvents: 'auto' }}
+      style={{ pointerEvents: 'auto', cursor: 'default' }}
     >
       <div 
         className="contact-form-modal-content bg-white rounded-[32px] p-8 md:p-12 max-w-md w-full shadow-2xl"
-        style={{ pointerEvents: 'auto' }}
+        style={{ pointerEvents: 'auto', cursor: 'default', position: 'relative', zIndex: 10001 }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-start mb-8">
@@ -219,6 +219,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
               onFocus={(e) => e.stopPropagation()}
               required
               className="w-full bg-[#F2F5F6] border border-[#1A262A]/5 rounded-full py-4 px-6 text-base text-[#1A262A] font-medium placeholder:text-[#1A262A]/40 focus:outline-none focus:border-[#D4F058] focus:bg-white transition-all"
+              style={{ cursor: 'text' }}
             />
           </div>
 
@@ -247,6 +248,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
               }}
               required
               className="w-full bg-[#F2F5F6] border border-[#1A262A]/5 rounded-full py-4 px-6 text-base text-[#1A262A] font-medium placeholder:text-[#1A262A]/40 focus:outline-none focus:border-[#D4F058] focus:bg-white transition-all"
+              style={{ cursor: 'text' }}
             />
           </div>
 
@@ -269,6 +271,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
               onClick={(e) => e.stopPropagation()}
               onFocus={(e) => e.stopPropagation()}
               className="w-full bg-[#F2F5F6] border border-[#1A262A]/5 rounded-full py-4 px-6 text-base text-[#1A262A] font-medium placeholder:text-[#1A262A]/40 focus:outline-none focus:border-[#D4F058] focus:bg-white transition-all"
+              style={{ cursor: 'text' }}
             />
           </div>
 
@@ -293,6 +296,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
             disabled={isSubmitting}
             onClick={(e) => e.stopPropagation()}
             className="w-full py-4 bg-[#1A262A] text-white rounded-full font-bold uppercase tracking-widest text-sm hover:bg-[#D4F058] hover:text-[#1A262A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{ cursor: isSubmitting ? 'not-allowed' : 'pointer' }}
           >
             {isSubmitting ? 'Отправка...' : 'Отправить заявку'}
           </button>
