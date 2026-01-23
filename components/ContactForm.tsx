@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { sendLead } from '../services/leadService';
 
 interface ContactFormProps {
   isOpen: boolean;
@@ -93,14 +94,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
       // Get analytics IDs (if available)
       const gaCid = (window as any).ga?.getAll?.()?.[0]?.get?.('clientId') || '';
       const ymCid = (window as any).ym?.getClientID?.() || '';
-      const rsCid = (window as any).roistat?.visitorId || '';
-      const rsVid = (window as any).roistat?.visitId || '';
       const ctCid = (window as any).ct?.client?.id || '';
-
-      // Split name into first and last name
-      const nameParts = formData.name.trim().split(' ');
-      const firstName = nameParts[0] || '';
-      const lastName = nameParts.slice(1).join(' ') || '';
 
       // Validate phone (should be 11 digits for Russia)
       const phoneDigits = formData.phone.replace(/\D/g, '');
@@ -108,118 +102,28 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
         throw new Error('Введите корректный номер телефона');
       }
 
-      const payload = {
-        name: firstName,
-        last_name: lastName,
+      // Prepare lead data for Calltouch
+      const leadData = {
+        name: formData.name.trim(),
         phone: phoneDigits,
         email: formData.email || '',
-        comment: 'Новая заявка с сайта',
-        utm_source: utmSource,
-        utm_medium: utmMedium,
-        utm_campaign: utmCampaign,
-        utm_term: utmTerm,
-        utm_content: utmContent,
-        ga_cid: gaCid,
-        rs_cid: rsCid,
-        ym_cid: ymCid,
-        rs_vid: rsVid,
-        ct_cid: ctCid
+        comment: 'Новая заявка с сайта panovalife.ru',
+        utm_source: utmSource || undefined,
+        utm_medium: utmMedium || undefined,
+        utm_campaign: utmCampaign || undefined,
+        utm_term: utmTerm || undefined,
+        utm_content: utmContent || undefined,
+        ga_cid: gaCid || undefined,
+        ym_cid: ymCid || undefined,
+        ct_cid: ctCid || undefined,
       };
 
-      console.log('Sending payload:', payload);
-
-      // Request to 1C API with no-cors (CORS not allowed by server)
-      const response = await fetch('https://cloud.1c.fitness/api/hs/lead/Webhook/474c4e2b-9fcd-49a6-aabd-b3e1fc946070', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify(payload),
-        mode: 'no-cors' // Use no-cors because server doesn't allow CORS
-      });
-
-      // With no-cors, we can't read response, but request is sent
-      console.log('Request sent (no-cors mode)');
-
-      // Send lead to Calltouch API
-      // According to: https://www.calltouch.ru/support/upravlenie-zayavkami-cherez-api/
-      // API token should be set in environment variable VITE_CALLTOUCH_API_TOKEN
-      // Vite automatically exposes VITE_* variables from .env file via import.meta.env
-      const calltouchApiToken = (import.meta.env?.VITE_CALLTOUCH_API_TOKEN as string) || '';
+      // Send lead to Calltouch
+      const result = await sendLead(leadData);
       
-      // site_id from Calltouch dashboard (ID личного кабинета)
-      const calltouchSiteId = '52899'; // ID личного кабинета из настроек Calltouch
-
-      // Debug: log token status (first 10 chars only for security)
-      const tokenPreview = calltouchApiToken ? `${calltouchApiToken.substring(0, 10)}...` : 'not found';
-      console.log('Calltouch API token check:', tokenPreview);
-
-      if (calltouchApiToken) {
-        try {
-          // Prepare Calltouch API payload
-          // Format according to: https://www.calltouch.ru/support/upravlenie-zayavkami-cherez-api/
-          const calltouchPayload = {
-            subjectId: calltouchSiteId, // site_id (ID личного кабинета)
-            subjectType: 'site', // Тип субъекта - всегда 'site' для сайтов
-            phone: phoneDigits, // Телефон в формате 7XXXXXXXXXX (11 цифр)
-            name: formData.name.trim(), // Имя клиента
-            email: formData.email || '', // Email (необязательно)
-            comment: 'Новая заявка с сайта panovalife.ru', // Комментарий к заявке
-            // UTM parameters (опционально)
-            ...(utmSource && { utm_source: utmSource }),
-            ...(utmMedium && { utm_medium: utmMedium }),
-            ...(utmCampaign && { utm_campaign: utmCampaign }),
-            ...(utmTerm && { utm_term: utmTerm }),
-            ...(utmContent && { utm_content: utmContent }),
-            // Analytics IDs (опционально)
-            ...(gaCid && { ga_cid: gaCid }),
-            ...(ymCid && { ym_cid: ymCid }),
-            ...(ctCid && { ct_cid: ctCid }),
-          };
-
-          // Send to Calltouch API
-          // Calltouch API doesn't support CORS from client-side
-          // Use no-cors mode to send request (we won't get response, but request will be sent)
-          // Alternative: use Calltouch JavaScript API if available
-          try {
-            // Try using Calltouch JavaScript API first (if available)
-            const ct = (window as any).ct;
-            if (ct && typeof ct === 'function') {
-              // Use Calltouch JS API to send lead
-              ct('send', 'request', {
-                subjectId: calltouchSiteId,
-                subjectType: 'site',
-                phone: phoneDigits,
-                name: formData.name.trim(),
-                email: formData.email || '',
-                comment: calltouchPayload.comment,
-              });
-              console.log('Lead sent to Calltouch via JS API');
-            } else {
-              // Fallback: send via fetch with no-cors (request sent, but no response)
-              await fetch(
-                `https://api.calltouch.ru/calls-service/RestAPI/${calltouchApiToken}/requests/register/`,
-                {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify(calltouchPayload),
-                  mode: 'no-cors', // Use no-cors to bypass CORS (request sent, no response)
-                }
-              );
-              console.log('Lead sent to Calltouch via API (no-cors mode)');
-            }
-          } catch (apiError) {
-            console.warn('Error sending lead to Calltouch:', apiError);
-          }
-        } catch (calltouchError) {
-          // Don't fail the form submission if Calltouch fails
-          console.warn('Error sending lead to Calltouch:', calltouchError);
-        }
-      } else {
-        console.log('Calltouch API token not configured, skipping Calltouch submission');
+      if (!result.success) {
+        console.warn('Failed to send lead to Calltouch:', result.error);
+        // Don't fail form submission if Calltouch fails
       }
       
       // Immediately redirect to thank you page
