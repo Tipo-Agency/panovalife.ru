@@ -68,8 +68,55 @@ export async function sendLead(data: LeadData): Promise<SendLeadResult> {
       ...(data.ct_cid && { ct_cid: data.ct_cid }),
     };
 
+    console.log('[LeadService] Отправка заявки в Calltouch:', {
+      siteId: calltouchSiteId,
+      phone: phoneDigits,
+      name: data.name.trim(),
+      hasToken: !!calltouchApiToken,
+    });
+
     // Попытка отправки через JavaScript API Calltouch (предпочтительный способ)
+    // Проверяем наличие Calltouch API разными способами
     const ct = (window as any).ct;
+    const ctPush = (window as any).ct?.push;
+    const ctLoaded = (window as any).ct?.loaded;
+    
+    console.log('[LeadService] Calltouch API status:', {
+      ctExists: !!ct,
+      ctType: typeof ct,
+      ctPushExists: !!ctPush,
+      ctPushType: typeof ctPush,
+      ctLoaded: ctLoaded,
+    });
+    
+    // Способ 1: через ct.push (если доступен) - правильный формат для Calltouch
+    if (ctPush && typeof ctPush === 'function') {
+      try {
+        // Формат согласно документации Calltouch: ct.push(['sendForm', {...}])
+        ctPush(['sendForm', {
+          name: data.name.trim(),
+          phone: phoneDigits,
+          email: data.email || '',
+          comment: data.comment || 'Новая заявка с сайта panovalife.ru',
+          subjectId: calltouchSiteId,
+          subjectType: 'site',
+          ...(data.utm_source && { utm_source: data.utm_source }),
+          ...(data.utm_medium && { utm_medium: data.utm_medium }),
+          ...(data.utm_campaign && { utm_campaign: data.utm_campaign }),
+          ...(data.utm_term && { utm_term: data.utm_term }),
+          ...(data.utm_content && { utm_content: data.utm_content }),
+          ...(data.ga_cid && { ga_cid: data.ga_cid }),
+          ...(data.ym_cid && { ym_cid: data.ym_cid }),
+          ...(data.ct_cid && { ct_cid: data.ct_cid }),
+        }]);
+        console.log('[LeadService] Calltouch: заявка успешно отправлена через ct.push');
+        return { success: true };
+      } catch (pushError) {
+        console.warn('[LeadService] Calltouch ct.push error, trying other methods:', pushError);
+      }
+    }
+
+    // Способ 2: через ct как функцию (старый способ)
     if (ct && typeof ct === 'function') {
       try {
         ct('send', 'request', {
@@ -78,30 +125,35 @@ export async function sendLead(data: LeadData): Promise<SendLeadResult> {
           phone: phoneDigits,
           name: data.name.trim(),
           email: data.email || '',
-          comment: data.comment || 'Новая заявка с сайта',
+          comment: data.comment || 'Новая заявка с сайта panovalife.ru',
         });
-        console.log('[LeadService] Calltouch: заявка успешно отправлена через JS API');
+        console.log('[LeadService] Calltouch: заявка успешно отправлена через ct()');
         return { success: true };
-      } catch (jsApiError) {
-        console.warn('[LeadService] Calltouch JS API error, trying fetch API:', jsApiError);
-        // Fallback to fetch API
+      } catch (ctError) {
+        console.warn('[LeadService] Calltouch ct() error, trying fetch API:', ctError);
       }
     }
 
-    // Fallback: отправка через Fetch API (no-cors mode для обхода CORS)
-    await fetch(
-      `https://api.calltouch.ru/calls-service/RestAPI/${calltouchApiToken}/requests/register/`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(calltouchPayload),
-        mode: 'no-cors', // Используем no-cors для обхода CORS политики
-      }
-    );
-    console.log('[LeadService] Calltouch: заявка успешно отправлена через Fetch API (no-cors)');
-    return { success: true };
+    // Способ 3: Fallback - отправка через Fetch API (no-cors mode для обхода CORS)
+    // Важно: используем правильный endpoint согласно документации Calltouch
+    try {
+      await fetch(
+        `https://api.calltouch.ru/calls-service/RestAPI/${calltouchApiToken}/requests/register/`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(calltouchPayload),
+          mode: 'no-cors', // Используем no-cors для обхода CORS политики
+        }
+      );
+      console.log('[LeadService] Calltouch: заявка успешно отправлена через Fetch API (no-cors)');
+      return { success: true };
+    } catch (fetchError) {
+      console.error('[LeadService] Calltouch Fetch API error:', fetchError);
+      return { success: false, error: 'Failed to send via all methods' };
+    }
   } catch (error: any) {
     console.error('[LeadService] Calltouch error:', error);
     return { success: false, error: error?.message || 'Unknown error' };
