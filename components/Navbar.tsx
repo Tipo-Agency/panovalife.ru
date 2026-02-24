@@ -7,6 +7,18 @@ const Navbar: React.FC = () => {
   const [isLightTheme, setIsLightTheme] = useState(false);
   const [currentRoute, setCurrentRoute] = useState('');
 
+  const navigate = (route: string) => {
+    const nav = (window as any).appNavigate as ((route: string) => void) | undefined;
+    if (nav) {
+      nav(route);
+    } else {
+      const path = route ? `/${route}` : '/';
+      window.history.pushState({}, '', path);
+      window.dispatchEvent(new PopStateEvent('popstate'));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   // Get current route from pathname
   useEffect(() => {
     const getRoute = () => {
@@ -97,13 +109,11 @@ const Navbar: React.FC = () => {
             
             {/* Logo - disappears on scroll */}
             <a 
-              href="/" 
-              onClick={(e) => {
-                e.preventDefault();
-                window.history.pushState({}, '', '/');
-                window.dispatchEvent(new PopStateEvent('popstate'));
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
+            href="/" 
+            onClick={(e) => {
+              e.preventDefault();
+              navigate('');
+            }}
               className={`flex items-center gap-2 sm:gap-3 md:gap-4 relative z-50 transition-all duration-500 hover:opacity-80 ${scrolled ? 'opacity-0 pointer-events-none w-0 overflow-hidden scale-95' : 'opacity-100 scale-100'}`}
             >
                <img 
@@ -122,19 +132,15 @@ const Navbar: React.FC = () => {
                      onClick={(e) => {
                        if (item.route) {
                          e.preventDefault();
-                         window.history.pushState({}, '', `/${item.route}`);
-                         window.dispatchEvent(new PopStateEvent('popstate'));
+                         navigate(item.route);
                        } else if (item.id === 'main') {
                          e.preventDefault();
-                         window.history.pushState({}, '', '/');
-                         window.dispatchEvent(new PopStateEvent('popstate'));
-                         window.scrollTo({ top: 0, behavior: 'smooth' });
+                         navigate('');
                        } else {
                          const target = document.querySelector(`#${item.id}`);
                          if (target) {
                            e.preventDefault();
                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                           window.scrollTo({ top: 0, behavior: 'smooth' });
                          }
                        }
                      }}
@@ -196,20 +202,16 @@ const Navbar: React.FC = () => {
                       setIsMenuOpen(false);
                       if (item.route) {
                         e.preventDefault();
-                        window.history.pushState({}, '', `/${item.route}`);
-                        window.dispatchEvent(new PopStateEvent('popstate'));
+                        navigate(item.route);
                       } else if (item.id === 'main') {
                         e.preventDefault();
-                        window.history.pushState({}, '', '/');
-                        window.dispatchEvent(new PopStateEvent('popstate'));
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        navigate('');
                       } else {
                         const target = document.querySelector(`#${item.id}`);
                         if (target) {
                           e.preventDefault();
                           setTimeout(() => {
                             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
                           }, 300);
                         }
                       }

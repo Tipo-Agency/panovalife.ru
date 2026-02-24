@@ -281,11 +281,17 @@ const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose }) => {
               href="/privacy" 
               onClick={(e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 onClose();
-                window.history.pushState({}, '', '/privacy');
-                window.dispatchEvent(new PopStateEvent('popstate'));
+                const nav = (window as any).appNavigate as ((r: string) => void) | undefined;
+                if (nav) nav('privacy');
+                else {
+                  window.history.pushState({}, '', '/privacy');
+                  window.dispatchEvent(new PopStateEvent('popstate'));
+                }
               }}
               className="text-[#1A262A] underline hover:text-[#D4F058] transition-colors"
+              style={{ cursor: 'pointer' }}
             >
               политикой конфиденциальности
             </a>

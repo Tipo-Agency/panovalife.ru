@@ -19,6 +19,8 @@ const App: React.FC = () => {
   const [currentRoute, setCurrentRoute] = useState<string>('');
   const [isFormOpen, setIsFormOpen] = useState(false);
 
+  const validRoutes = ['offer', 'rules', 'privacy', 'zones', 'schedule', 'team', 'business', 'submitted', ''];
+
   // Listen for custom event to open form from ZonesPage
   useEffect(() => {
     const handleOpenForm = () => {
@@ -26,6 +28,27 @@ const App: React.FC = () => {
     };
     window.addEventListener('openContactForm', handleOpenForm);
     return () => window.removeEventListener('openContactForm', handleOpenForm);
+  }, []);
+
+  // Global navigation helper — один способ перехода по сайту для всех компонентов
+  useEffect(() => {
+    (window as any).appNavigate = (route: string) => {
+      const path = route ? `/${route}` : '/';
+      window.history.pushState({}, '', path);
+      if (route && !validRoutes.includes(route)) {
+        setCurrentRoute('404');
+      } else {
+        setCurrentRoute(route);
+      }
+      window.dispatchEvent(new PopStateEvent('popstate'));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    return () => {
+      if ((window as any).appNavigate) {
+        delete (window as any).appNavigate;
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -36,8 +59,6 @@ const App: React.FC = () => {
     };
 
     const route = getRouteFromPath();
-    const validRoutes = ['offer', 'rules', 'privacy', 'zones', 'schedule', 'team', 'business', 'submitted', ''];
-    
     // If route is not empty and not valid, show 404
     if (route && !validRoutes.includes(route)) {
       setCurrentRoute('404');
@@ -66,11 +87,10 @@ const App: React.FC = () => {
     };
   }, []);
 
-  // Helper function to navigate without hash
+  // Local helper для внутренних переходов (использует те же правила, что и appNavigate)
   const navigate = (route: string) => {
     const path = route ? `/${route}` : '/';
     window.history.pushState({}, '', path);
-    const validRoutes = ['offer', 'rules', 'privacy', 'zones', 'schedule', 'team', 'business', 'submitted', ''];
     if (route && !validRoutes.includes(route)) {
       setCurrentRoute('404');
     } else {

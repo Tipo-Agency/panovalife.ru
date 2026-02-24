@@ -32,8 +32,8 @@ const Footer: React.FC = () => {
             href="/offer" 
             onClick={(e) => {
               e.preventDefault();
-              window.history.pushState({}, '', '/offer');
-              window.dispatchEvent(new PopStateEvent('popstate'));
+              const nav = (window as any).appNavigate as ((r: string) => void) | undefined;
+              nav ? nav('offer') : (window.history.pushState({}, '', '/offer'), window.dispatchEvent(new PopStateEvent('popstate')));
             }}
             className="hover:text-[#1A262A] transition-colors"
           >
@@ -43,8 +43,8 @@ const Footer: React.FC = () => {
             href="/rules" 
             onClick={(e) => {
               e.preventDefault();
-              window.history.pushState({}, '', '/rules');
-              window.dispatchEvent(new PopStateEvent('popstate'));
+              const nav = (window as any).appNavigate as ((r: string) => void) | undefined;
+              nav ? nav('rules') : (window.history.pushState({}, '', '/rules'), window.dispatchEvent(new PopStateEvent('popstate')));
             }}
             className="hover:text-[#1A262A] transition-colors"
           >
@@ -54,8 +54,8 @@ const Footer: React.FC = () => {
             href="/privacy" 
             onClick={(e) => {
               e.preventDefault();
-              window.history.pushState({}, '', '/privacy');
-              window.dispatchEvent(new PopStateEvent('popstate'));
+              const nav = (window as any).appNavigate as ((r: string) => void) | undefined;
+              nav ? nav('privacy') : (window.history.pushState({}, '', '/privacy'), window.dispatchEvent(new PopStateEvent('popstate')));
             }}
             className="hover:text-[#1A262A] transition-colors"
           >

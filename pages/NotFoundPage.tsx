@@ -42,9 +42,12 @@ const NotFoundPage: React.FC = () => {
           <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
             <button
               onClick={() => {
-                window.history.pushState({}, '', '/');
-                window.dispatchEvent(new PopStateEvent('popstate'));
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                const nav = (window as any).appNavigate as ((r: string) => void) | undefined;
+                if (nav) {
+                  nav('');
+                } else {
+                  window.location.href = '/';
+                }
               }}
               className="px-10 py-5 bg-[#1A262A] text-white rounded-full font-bold uppercase tracking-widest text-sm hover:bg-[#D4F058] hover:text-[#1A262A] transition-colors"
             >
