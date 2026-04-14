@@ -71,13 +71,24 @@ const Hero: React.FC<HeroProps> = ({ onOpenForm }) => {
                Бассейн 24м, Life Fitness и Hammer, SPA и закрытое комьюнити.
             </p>
 
-            <div className="mt-6 sm:mt-8 md:mt-10 lg:mt-12 flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 items-stretch sm:items-start w-full sm:w-auto">
-               <button 
+            <div className="mt-6 sm:mt-8 md:mt-10 flex flex-col gap-1.5">
+               <div className="inline-flex items-center gap-3 bg-[#D4F058]/10 border border-[#D4F058]/30 rounded-2xl px-5 py-3 w-fit">
+                  <span className="text-[#D4F058] font-syne font-extrabold text-xl sm:text-2xl md:text-3xl tracking-tight">
+                     Фитнес от 2575 руб/мес
+                  </span>
+               </div>
+               <p className="text-white/40 text-[11px] sm:text-xs pl-1">
+                  подробности акции у администратора и по телефону 78-82-13
+               </p>
+            </div>
+
+            <div className="mt-5 sm:mt-6 md:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 items-stretch sm:items-start w-full sm:w-auto">
+               <button
                  onClick={onOpenForm}
                  className="w-full sm:w-auto group relative px-6 sm:px-8 md:px-10 py-4 sm:py-5 bg-[#D4F058] text-[#1A262A] font-bold uppercase tracking-widest text-[10px] sm:text-xs overflow-hidden transition-all hover:bg-white rounded-full"
                >
                   <span className="relative z-10 flex items-center justify-center gap-2 sm:gap-3">
-                     Записаться на тест-драйв
+                     Получить предложение
                      <svg className="w-3 h-3 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                   </span>
                </button>

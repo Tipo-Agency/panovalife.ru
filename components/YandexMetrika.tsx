@@ -1,14 +1,16 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 const YandexMetrika: React.FC = () => {
   useEffect(() => {
     // Yandex.Metrika counter
-    (function(m: any, e: any, t: any, r: any, i: any, k: any, a: any) {
+    (function(m: any, e: any, t: any, r: any, i: any) {
       m[i] = m[i] || function() {(m[i].a = m[i].a || []).push(arguments)};
-      m[i].l = 1 * new Date();
+      m[i].l = 1 * +new Date();
+      let k: any, a: any;
       for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
       k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a);
     })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+
 
     (window as any).ym(106321102, 'init', {
       ssr: true,
