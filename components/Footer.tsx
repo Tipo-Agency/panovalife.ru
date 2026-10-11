@@ -88,18 +88,18 @@ const Footer: React.FC = () => {
                 </div>
               </div>
               
-              {/* Right side - Designed by */}
+              {/* Right side - Разработка сайта — TIPA */}
               <div className="flex flex-col md:flex-row items-center justify-center md:justify-end gap-3 md:gap-4 md:ml-8 shrink-0 mt-4 md:mt-0">
-                <span className="text-xs text-[#1A262A] font-medium uppercase">DESIGNED BY</span>
                 <a
-                  href="https://tipa.uz"
+                  href="https://tipa.uz/ru/services/web"
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block hover:opacity-80 transition-opacity"
+                  rel="noopener"
+                  className="flex flex-col md:flex-row items-center gap-3 md:gap-4 hover:opacity-80 transition-opacity"
                 >
+                  <span className="text-xs text-[#1A262A] font-medium uppercase">Разработка сайта — TIPA</span>
                   <img
                     src={TipaLogo}
-                    alt="Tipa.uz"
+                    alt=""
                     className="h-6 md:h-7 w-auto"
                   />
                 </a>
